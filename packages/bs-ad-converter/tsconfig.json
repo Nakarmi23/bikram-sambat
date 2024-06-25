@@ -9,6 +9,7 @@
     "types": ["node"],
     "incremental": true,
     "target": "ES2022",
+    "esModuleInterop": true,
 
     "strict": true,
     "noUnusedLocals": true,
