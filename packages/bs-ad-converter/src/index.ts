@@ -15,7 +15,7 @@ export function getBikramSambatMonthNoOfDays(year: number) {
   return months.map((month) => ({
     monthNumber: month.id,
     monthName: month.nepName,
-    numberOfDays: nepaliYearData[`m${month.id}` as never] as number,
+    numberOfDays: nepaliYearData[`m${month.id}` as keyof typeof nepaliYearData],
   }));
 }
 
@@ -94,12 +94,20 @@ export function parseEnglishDate(englishDate: Date = new Date()) {
 }
 
 export function parseBikramSambatDate(bikramSambatDateString: string) {
-  if (!/\d{4}-\d{2}-\d{2}/g.test(bikramSambatDateString))
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(bikramSambatDateString))
     throw new Error(
       `Invalid date format: "${bikramSambatDateString}". Expected format is YYYY-MM-DD.`
     );
   const [bsYear, bsMonth, bsDay]: [number, number, number] =
-    bikramSambatDateString.split('-').map((num) => parseInt(num)) as never;
+    bikramSambatDateString.split('-').map((num) => parseInt(num)) as [
+      number,
+      number,
+      number,
+    ];
+
+  if (isNaN(bsYear) || isNaN(bsMonth) || isNaN(bsDay)) {
+    throw new Error(`Invalid date components in: "${bikramSambatDateString}".`);
+  }
 
   if (bsMonth < 1 || bsMonth > 12)
     throw new Error(
