@@ -1,5 +1,5 @@
 {
-  "name": "@repo/bs-ad-converter",
+  "name": "@nakarmi23/twin-date-converter",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.cjs",
@@ -13,9 +13,26 @@
     "build": "tsup",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "Bikram Sambat",
+    "Gregorian",
+    "calendar",
+    "date conversion",
+    "date parser",
+    "dual calendar",
+    "BS",
+    "AD",
+    "nepali dates",
+    "english dates",
+    "date utilities",
+    "date library",
+    "calendar components",
+    "date functions",
+    "Nepali calendar",
+    "BS to AD converter",
+    "BS AD converter"
+  ],
+  "author": "Ankit Nakarmi",
   "devDependencies": {
     "@types/lodash": "^4.17.5",
     "@types/node": "^20.14.8",
