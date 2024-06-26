@@ -22,28 +22,6 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
 
-  packages/bs-ad-converter:
-    dependencies:
-      dayjs:
-        specifier: ^1.11.11
-        version: 1.11.11
-    devDependencies:
-      '@types/lodash':
-        specifier: ^4.17.5
-        version: 4.17.5
-      '@types/node':
-        specifier: ^20.14.8
-        version: 20.14.8
-      terser:
-        specifier: ^5.31.1
-        version: 5.31.1
-      tsup:
-        specifier: ^8.1.0
-        version: 8.1.0(typescript@5.5.2)
-      typescript:
-        specifier: ^5.5.2
-        version: 5.5.2
-
   packages/eslint-config:
     devDependencies:
       '@typescript-eslint/eslint-plugin':
@@ -64,6 +42,28 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
+
+  packages/twin-date-converter:
+    dependencies:
+      dayjs:
+        specifier: ^1.11.11
+        version: 1.11.11
+    devDependencies:
+      '@types/lodash':
+        specifier: ^4.17.5
+        version: 4.17.5
+      '@types/node':
+        specifier: ^20.14.8
+        version: 20.14.8
+      terser:
+        specifier: ^5.31.1
+        version: 5.31.1
+      tsup:
+        specifier: ^8.1.0
+        version: 8.1.0(typescript@5.5.2)
+      typescript:
+        specifier: ^5.5.2
+        version: 5.5.2
 
 packages:
 
