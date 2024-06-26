@@ -6,7 +6,9 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "add:converter": "pnpm add --filter @repo/bs-ad-converter"
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "add:converter": "pnpm add --filter @nakarmi23/twin-date-converter"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -16,5 +18,8 @@
   "packageManager": "pnpm@8.15.6",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.6"
   }
 }
