@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import { nepEngCalenderMaps } from './nepali-english-calender-maps';
 import { nepDateNoOfDays } from './nepali-month-total-days';
-import { isEmpty } from 'lodash';
 import { months } from './nepali-english-month-name';
 
 export function getBikramSambatMonthNoOfDays(year: number) {
@@ -29,9 +28,11 @@ function getMonthsWithCumulativeDays(year: number) {
       }[],
       currentMonth
     ) => {
-      const cumulativeDays = isEmpty(accumulatedMonths)
-        ? currentMonth.numberOfDays
-        : currentMonth.numberOfDays + accumulatedMonths.at(-1)!.cumulativeDays;
+      const cumulativeDays =
+        !accumulatedMonths || accumulatedMonths.length === 0
+          ? currentMonth.numberOfDays
+          : currentMonth.numberOfDays +
+            accumulatedMonths.at(-1)!.cumulativeDays;
       return [
         ...accumulatedMonths,
         {

@@ -2,12 +2,13 @@
   "name": "@repo/bs-ad-converter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "type": "module",
-  "exports": {
-    "import": "./index.js",
-    "require": "./index.cjs"
-  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\""
@@ -23,7 +24,6 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "dayjs": "^1.11.11",
-    "lodash": "^4.17.21"
+    "dayjs": "^1.11.11"
   }
 }

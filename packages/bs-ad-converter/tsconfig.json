@@ -7,7 +7,6 @@
 
     "module": "ES2022",
     "types": ["node"],
-    "incremental": true,
     "target": "ES2022",
     "esModuleInterop": true,
 
