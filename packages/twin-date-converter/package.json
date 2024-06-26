@@ -40,6 +40,7 @@
     "tsup": "^8.1.0",
     "typescript": "^5.5.2"
   },
+  "private": false,
   "dependencies": {
     "dayjs": "^1.11.11"
   }
