@@ -1,6 +1,6 @@
 {
   "name": "@nakarmi23/bikram-sambat",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Library for working with Nepali Dates and converting AD dates to BS dates and vice versa",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -9,10 +9,8 @@
   "license": "MIT",
   "homepage": "https://github.com/Nakarmi23/twin-dates/tree/main/packages/bikram-sambat",
   "repository": {
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/Nakarmi23/twin-dates.git"
-    }
+    "type": "git",
+    "url": "https://github.com/Nakarmi23/twin-dates.git"
   },
   "files": [
     "dist/**"
