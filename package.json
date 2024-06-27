@@ -8,7 +8,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "add:converter": "pnpm add --filter @nakarmi23/twin-date-converter"
+    "add:bs": "pnpm add --filter @nakarmi23/bikram-sambat"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
