@@ -10,13 +10,6 @@
     "version-packages": "changeset version",
     "add:bs": "pnpm add --filter @nakarmi23/bikram-sambat"
   },
-  "homepage": "https://github.com/Nakarmi23/twin-dates/tree/main/packages/bikram-sambat",
-  "repository": {
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/Nakarmi23/twin-dates/tree/main/packages/bikram-sambat"
-    }
-  },
   "devDependencies": {
     "prettier": "^3.2.5",
     "turbo": "^2.0.4",
