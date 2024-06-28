@@ -16,6 +16,14 @@ const _isLeap = (year: number) => {
   return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
 };
 
+const _getBSMonthTotalDays = (bsMonth: number, bsYear: number) => {
+  const months = BikramSambat.getBikramSambatMonths(bsYear);
+
+  const bsMonthIndex = bsMonth - 1;
+
+  return months.at(bsMonthIndex)!.numberOfDays;
+};
+
 const _getADMonthTotalDays = (month: number, year: number) => {
   switch (month) {
     case 1:
@@ -98,6 +106,43 @@ const _getMonthsWithCumulativeDays = (year: number) => {
   );
 };
 
+export type StarOfEndOfType = 'month' | 'year';
+
+export type ManipulateType = 'month' | 'year' | 'day';
+
+const adDateFromBS = (bsYear: number, bsMonth: number, bsDay: number) => {
+  const matchingCalendarPeriod = nepEngCalenderMaps.find(
+    (calendarPeriod) => calendarPeriod.nepYear === bsYear
+  );
+
+  if (!matchingCalendarPeriod)
+    throw new Error(
+      `No corresponding data found for the Bikram Sambat year ${bsYear}.`
+    );
+
+  const totalPossibleDays = matchingCalendarPeriod[
+    `m${bsMonth}` as keyof typeof matchingCalendarPeriod
+  ] as number;
+
+  if (bsDay < 1 || bsDay > totalPossibleDays)
+    throw new Error(
+      `Invalid date day: ${bsDay}. Day should be between 1 and ${totalPossibleDays} for month ${bsMonth}.`
+    );
+
+  const startOfYearDate = new Date(matchingCalendarPeriod.startDate);
+
+  const bsMonthsWithCumulativeDays = _getMonthsWithCumulativeDays(bsYear);
+
+  const currentMonthIndex = bsMonth - 1;
+  const daysSinceStartOfYear =
+    (bsMonth === 1
+      ? 0
+      : bsMonthsWithCumulativeDays[currentMonthIndex - 1]!.cumulativeDays) +
+    bsDay;
+
+  return dayjs(startOfYearDate).add(daysSinceStartOfYear - 1, 'days');
+};
+
 export default class BikramSambat implements BikramSambatProps {
   bsYear!: number;
   bsMonth!: number;
@@ -133,39 +178,9 @@ export default class BikramSambat implements BikramSambatProps {
         `Invalid date month: ${month}. Month should be between 1 and 12.`
       );
 
-    const matchingCalendarPeriod = nepEngCalenderMaps.find(
-      (calendarPeriod) => calendarPeriod.nepYear === year
-    );
-
-    if (!matchingCalendarPeriod)
-      throw new Error(
-        `No corresponding data found for the Bikram Sambat year ${year}.`
-      );
-
-    const totalPossibleDays = matchingCalendarPeriod[
-      `m${month}` as keyof typeof matchingCalendarPeriod
-    ] as number;
-
-    if (day < 1 || day > totalPossibleDays)
-      throw new Error(
-        `Invalid date day: ${day}. Day should be between 1 and ${totalPossibleDays} for month ${month}.`
-      );
-
-    const startOfYearDate = new Date(matchingCalendarPeriod.startDate);
-
-    const bsMonthsWithCumulativeDays = _getMonthsWithCumulativeDays(year);
-
     const currentMonthIndex = month - 1;
-    const daysSinceStartOfYear =
-      (month === 1
-        ? 0
-        : bsMonthsWithCumulativeDays[currentMonthIndex - 1]!.cumulativeDays) +
-      day;
 
-    const englishDate = dayjs(startOfYearDate).add(
-      daysSinceStartOfYear - 1,
-      'days'
-    );
+    const englishDate = adDateFromBS(year, month, day);
 
     const bikramSambatDate = {
       weekDay: englishDate.day(),
@@ -255,5 +270,78 @@ export default class BikramSambat implements BikramSambatProps {
 
   static now() {
     return this.fromAD(new Date());
+  }
+
+  add(value: number, unit: ManipulateType = 'day') {
+    const newDate = BikramSambat.fromAD(
+      dayjs(this.adDate).add(value, unit).toDate()
+    );
+
+    this.bsDay = newDate.bsDay;
+    this.bsMonth = newDate.bsMonth;
+    this.bsYear = newDate.bsYear;
+    this.bsMonthName = newDate.bsMonthName;
+    this.adDate = newDate.adDate;
+
+    return this;
+  }
+
+  sub(value: number, unit: ManipulateType = 'day') {
+    return this.add(value * -1, unit);
+  }
+
+  startOf(_unit: StarOfEndOfType) {
+    if ((_unit = 'month')) this.bsDay = 1;
+    if ((_unit = 'year')) {
+      this.bsDay = 1;
+      this.bsMonth = 1;
+      this.bsMonthName = months.at(0)!.nepName;
+    }
+
+    this.adDate = adDateFromBS(this.bsYear, this.bsMonth, this.bsDay).toDate();
+
+    return this;
+  }
+
+  endOf(_unit: StarOfEndOfType) {
+    if ((_unit = 'month')) {
+      this.bsDay = _getBSMonthTotalDays(this.bsMonth, this.bsYear);
+    }
+    if ((_unit = 'year')) {
+      this.bsMonth = 12;
+      this.bsMonthName = months.at(-1)!.nepName;
+      this.bsDay = _getBSMonthTotalDays(this.bsMonth, this.bsYear);
+    }
+
+    this.adDate = adDateFromBS(this.bsYear, this.bsMonth, this.bsDay).toDate();
+
+    return this;
+  }
+
+  format(formatString: string) {
+    return formatString
+      .replace(/MMMM/g, this.bsMonthName)
+      .replace(/MM/g, this.bsMonth.toString().padStart(2))
+      .replace(/M/g, this.bsMonth.toString())
+      .replace(/YYYY/g, this.bsYear.toString())
+      .replace(/DD/g, this.bsDay.toString().padStart(2))
+      .replace(/D/g, this.bsDay.toString())
+      .replace(/dddd/g, dayjs(this.adDate).format('dddd'))
+      .replace(/ddd/g, dayjs(this.adDate).format('ddd'))
+      .replace(/dd/g, dayjs(this.adDate).format('dd'))
+      .replace(/d/g, dayjs(this.adDate).format('d'));
+
+    return formatString;
+  }
+
+  clone() {
+    return new BikramSambat({
+      adDate: new Date(this.adDate),
+      bsDay: this.bsDay,
+      bsMonth: this.bsMonth,
+      bsMonthName: this.bsMonthName,
+      bsYear: this.bsYear,
+      weekDay: this.weekDay,
+    });
   }
 }

@@ -9,6 +9,6 @@ export default defineConfig((options: Options) => ({
   minify: options.watch ? false : 'terser',
   dts: true,
   treeshake: 'recommended',
-  globalName: 'bikramSambat',
+  globalName: 'BikramSambat',
   ...options,
 }));
