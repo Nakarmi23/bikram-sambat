@@ -1,24 +1,11 @@
 {
+  "extends": "@total-typescript/tsconfig/bundler/dom/library",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDirs": ["src"],
 
-    "skipLibCheck": true,
-
-    "module": "ES2022",
-    "types": ["node"],
-    "target": "ES2022",
-    "esModuleInterop": true,
-
-    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "allowSyntheticDefaultImports": true,
-
-    "moduleResolution": "Node",
-    "preserveConstEnums": true,
-    "resolveJsonModule": true
+    "allowSyntheticDefaultImports": true
   }
 }
