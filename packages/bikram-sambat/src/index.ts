@@ -319,19 +319,35 @@ export default class BikramSambat implements BikramSambatProps {
   }
 
   format(formatString: string) {
-    return formatString
-      .replace(/MMMM/g, this.bsMonthName)
-      .replace(/MM/g, this.bsMonth.toString().padStart(2))
-      .replace(/M/g, this.bsMonth.toString())
-      .replace(/YYYY/g, this.bsYear.toString())
-      .replace(/DD/g, this.bsDay.toString().padStart(2))
-      .replace(/D/g, this.bsDay.toString())
-      .replace(/dddd/g, dayjs(this.adDate).format('dddd'))
-      .replace(/ddd/g, dayjs(this.adDate).format('ddd'))
-      .replace(/dd/g, dayjs(this.adDate).format('dd'))
-      .replace(/d/g, dayjs(this.adDate).format('d'));
+    const REGEX_FORMAT = /Y{4}|M{1,4}|D{1,2}|d{1,4}/g;
 
-    return formatString;
+    const matches = (match: string) => {
+      switch (match) {
+        case 'MMMM':
+          return this.bsMonthName;
+        case 'MM':
+          return this.bsMonth.toString().padStart(2);
+        case 'M':
+          return this.bsMonth.toString();
+        case 'YYYY':
+          return this.bsYear.toString();
+        case 'DD':
+          return this.bsDay.toString().padStart(2);
+        case 'D':
+          return this.bsDay.toString();
+        case 'dddd':
+          return dayjs(this.adDate).format('dddd');
+        case 'ddd':
+          return dayjs(this.adDate).format('ddd');
+        case 'dd':
+          return dayjs(this.adDate).format('dd');
+        case 'd':
+          return dayjs(this.adDate).format('d');
+      }
+      return null;
+    };
+
+    return formatString.replace(REGEX_FORMAT, (match) => matches(match) || '');
   }
 
   clone() {
