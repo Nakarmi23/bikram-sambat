@@ -88,4 +88,36 @@ describe('Bikram Sambat', () => {
     expect(yearEndOf.bsMonthName).toBe('Chaitra');
     expect(yearEndOf.weekDay).toBe(0);
   });
+
+  test('Date Manipulation: add', () => {
+    const date = BikramSambat.parse('2081-03-25');
+
+    const dayAddDate = date.add(11, 'day');
+
+    expect(dayAddDate.bsDay).toBe(5);
+    expect(dayAddDate.bsMonth).toBe(4);
+    expect(dayAddDate.bsMonthName).toBe('Shrawan');
+    expect(dayAddDate.bsYear).toBe(2081);
+    expect(dayAddDate.weekDay).toBe(6);
+    expect(dayAddDate.adDate.toLocaleDateString()).toBe('7/20/2024');
+
+    const monthAddDate = dayAddDate.add(2, 'month');
+    expect(monthAddDate.bsDay).toBe(4);
+    expect(monthAddDate.bsMonth).toBe(6);
+    expect(monthAddDate.bsMonthName).toBe('Ashwin');
+    expect(monthAddDate.bsYear).toBe(2081);
+    expect(monthAddDate.weekDay).toBe(5);
+    expect(monthAddDate.adDate.toLocaleDateString()).toBe('9/20/2024');
+
+    const yearAddDate = monthAddDate.add(2, 'year');
+    console.log(yearAddDate);
+    expect(yearAddDate.bsDay).toBe(4);
+    expect(yearAddDate.bsMonth).toBe(6);
+    expect(yearAddDate.bsMonthName).toBe('Ashwin');
+    expect(yearAddDate.bsYear).toBe(2083);
+    expect(yearAddDate.weekDay).toBe(0);
+    expect(yearAddDate.adDate.toLocaleDateString()).toBe('9/20/2026');
+  });
+
+  test('Date Manipulation: sub', () => {});
 });
