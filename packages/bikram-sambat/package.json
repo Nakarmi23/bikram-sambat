@@ -19,6 +19,7 @@
     "build": "tsup",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
   "keywords": [

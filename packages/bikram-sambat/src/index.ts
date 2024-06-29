@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
-import { nepEngCalenderMaps } from './nepali-english-calender-maps';
-import { nepDateNoOfDays } from './nepali-month-total-days';
-import { months } from './nepali-english-month-name';
+import { nepEngCalenderMaps } from './constraints/nepali-english-calender-maps';
+import { months } from './constraints/nepali-english-month-name';
+import { nepDateNoOfDays } from './constraints/nepali-month-total-days';
+import { adDateFromBS } from './utilities/get-ad-date-from-bs';
+import { getBSMonthTotalDays } from './utilities/get-bs-month-total-days';
+import { getMonthsWithCumulativeDays } from './utilities/get-months-with-cumulative-days';
+import { parseAdString } from './utilities/parse-ad-string';
 
 interface BikramSambatProps {
   bsYear: number;
@@ -12,134 +16,9 @@ interface BikramSambatProps {
   bsMonthName: string;
 }
 
-const _isLeap = (year: number) => {
-  return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
-};
-
-const _getBSMonthTotalDays = (bsMonth: number, bsYear: number) => {
-  const months = BikramSambat.getBikramSambatMonths(bsYear);
-
-  const bsMonthIndex = bsMonth - 1;
-
-  return months.at(bsMonthIndex)!.numberOfDays;
-};
-
-const _getADMonthTotalDays = (month: number, year: number) => {
-  switch (month) {
-    case 1:
-    case 3:
-    case 5:
-    case 7:
-    case 8:
-    case 10:
-    case 12:
-      return 31;
-    case 4:
-    case 6:
-    case 9:
-    case 11:
-      return 30;
-    case 2:
-      return _isLeap(year) ? 29 : 28;
-    default:
-      throw new Error(
-        `Invalid date month: ${month}. Month should be between 1 and 12.`
-      );
-  }
-};
-
-const _parseAdString = (date: string) => {
-  if (typeof date === 'string') {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date))
-      throw new Error(
-        `Invalid date format: "${date}". Expected format is YYYY-MM-DD.`
-      );
-    const [year, month, day] = date.split('-').map((num) => parseInt(num)) as [
-      number,
-      number,
-      number,
-    ];
-
-    if (month < 1 || month > 12)
-      throw new Error(
-        `Invalid date month: ${month}. Month should be between 1 and 12.`
-      );
-
-    const totalPossibleDays = _getADMonthTotalDays(month, year);
-
-    if (day < 1 || month > totalPossibleDays)
-      throw new Error(
-        `Invalid date day: ${day}. Day should be between 1 and ${totalPossibleDays} for month ${month}.`
-      );
-
-    return new Date(date);
-  }
-
-  throw new Error('Unable to parse AD string.');
-};
-
-const _getMonthsWithCumulativeDays = (year: number) => {
-  return BikramSambat.getBikramSambatMonths(year).reduce(
-    (
-      accumulatedMonths: {
-        monthNumber: number;
-        monthName: string;
-        cumulativeDays: number;
-      }[],
-      currentMonth
-    ) => {
-      const cumulativeDays =
-        !accumulatedMonths || accumulatedMonths.length === 0
-          ? currentMonth.numberOfDays
-          : currentMonth.numberOfDays +
-            accumulatedMonths.at(-1)!.cumulativeDays;
-      return [
-        ...accumulatedMonths,
-        {
-          monthNumber: currentMonth.monthNumber,
-          monthName: currentMonth.monthName,
-          cumulativeDays: cumulativeDays,
-        },
-      ];
-    },
-    []
-  );
-};
-
 export type StarOfEndOfType = 'month' | 'year';
 
 export type ManipulateType = 'month' | 'year' | 'day';
-
-const adDateFromBS = (bsYear: number, bsMonth: number, bsDay: number) => {
-  const matchingCalendarPeriod = nepEngCalenderMaps.find(
-    (calendarPeriod) => calendarPeriod.nepYear === bsYear
-  );
-
-  if (!matchingCalendarPeriod)
-    throw new Error(
-      `No corresponding data found for the Bikram Sambat year ${bsYear}.`
-    );
-
-  const totalPossibleDays = _getBSMonthTotalDays(bsMonth, bsYear);
-
-  if (bsDay < 1 || bsDay > totalPossibleDays)
-    throw new Error(
-      `Invalid date day: ${bsDay}. Day should be between 1 and ${totalPossibleDays} for month ${bsMonth}.`
-    );
-
-  const startOfYearDate = new Date(matchingCalendarPeriod.startDate);
-
-  const bsMonthsWithCumulativeDays = _getMonthsWithCumulativeDays(bsYear);
-
-  const currentMonthIndex = bsMonth - 1;
-  const daysSinceStartOfYear =
-    (bsMonth === 1
-      ? 0
-      : bsMonthsWithCumulativeDays[currentMonthIndex - 1]!.cumulativeDays) +
-    bsDay;
-
-  return dayjs(startOfYearDate).add(daysSinceStartOfYear - 1, 'days');
-};
 
 export default class BikramSambat implements BikramSambatProps {
   bsYear!: number;
@@ -193,7 +72,7 @@ export default class BikramSambat implements BikramSambatProps {
   }
 
   static fromAD(date: string | Date) {
-    if (typeof date === 'string') date = _parseAdString(date);
+    if (typeof date === 'string') date = parseAdString(date);
     else if (!(date instanceof Date))
       throw new Error('This function only accepts string or Date object.');
 
@@ -218,7 +97,7 @@ export default class BikramSambat implements BikramSambatProps {
     const daysSinceStartOfPeriod =
       englishDateDayjs.diff(matchingCalendarPeriod.startDate, 'days') + 1;
 
-    const bsMonthsWithCumulativeDays = _getMonthsWithCumulativeDays(
+    const bsMonthsWithCumulativeDays = getMonthsWithCumulativeDays(
       matchingCalendarPeriod.nepYear
     );
 
@@ -307,11 +186,11 @@ export default class BikramSambat implements BikramSambatProps {
   endOf(unit: StarOfEndOfType) {
     const clone = this.clone();
     if (unit === 'month') {
-      clone.bsDay = _getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
+      clone.bsDay = getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
     } else if (unit === 'year') {
       clone.bsMonth = 12;
       clone.bsMonthName = months.at(-1)!.nepName;
-      clone.bsDay = _getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
+      clone.bsDay = getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
     }
 
     const newAdDate = adDateFromBS(clone.bsYear, clone.bsMonth, clone.bsDay);
