@@ -71,4 +71,21 @@ describe('Bikram Sambat', () => {
     expect(yearStartOf.bsMonthName).toBe('Baishakh');
     expect(yearStartOf.weekDay).toBe(6);
   });
+
+  test('Date Manipulation: endOf', () => {
+    const date = BikramSambat.parse('2081-03-13');
+    const monthEndOf = date.endOf('month');
+
+    expect(monthEndOf.bsDay).toBe(31);
+    expect(monthEndOf.bsMonth).toBe(3);
+    expect(monthEndOf.bsMonthName).toBe('Ashadh');
+    expect(monthEndOf.weekDay).toBe(1);
+
+    const yearEndOf = date.endOf('year');
+
+    expect(yearEndOf.bsDay).toBe(30);
+    expect(yearEndOf.bsMonth).toBe(12);
+    expect(yearEndOf.bsMonthName).toBe('Chaitra');
+    expect(yearEndOf.weekDay).toBe(0);
+  });
 });
