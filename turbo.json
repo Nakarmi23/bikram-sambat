@@ -1,6 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
+    "test": {},
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
     "build": {
       "dependsOn": ["^build"]
     },

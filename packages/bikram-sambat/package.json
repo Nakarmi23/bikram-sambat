@@ -18,7 +18,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
-    "test": "jest --coverage"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [
     "bikram-sambat",
