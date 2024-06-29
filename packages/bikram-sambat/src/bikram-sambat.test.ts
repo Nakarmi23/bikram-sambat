@@ -93,7 +93,6 @@ describe('Bikram Sambat', () => {
     const date = BikramSambat.parse('2081-03-25');
 
     const dayAddDate = date.add(11, 'day');
-
     expect(dayAddDate.bsDay).toBe(5);
     expect(dayAddDate.bsMonth).toBe(4);
     expect(dayAddDate.bsMonthName).toBe('Shrawan');
@@ -110,7 +109,6 @@ describe('Bikram Sambat', () => {
     expect(monthAddDate.adDate.toLocaleDateString()).toBe('9/20/2024');
 
     const yearAddDate = monthAddDate.add(2, 'year');
-    console.log(yearAddDate);
     expect(yearAddDate.bsDay).toBe(4);
     expect(yearAddDate.bsMonth).toBe(6);
     expect(yearAddDate.bsMonthName).toBe('Ashwin');
@@ -119,5 +117,31 @@ describe('Bikram Sambat', () => {
     expect(yearAddDate.adDate.toLocaleDateString()).toBe('9/20/2026');
   });
 
-  test('Date Manipulation: sub', () => {});
+  test('Date Manipulation: sub', () => {
+    const date = BikramSambat.parse('2081-03-04');
+
+    const daySubDate = date.sub(11, 'day');
+    expect(daySubDate.bsDay).toBe(25);
+    expect(daySubDate.bsMonth).toBe(2);
+    expect(daySubDate.bsMonthName).toBe('Jestha');
+    expect(daySubDate.bsYear).toBe(2081);
+    expect(daySubDate.weekDay).toBe(5);
+    expect(daySubDate.adDate.toLocaleDateString()).toBe('6/7/2024');
+
+    const monthSubDate = daySubDate.sub(2, 'month');
+    expect(monthSubDate.bsDay).toBe(25);
+    expect(monthSubDate.bsMonth).toBe(12);
+    expect(monthSubDate.bsMonthName).toBe('Chaitra');
+    expect(monthSubDate.bsYear).toBe(2080);
+    expect(monthSubDate.weekDay).toBe(0);
+    expect(monthSubDate.adDate.toLocaleDateString()).toBe('4/7/2024');
+
+    const yearSubDate = monthSubDate.sub(2, 'year');
+    expect(yearSubDate.bsDay).toBe(24);
+    expect(yearSubDate.bsMonth).toBe(12);
+    expect(yearSubDate.bsMonthName).toBe('Chaitra');
+    expect(yearSubDate.bsYear).toBe(2078);
+    expect(yearSubDate.weekDay).toBe(4);
+    expect(yearSubDate.adDate.toLocaleDateString()).toBe('4/7/2022');
+  });
 });
