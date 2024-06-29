@@ -120,9 +120,7 @@ const adDateFromBS = (bsYear: number, bsMonth: number, bsDay: number) => {
       `No corresponding data found for the Bikram Sambat year ${bsYear}.`
     );
 
-  const totalPossibleDays = matchingCalendarPeriod[
-    `m${bsMonth}` as keyof typeof matchingCalendarPeriod
-  ] as number;
+  const totalPossibleDays = _getBSMonthTotalDays(bsMonth, bsYear);
 
   if (bsDay < 1 || bsDay > totalPossibleDays)
     throw new Error(
@@ -201,10 +199,15 @@ export default class BikramSambat implements BikramSambatProps {
 
     const englishDateDayjs = dayjs(date);
     const matchingCalendarPeriod = nepEngCalenderMaps.find((calendarPeriod) => {
-      const startDate = new Date(calendarPeriod.startDate);
-      const endDate = new Date(calendarPeriod.endDate);
+      const startDate = dayjs(calendarPeriod.startDate);
+      const endDate = dayjs(calendarPeriod.endDate);
 
-      return +endDate >= +date && +startDate <= +date;
+      return (
+        (endDate.isAfter(englishDateDayjs, 'date') &&
+          startDate.isBefore(englishDateDayjs, 'date')) ||
+        endDate.isSame(englishDateDayjs, 'date') ||
+        startDate.isSame(englishDateDayjs, 'date')
+      );
     });
 
     if (!matchingCalendarPeriod)
@@ -277,45 +280,46 @@ export default class BikramSambat implements BikramSambatProps {
       dayjs(this.adDate).add(value, unit).toDate()
     );
 
-    this.bsDay = newDate.bsDay;
-    this.bsMonth = newDate.bsMonth;
-    this.bsYear = newDate.bsYear;
-    this.bsMonthName = newDate.bsMonthName;
-    this.adDate = newDate.adDate;
-
-    return this;
+    return newDate;
   }
 
   sub(value: number, unit: ManipulateType = 'day') {
     return this.add(value * -1, unit);
   }
 
-  startOf(_unit: StarOfEndOfType) {
-    if ((_unit = 'month')) this.bsDay = 1;
-    if ((_unit = 'year')) {
-      this.bsDay = 1;
-      this.bsMonth = 1;
-      this.bsMonthName = months.at(0)!.nepName;
+  startOf(unit: StarOfEndOfType) {
+    const clone = this.clone();
+    if (unit === 'month') clone.bsDay = 1;
+    if (unit === 'year') {
+      clone.bsDay = 1;
+      clone.bsMonth = 1;
+      clone.bsMonthName = months.at(0)!.nepName;
     }
 
-    this.adDate = adDateFromBS(this.bsYear, this.bsMonth, this.bsDay).toDate();
+    const newAdDate = adDateFromBS(clone.bsYear, clone.bsMonth, clone.bsDay);
 
-    return this;
+    clone.adDate = newAdDate.toDate();
+    clone.weekDay = newAdDate.day();
+
+    return clone;
   }
 
-  endOf(_unit: StarOfEndOfType) {
-    if ((_unit = 'month')) {
-      this.bsDay = _getBSMonthTotalDays(this.bsMonth, this.bsYear);
-    }
-    if ((_unit = 'year')) {
-      this.bsMonth = 12;
-      this.bsMonthName = months.at(-1)!.nepName;
-      this.bsDay = _getBSMonthTotalDays(this.bsMonth, this.bsYear);
+  endOf(unit: StarOfEndOfType) {
+    const clone = this.clone();
+    if (unit === 'month') {
+      clone.bsDay = _getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
+    } else if (unit === 'year') {
+      clone.bsMonth = 12;
+      clone.bsMonthName = months.at(-1)!.nepName;
+      clone.bsDay = _getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
     }
 
-    this.adDate = adDateFromBS(this.bsYear, this.bsMonth, this.bsDay).toDate();
+    const newAdDate = adDateFromBS(clone.bsYear, clone.bsMonth, clone.bsDay);
 
-    return this;
+    clone.adDate = newAdDate.toDate();
+    clone.weekDay = newAdDate.day();
+
+    return clone;
   }
 
   format(formatString: string) {
@@ -326,13 +330,13 @@ export default class BikramSambat implements BikramSambatProps {
         case 'MMMM':
           return this.bsMonthName;
         case 'MM':
-          return this.bsMonth.toString().padStart(2);
+          return this.bsMonth.toString().padStart(2, '0');
         case 'M':
           return this.bsMonth.toString();
         case 'YYYY':
           return this.bsYear.toString();
         case 'DD':
-          return this.bsDay.toString().padStart(2);
+          return this.bsDay.toString().padStart(2, '0');
         case 'D':
           return this.bsDay.toString();
         case 'dddd':
@@ -347,7 +351,10 @@ export default class BikramSambat implements BikramSambatProps {
       return null;
     };
 
-    return formatString.replace(REGEX_FORMAT, (match) => matches(match) || '');
+    return formatString.replace(
+      REGEX_FORMAT,
+      (match) => matches(match) || match
+    );
   }
 
   clone() {
