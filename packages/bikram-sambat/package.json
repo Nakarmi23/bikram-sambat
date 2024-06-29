@@ -1,6 +1,6 @@
 {
   "name": "@nakarmi23/bikram-sambat",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Library for working with Nepali Dates and converting AD dates to BS dates and vice versa",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
