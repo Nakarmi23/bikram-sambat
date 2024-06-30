@@ -12,10 +12,10 @@ describe('Bikram Sambat', () => {
   });
 
   test('BS out of range parse', () => {
-    expect(() => BikramSambat.parse('2081-01-90')).toThrow();
-    expect(() => BikramSambat.parse('2081-12-31')).toThrow();
-    expect(() => BikramSambat.parse('2112-01-01')).toThrow();
-    expect(() => BikramSambat.parse('1969-01-01')).toThrow();
+    expect(() => BikramSambat.parse('2081-01-90')).toThrowError();
+    expect(() => BikramSambat.parse('2081-12-31')).toThrowError();
+    expect(() => BikramSambat.parse('2112-01-01')).toThrowError();
+    expect(() => BikramSambat.parse('1969-01-01')).toThrowError();
   });
 
   test('AD parse', () => {
@@ -35,8 +35,8 @@ describe('Bikram Sambat', () => {
   });
 
   test('AD out of range parse', () => {
-    expect(() => BikramSambat.fromAD('1913-04-12')).toThrow();
-    expect(() => BikramSambat.fromAD(new Date('2055-04-15'))).toThrow();
+    expect(() => BikramSambat.fromAD('1913-04-12')).toThrowError();
+    expect(() => BikramSambat.fromAD(new Date('2055-04-15'))).toThrowError();
   });
 
   test('clone', () => {
@@ -143,5 +143,50 @@ describe('Bikram Sambat', () => {
     expect(yearSubDate.bsYear).toBe(2078);
     expect(yearSubDate.weekDay).toBe(4);
     expect(yearSubDate.adDate.toLocaleDateString()).toBe('4/7/2022');
+  });
+
+  test('Date Comparison: isSame', () => {
+    const date = BikramSambat.parse('2081-03-16');
+    const sameBsDate = BikramSambat.fromAD('2024-06-30');
+
+    expect(date.isSame(sameBsDate)).toBeTruthy();
+
+    const diffBsDate = BikramSambat.parse('2024-03-03');
+
+    expect(date.isSame(diffBsDate)).toBeFalsy();
+
+    const diffAdDate = new Date('2024-03-03');
+
+    expect(date.isSame(diffAdDate)).toBeFalsy();
+
+    expect(() => date.isSame('2024-03-03' as never)).toThrowError();
+  });
+
+  test('Date Comparison: isBefore', () => {
+    const date = BikramSambat.parse('2081-03-16');
+
+    const beforeDate = BikramSambat.parse('2081-03-03');
+
+    expect(beforeDate.isBefore(date)).toBeTruthy();
+
+    const afterDate = BikramSambat.parse('2081-03-19');
+
+    expect(afterDate.isBefore(date)).toBeFalsy();
+
+    expect(() => date.isBefore('2024-03-03' as never)).toThrowError();
+  });
+
+  test('Date Comparison: isAfter', () => {
+    const date = BikramSambat.parse('2081-03-16');
+
+    const afterDate = BikramSambat.parse('2081-03-19');
+
+    expect(afterDate.isAfter(date)).toBeTruthy();
+
+    const beforeDate = BikramSambat.parse('2081-03-03');
+
+    expect(beforeDate.isAfter(date)).toBeFalsy();
+
+    expect(() => date.isBefore('2024-03-03' as never)).toThrowError();
   });
 });

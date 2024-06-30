@@ -16,7 +16,9 @@ interface BikramSambatProps {
   bsMonthName: string;
 }
 
-export type StarOfEndOfType = 'month' | 'year';
+export type UnitType = 'day' | 'month' | 'year' | 'week';
+
+export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
 
 export type ManipulateType = 'month' | 'year' | 'day';
 
@@ -245,5 +247,26 @@ export default class BikramSambat implements BikramSambatProps {
       bsYear: this.bsYear,
       weekDay: this.weekDay,
     });
+  }
+
+  isSame(date: BikramSambat | Date, unit: UnitType = 'day') {
+    if (date instanceof BikramSambat) date = date.adDate;
+    else if (!(date instanceof Date)) throw new Error('Invalid compare value');
+
+    return dayjs(this.adDate).isSame(date, unit);
+  }
+
+  isBefore(date: BikramSambat | Date, unit: UnitType = 'day') {
+    if (date instanceof BikramSambat) date = date.adDate;
+    else if (!(date instanceof Date)) throw new Error('Invalid compare value');
+
+    return dayjs(this.adDate).isBefore(date, unit);
+  }
+
+  isAfter(date: BikramSambat | Date, unit: UnitType = 'day') {
+    if (date instanceof BikramSambat) date = date.adDate;
+    else if (!(date instanceof Date)) throw new Error('Invalid compare value');
+
+    return dayjs(this.adDate).isAfter(date, unit);
   }
 }
