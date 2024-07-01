@@ -187,6 +187,39 @@ Returns a cloned BikramSambat object with a specified amount of time subtracted.
 | month | Month       |
 | day   | Day         |
 
+### .isSame(date, unit) -> boolean
+
+Return true if provided BikramSambat object is the same as the other supplied BikramSambat date. Unit defaults to `day`.
+
+| Unit  | Description |
+| ----- | ----------- |
+| year  | Year        |
+| month | Month       |
+| day   | Day         |
+| week  | Week        |
+
+### .isBefore(date, unit) -> boolean
+
+Return true if provided BikramSambat object is before the other supplied BikramSambat date. Unit defaults to `day`.
+
+| Unit  | Description |
+| ----- | ----------- |
+| year  | Year        |
+| month | Month       |
+| day   | Day         |
+| week  | Week        |
+
+### .isAfter(date, unit) -> boolean
+
+Return true if provided BikramSambat object is after the other supplied BikramSambat date. Unit defaults to `day`.
+
+| Unit  | Description |
+| ----- | ----------- |
+| year  | Year        |
+| month | Month       |
+| day   | Day         |
+| week  | Week        |
+
 ### .toString() -> string
 
 Returns the BikramSambat object as a string.
