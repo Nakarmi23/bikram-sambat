@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.2.2
+
+### Patch Changes
+
+- f158d86: Updated the README doc to inform the user about CommonJS require fix.
+
 ## 1.2.1
 
 ### Patch Changes
