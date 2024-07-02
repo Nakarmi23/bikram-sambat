@@ -1,5 +1,7 @@
 # Bikram Sambat
 
+> FIX: Fixed a major issue related to importing the package in CommonJS.
+
 ## Introduction
 
 A utility library for working with Nepali (Bikram Sambat) Dates and converting AD dates to BS dates and vice versa. This library supports BS year from 1970 to 2111.
@@ -35,7 +37,7 @@ import BikramSambat from '@nakarmi23/bikram-sambat';
 or
 
 ```typescript
-const BikramSambat = require('@nakarmi23/bikram-sambat');
+const BikramSambat = require('@nakarmi23/bikram-sambat').default;
 ```
 
 ### CDN
