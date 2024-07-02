@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.2.4
+
+### Patch Changes
+
+- 5dc44fd: Add type declaration to package.json exports field
+
 ## 1.2.3
 
 ### Patch Changes
