@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.2.3
+
+### Patch Changes
+
+- a70a2c6: Improve documentation
+
 ## 1.2.2
 
 ### Patch Changes
