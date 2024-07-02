@@ -11,7 +11,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "add:bs": "pnpm add --filter @nakarmi23/bikram-sambat",
-    "publish-packages": "turbo build && changeset publish"
+    "publish-packages": "turbo build lint test && changeset version && changeset publish"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
@@ -23,6 +23,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.6"
+    "@changesets/cli": "^2.27.6",
+    "@repo/eslint-config": "workspace:^"
   }
 }

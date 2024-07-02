@@ -19,7 +19,8 @@
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "lint": "eslint"
   },
   "keywords": [
     "bikram-sambat",
