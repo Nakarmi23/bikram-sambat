@@ -22,6 +22,10 @@ export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
 
 export type ManipulateType = 'month' | 'year' | 'day';
 
+/**
+ * Represents a Bikram Sambat date.
+ * Provides various methods to manipulate and format Bikram Sambat dates.
+ */
 export default class BikramSambat implements BikramSambatProps {
   bsYear!: number;
   bsMonth!: number;
@@ -30,10 +34,22 @@ export default class BikramSambat implements BikramSambatProps {
   adDate!: Date;
   bsMonthName!: string;
 
+  /**
+   * @private
+   * @param {BikramSambatProps} props - The properties of the Bikram Sambat date.
+   */
   private constructor(props: BikramSambatProps) {
     Object.assign(this, props);
   }
 
+  /**
+   * Parses and validates the given BS date and returns an instance of BikramSambat for that date.
+   *
+   * - BS Year must be between 1970 and 2111
+   * - BS Month must be between 1 and 12
+   * @param {string} toParse - BS Date string to be parsed. Valid pattern: YYYY-MM-DD
+   * @returns {BikramSambat} An instance of {@link BikramSambat}
+   */
   static parse(date: string) {
     if (!(typeof date === 'string'))
       throw new Error('This function only accepts string.');
@@ -73,6 +89,11 @@ export default class BikramSambat implements BikramSambatProps {
     return new BikramSambat(bikramSambatDate);
   }
 
+  /**
+   * Parses and validates the given AD date and returns an instance of BikramSambat for that date.
+   * @param {Date | string} date - AD Date object or string to be parsed. Valid pattern for string: YYYY-MM-DD
+   * @returns {BikramSambat} An instance of {@link BikramSambat}
+   */
   static fromAD(date: string | Date) {
     if (typeof date === 'string') date = parseAdString(date);
     else if (!(date instanceof Date))
@@ -130,6 +151,11 @@ export default class BikramSambat implements BikramSambatProps {
     return new BikramSambat(bikramSambatDate);
   }
 
+  /**
+   * Returns a list of months and their total number of days of the year.
+   * @param {number} year - Year to get the total number of days for each month
+   * @returns {MonthTotalDaysItem[]} Array of months and their total number of days
+   */
   static getBikramSambatMonths(year: number) {
     const nepaliYearData = nepDateNoOfDays.find(
       (date) => date.nepYear === year
@@ -148,14 +174,28 @@ export default class BikramSambat implements BikramSambatProps {
     }));
   }
 
+  /**
+   * Returns the BikramSambat object as a string.
+   * @returns {string} Formatted {@link BikramSambat} date as a string
+   */
   toString() {
     return `${this.bsMonthName} ${this.bsDay} ${this.bsYear}`;
   }
 
+  /**
+   * Returns an instance of BikramSambat for today's date.
+   * @returns {BikramSambat} An instance of {@link BikramSambat} for today's date
+   */
   static now() {
     return this.fromAD(new Date());
   }
 
+  /**
+   * Returns a cloned BikramSambat object with a specified amount of time added.
+   * @param {number} value - The amount of the specified unit to add to the date.
+   * @param {ManipulateType} [unit='day'] - The unit of time to add. Valid units include 'day', 'month', 'year'.
+   * @returns {BikramSambat} A new {@link BikramSambat} date with the specified amount of time added
+   */
   add(value: number, unit: ManipulateType = 'day') {
     const newDate = BikramSambat.fromAD(
       dayjs(this.adDate).add(value, unit).toDate()
@@ -164,10 +204,21 @@ export default class BikramSambat implements BikramSambatProps {
     return newDate;
   }
 
+  /**
+   * Returns a cloned BikramSambat object with a specified amount of time subtracted.
+   * @param {number} value - The amount of the specified unit to subtract from the date.
+   * @param {ManipulateType} [unit='day'] - The unit of time to subtract. Valid units include 'day', 'month', 'year'.
+   * @returns {BikramSambat} A new {@link BikramSambat} date with the specified amount of time subtracted
+   */
   sub(value: number, unit: ManipulateType = 'day') {
     return this.add(value * -1, unit);
   }
 
+  /**
+   * Returns a cloned BikramSambat object set to the start of the specified unit.
+   * @param {StarOfEndOfType} unit - The unit to set to the start. Valid units include 'day', 'month', 'year'.
+   * @returns {BikramSambat} A new {@link BikramSambat} date set to the start of the specified unit
+   */
   startOf(unit: StarOfEndOfType) {
     const clone = this.clone();
     if (unit === 'month') clone.bsDay = 1;
@@ -185,6 +236,11 @@ export default class BikramSambat implements BikramSambatProps {
     return clone;
   }
 
+  /**
+   * Returns a cloned BikramSambat object set to the end of the specified unit.
+   * @param {StarOfEndOfType} unit - The unit to set to the end. Valid units include 'day', 'month', 'year'.
+   * @returns {BikramSambat} A new {@link BikramSambat} date set to the end of the specified unit
+   */
   endOf(unit: StarOfEndOfType) {
     const clone = this.clone();
     if (unit === 'month') {
@@ -203,6 +259,22 @@ export default class BikramSambat implements BikramSambatProps {
     return clone;
   }
 
+  /**
+   * Formats the BikramSambat date according to the specified format string.
+   * Supported tokens:
+   * - YYYY: Full year
+   * - MM: Month number (zero-padded)
+   * - M: Month number
+   * - MMMM: Full month name
+   * - DD: Date (zero-padded)
+   * - D: Date
+   * - dddd: Full weekday name
+   * - ddd: Abbreviated weekday name
+   * - dd: Minimized weekday name
+   * - d: Day of the week
+   * @param {string} formatString - The format string to use for formatting the date.
+   * @returns {string} The formatted date string.
+   */
   format(formatString: string) {
     const REGEX_FORMAT = /Y{4}|M{1,4}|D{1,2}|d{1,4}/g;
 
@@ -238,6 +310,10 @@ export default class BikramSambat implements BikramSambatProps {
     );
   }
 
+  /**
+   * Creates and returns a deep copy of the current BikramSambat instance.
+   * @returns {BikramSambat} A new instance of {@link BikramSambat} with the same date properties.
+   */
   clone() {
     return new BikramSambat({
       adDate: new Date(this.adDate),
@@ -249,6 +325,12 @@ export default class BikramSambat implements BikramSambatProps {
     });
   }
 
+  /**
+   * Checks if the current BikramSambat date is the same as the given date.
+   * @param {BikramSambat | Date} date - The date to compare with.
+   * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
+   * @returns {boolean} True if the dates are the same, false otherwise.
+   */
   isSame(date: BikramSambat | Date, unit: UnitType = 'day') {
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
@@ -256,6 +338,12 @@ export default class BikramSambat implements BikramSambatProps {
     return dayjs(this.adDate).isSame(date, unit);
   }
 
+  /**
+   * Checks if the current BikramSambat date is before the given date.
+   * @param {BikramSambat | Date} date - The date to compare with.
+   * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
+   * @returns {boolean} True if the current date is before the given date, false otherwise.
+   */
   isBefore(date: BikramSambat | Date, unit: UnitType = 'day') {
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
@@ -263,6 +351,12 @@ export default class BikramSambat implements BikramSambatProps {
     return dayjs(this.adDate).isBefore(date, unit);
   }
 
+  /**
+   * Checks if the current BikramSambat date is after the given date.
+   * @param {BikramSambat | Date} date - The date to compare with.
+   * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
+   * @returns {boolean} True if the current date is after the given date, false otherwise.
+   */
   isAfter(date: BikramSambat | Date, unit: UnitType = 'day') {
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
