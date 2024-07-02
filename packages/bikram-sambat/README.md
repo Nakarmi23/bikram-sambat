@@ -38,7 +38,7 @@ or
 const BikramSambat = require('@nakarmi23/bikram-sambat');
 ```
 
-### CDN
+<!-- ### CDN
 
 Using jsDelivr CND:
 
@@ -52,7 +52,7 @@ Using unpkg CND:
 <script src="https://unpkg.com/@nakarmi23/bikram-sambat@latest/dist/index.global.js"></script>
 ```
 
-You can also request a specific version by replacing `latest` with the version name. Example: 1.0.4.
+You can also request a specific version by replacing `latest` with the version name. Example: 1.0.4. -->
 
 ## Example
 
