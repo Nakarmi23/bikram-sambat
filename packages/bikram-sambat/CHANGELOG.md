@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.2.1
+
+### Patch Changes
+
+- e191aea: Fixed major package issue with common js and esm files and remove support for browser
+
 ## 1.2.0
 
 ### Minor Changes
