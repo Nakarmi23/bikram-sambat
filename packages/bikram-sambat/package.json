@@ -4,9 +4,17 @@
   "description": "FIX: Fixed a major issue related to importing the package in CommonJS. Library for working with Nepali Dates and converting AD dates to BS dates and vice versa",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
   "types": "./dist/index.d.ts",
   "license": "MIT",
   "homepage": "https://github.com/Nakarmi23/twin-dates/tree/main/packages/bikram-sambat",
+  "bugs": {
+    "email": "ankit.nakarmi23@gmail.com",
+    "url": "https://github.com/Nakarmi23/twin-dates/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Nakarmi23/twin-dates.git"
@@ -20,7 +28,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "lint": "eslint"
+    "lint": "tsc"
   },
   "keywords": [
     "bikram-sambat",
