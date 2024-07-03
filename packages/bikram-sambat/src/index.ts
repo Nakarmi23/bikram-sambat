@@ -6,6 +6,7 @@ import { adDateFromBS } from './utilities/get-ad-date-from-bs';
 import { getBSMonthTotalDays } from './utilities/get-bs-month-total-days';
 import { getMonthsWithCumulativeDays } from './utilities/get-months-with-cumulative-days';
 import { parseAdString } from './utilities/parse-ad-string';
+import { shouldIncludeStartEndDates } from './utilities/get-bs-data-isbetween';
 
 interface BikramSambatProps {
   bsYear: number;
@@ -17,6 +18,8 @@ interface BikramSambatProps {
 }
 
 export type UnitType = 'day' | 'month' | 'year' | 'week';
+
+export type IsBetweenIncludeExcludeType = '()' | '[)' | '(]' | '[]';
 
 export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
 
@@ -362,5 +365,41 @@ export default class BikramSambat implements BikramSambatProps {
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
     return dayjs(this.adDate).isAfter(date, unit);
+  }
+  /**
+   * Checks if the current BikramSambat date is after the given date.
+   * @param {BikramSambat | Date} startDate - The startdate to compare if  it is before given date.
+   * @param {BikramSambat | Date} endDate - The enddate to compare if it is  after the given date .
+   * @param {ManipulateType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
+   * @param {IsBetweenIncludeExcludeType} [include='()'] - The include of time  compare. Defaults to '()'.
+   * @returns {boolean} True if the current date is between given days, false otherwise.
+   */
+
+  isBetween(
+    startDate: BikramSambat | Date,
+    endDate: BikramSambat | Date,
+    unit: ManipulateType = 'day',
+    include: IsBetweenIncludeExcludeType = '()'
+  ): boolean {
+    if (startDate instanceof BikramSambat) startDate = startDate.adDate;
+    else if (!(startDate instanceof Date))
+      throw new Error('Invalid compare value');
+    if (endDate instanceof BikramSambat) endDate = endDate.adDate;
+    else if (!(endDate instanceof Date))
+      throw new Error('Invalid compare value');
+
+    const [includeStartDateVal, includeEndDateVal] =
+      shouldIncludeStartEndDates(include);
+
+    const tempStartDate = dayjs(startDate).subtract(includeStartDateVal, unit);
+    const tempEndDate = dayjs(endDate).add(includeEndDateVal, unit);
+
+    if (
+      !dayjs(this.adDate).isAfter(tempStartDate, unit) ||
+      !dayjs(this.adDate).isBefore(tempEndDate, unit)
+    )
+      return false;
+
+    return true;
   }
 }

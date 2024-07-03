@@ -371,6 +371,51 @@ Return true if provided BikramSambat object is after the other supplied BikramSa
 | day   | Day         |
 | week  | Week        |
 
+#### .isBetween(startDate,endDate, unit, include) -> boolean
+
+Return true if provided BikramSambat object is between the other supplied BikramSambat date.
+
+- Parameters:
+
+  - `startDate` (BikramSambat): The BikramSambat object to compare against.
+  - `endDateDate` (BikramSambat): The BikramSambat object to compare against.
+  - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
+  - `includes` (string): Optional. Unit of comparison. Defaults to `()`.
+
+- Returns: boolean
+- Example:
+
+  ```typescript
+  const date = BikramSambat.parse('2081-03-16');
+
+  const startDate = BikramSambat.parse('2081-03-15');
+  const endDate = BikramSambat.parse('2081-03-17');
+  const startDatec1 = BikramSambat.parse('2081-03-16');
+
+  console.log(date.isBetween(startDate, endDate, 'day')); //true
+  console.log(startDate.isBetween(date, endDate, 'day')); //false
+  console.log(endDate.isBetween(startDate, date, 'day')); // true
+
+  console.log(date.isBetween(startDatec1, endDate, 'day', '[)')); //false
+  ```
+
+##### List of all available units
+
+| Unit  | Description |
+| ----- | ----------- |
+| year  | Year        |
+| month | Month       |
+| day   | Day         |
+
+##### List of all available includes
+
+| Unit | Description                           |
+| ---- | ------------------------------------- |
+| ()   | include startDate and endDate         |
+| []   | exclude startDate and endDate         |
+| [)   | exclude startDate and include endDate |
+| (]   | include startDate and exclude endDate |
+
 #### .toString() -> string
 
 Returns the BikramSambat object as a string.
