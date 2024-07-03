@@ -377,10 +377,10 @@ Return true if provided BikramSambat object is between the other supplied Bikram
 
 - Parameters:
 
-  - `startDate` (BikramSambat): The BikramSambat object to compare against.
-  - `endDateDate` (BikramSambat): The BikramSambat object to compare against.
+  - `startDate` (BikramSambat | Date): The BikramSambat object to compare against.
+  - `endDate` (BikramSambat | Date): The BikramSambat object to compare against.
   - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
-  - `includes` (string): Optional. Unit of comparison. Defaults to `()`.
+  - `boundaryInclusion` (string): Optional. boundaryInclusion of comparison. Defaults to `()`.
 
 - Returns: boolean
 - Example:
@@ -407,14 +407,14 @@ Return true if provided BikramSambat object is between the other supplied Bikram
 | month | Month       |
 | day   | Day         |
 
-##### List of all available includes
+##### List of all available boundaryInclusion
 
-| Unit | Description                           |
-| ---- | ------------------------------------- |
-| ()   | include startDate and endDate         |
-| []   | exclude startDate and endDate         |
-| [)   | exclude startDate and include endDate |
-| (]   | include startDate and exclude endDate |
+| boundaryInclusion | Description                           |
+| ----------------- | ------------------------------------- |
+| ()                | include startDate and endDate         |
+| []                | exclude startDate and endDate         |
+| [)                | exclude startDate and include endDate |
+| (]                | include startDate and exclude endDate |
 
 #### .toString() -> string
 

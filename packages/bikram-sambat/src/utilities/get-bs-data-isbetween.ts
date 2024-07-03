@@ -1,7 +1,7 @@
-import type { IsBetweenIncludeExcludeType } from '..';
+import type { getBoundaryInclusionType } from '..';
 
-export const shouldIncludeStartEndDates = (
-  val: IsBetweenIncludeExcludeType
+export const getBoundaryInclusion = (
+  val: getBoundaryInclusionType
 ): [number, number] => {
   switch (val) {
     case '()':

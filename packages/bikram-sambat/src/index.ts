@@ -6,7 +6,7 @@ import { adDateFromBS } from './utilities/get-ad-date-from-bs';
 import { getBSMonthTotalDays } from './utilities/get-bs-month-total-days';
 import { getMonthsWithCumulativeDays } from './utilities/get-months-with-cumulative-days';
 import { parseAdString } from './utilities/parse-ad-string';
-import { shouldIncludeStartEndDates } from './utilities/get-bs-data-isbetween';
+import { getBoundaryInclusion } from './utilities/get-bs-data-isbetween';
 
 interface BikramSambatProps {
   bsYear: number;
@@ -19,7 +19,7 @@ interface BikramSambatProps {
 
 export type UnitType = 'day' | 'month' | 'year' | 'week';
 
-export type IsBetweenIncludeExcludeType = '()' | '[)' | '(]' | '[]';
+export type getBoundaryInclusionType = '()' | '[)' | '(]' | '[]';
 
 export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
 
@@ -368,10 +368,16 @@ export default class BikramSambat implements BikramSambatProps {
   }
   /**
    * Checks if the current BikramSambat date is after the given date.
+   *  * Formats the BikramSambat date according to the specified format string.
+   * Supported tokens:
+   * - (): include startDate and endDate
+   * - []: exclude startDate and endDate
+   * - (]: include startDate and exclude endDate
+   * - [): exclude startDate and include endDate
    * @param {BikramSambat | Date} startDate - The startdate to compare if  it is before given date.
    * @param {BikramSambat | Date} endDate - The enddate to compare if it is  after the given date .
    * @param {ManipulateType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
-   * @param {IsBetweenIncludeExcludeType} [include='()'] - The include of time  compare. Defaults to '()'.
+   * @param {getBoundaryInclusion} [boundaryInclusion='()'] - The include of time  compare. Defaults to '()'.
    * @returns {boolean} True if the current date is between given days, false otherwise.
    */
 
@@ -379,7 +385,7 @@ export default class BikramSambat implements BikramSambatProps {
     startDate: BikramSambat | Date,
     endDate: BikramSambat | Date,
     unit: ManipulateType = 'day',
-    include: IsBetweenIncludeExcludeType = '()'
+    boundaryInclusion: getBoundaryInclusionType = '()'
   ): boolean {
     if (startDate instanceof BikramSambat) startDate = startDate.adDate;
     else if (!(startDate instanceof Date))
@@ -389,7 +395,7 @@ export default class BikramSambat implements BikramSambatProps {
       throw new Error('Invalid compare value');
 
     const [includeStartDateVal, includeEndDateVal] =
-      shouldIncludeStartEndDates(include);
+      getBoundaryInclusion(boundaryInclusion);
 
     const tempStartDate = dayjs(startDate).subtract(includeStartDateVal, unit);
     const tempEndDate = dayjs(endDate).add(includeEndDateVal, unit);
