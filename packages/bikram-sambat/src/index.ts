@@ -19,7 +19,7 @@ interface BikramSambatProps {
 
 export type UnitType = 'day' | 'month' | 'year' | 'week';
 
-export type getBoundaryInclusionType = '()' | '[)' | '(]' | '[]';
+export type boundaryInclusionType = '()' | '[)' | '(]' | '[]';
 
 export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
 
@@ -367,25 +367,26 @@ export default class BikramSambat implements BikramSambatProps {
     return dayjs(this.adDate).isAfter(date, unit);
   }
   /**
-   * Checks if the current BikramSambat date is after the given date.
-   *  * Formats the BikramSambat date according to the specified format string.
-   * Supported tokens:
-   * - (): include startDate and endDate
-   * - []: exclude startDate and endDate
-   * - (]: include startDate and exclude endDate
-   * - [): exclude startDate and include endDate
-   * @param {BikramSambat | Date} startDate - The startdate to compare if  it is before given date.
-   * @param {BikramSambat | Date} endDate - The enddate to compare if it is  after the given date .
-   * @param {ManipulateType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
-   * @param {getBoundaryInclusion} [boundaryInclusion='()'] - The include of time  compare. Defaults to '()'.
-   * @returns {boolean} True if the current date is between given days, false otherwise.
+   * Determines if a given BikramSambat or Date object falls between two specified dates, considering boundary inclusion.
+   *
+   * Supported boundaryInclusion values:
+   * - '()': Exclude both startDate and endDate
+   * - '[]': Include both startDate and endDate
+   * - '(]': Exclude startDate, include endDate
+   * - '[)': Include startDate, exclude endDate
+   *
+   * @param {BikramSambat | Date} startDate - The start date to compare against.
+   * @param {BikramSambat | Date} endDate - The end date to compare against.
+   * @param {ManipulateType} [unit='day'] - The unit of time for comparison. Defaults to 'day'.
+   * @param {boundaryInclusionType} [boundaryInclusion='()'] - The boundary inclusion type for comparison. Defaults to '()'.
+   * @returns {boolean} True if the date is between startDate and endDate according to the specified boundaryInclusion, false otherwise.
    */
 
   isBetween(
     startDate: BikramSambat | Date,
     endDate: BikramSambat | Date,
     unit: ManipulateType = 'day',
-    boundaryInclusion: getBoundaryInclusionType = '()'
+    boundaryInclusion: boundaryInclusionType = '()'
   ): boolean {
     if (startDate instanceof BikramSambat) startDate = startDate.adDate;
     else if (!(startDate instanceof Date))
