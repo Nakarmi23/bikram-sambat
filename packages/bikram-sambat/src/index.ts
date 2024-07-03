@@ -395,6 +395,16 @@ export default class BikramSambat implements BikramSambatProps {
     else if (!(endDate instanceof Date))
       throw new Error('Invalid compare value');
 
+    const boundaryInclusionpattern = /^(\(\)|\[\]|\(\]|\[\))$/;
+    const unitPattern = /^(day|year|month)$/;
+
+    if (
+      !boundaryInclusionpattern.test(boundaryInclusion) ||
+      !unitPattern.test(unit)
+    ) {
+      throw new Error('Invalid Bounary inclusion pattern');
+    }
+
     const [includeStartDateVal, includeEndDateVal] =
       getBoundaryInclusion(boundaryInclusion);
 

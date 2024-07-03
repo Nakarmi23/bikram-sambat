@@ -12,5 +12,7 @@ export const getBoundaryInclusion = (
       return [0, 1];
     case '[]':
       return [0, 0];
+    default:
+      throw new Error('boundary inclusion does not match');
   }
 };
