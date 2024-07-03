@@ -16,20 +16,34 @@ interface BikramSambatProps {
   bsMonthName: string;
 }
 
-export type UnitType = 'day' | 'month' | 'year' | 'week';
+export type UnitType = 'day' | 'date' | 'month' | 'year' | 'week';
 
-export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
+export type StarOfEndOfType = Exclude<UnitType, 'date' | 'day' | 'week'>;
 
 export type ManipulateType = 'month' | 'year' | 'day';
 
+const MIN_BS_YEAR = 1970;
+const MAX_BS_YEAR = 2111;
 /**
  * Represents a Bikram Sambat date.
  * Provides various methods to manipulate and format Bikram Sambat dates.
  */
 export default class BikramSambat implements BikramSambatProps {
+  /**
+   * @deprecated This field will be removed or made private in upcoming versions. Please use `.get('year')` instead.
+   */
   bsYear!: number;
+  /**
+   * @deprecated This field will be removed or made private in upcoming versions. Please use `.get('month')` instead.
+   */
   bsMonth!: number;
+  /**
+   * @deprecated This field will be removed or made private in upcoming versions. Please use `.get('date')` instead.
+   */
   bsDay!: number;
+  /**
+   * @deprecated This field will be removed or made private in upcoming versions. Please use `.get('day')` instead.
+   */
   weekDay!: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   adDate!: Date;
   bsMonthName!: string;
@@ -65,8 +79,10 @@ export default class BikramSambat implements BikramSambatProps {
       number,
     ];
 
-    if (year < 1970 || year > 2111)
-      throw new Error('Year should be between 1970 and 2111.');
+    if (year < MIN_BS_YEAR || year > MAX_BS_YEAR)
+      throw new Error(
+        `Year should be between ${MIN_BS_YEAR} and ${MAX_BS_YEAR}`
+      );
 
     if (month < 1 || month > 12)
       throw new Error(
@@ -362,5 +378,42 @@ export default class BikramSambat implements BikramSambatProps {
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
     return dayjs(this.adDate).isAfter(date, unit);
+  }
+
+  get(unit: Exclude<UnitType, 'week'>) {
+    switch (unit) {
+      case 'day':
+        return this.weekDay;
+      case 'month':
+        return this.bsMonth;
+      case 'year':
+        return this.bsYear;
+      case 'date':
+        return this.bsDay;
+      default:
+        throw new Error(`Invalid unit: ${unit}`);
+    }
+  }
+
+  year(value?: number): number | BikramSambat {
+    if (!value) return this.get('year');
+    if (typeof value != 'number')
+      throw new Error(`Invalid value ${value}. Value must be a number.`);
+
+    if (value < MIN_BS_YEAR || value > MAX_BS_YEAR)
+      throw new Error(
+        `Year should be between ${MIN_BS_YEAR} and ${MAX_BS_YEAR}`
+      );
+
+    const currentMonth = this.get('month');
+
+    const totalPossibleDays = getBSMonthTotalDays(currentMonth, value);
+
+    const newDate =
+      this.get('date') > totalPossibleDays
+        ? totalPossibleDays
+        : this.get('date');
+
+    return BikramSambat.parse(`${value}-${currentMonth}-${newDate}`);
   }
 }
