@@ -346,7 +346,7 @@ Return true if provided BikramSambat object is before the other supplied BikramS
 
 #### .isAfter(date, unit) -> boolean
 
-Return true if provided BikramSambat object is after the other supplied BikramSambat dates.
+Return true if provided BikramSambat object is after the other supplied BikramSambat date.
 
 - Parameters:
   - `date` (BikramSambat): The BikramSambat object to compare against.
@@ -373,7 +373,7 @@ Return true if provided BikramSambat object is after the other supplied BikramSa
 
 #### .isBetween(startDate,endDate, unit, include) -> boolean
 
-Return true if provided BikramSambat object is between the other supplied BikramSambat date.
+Return true if provided BikramSambat object is between the other supplied BikramSambat dates.
 
 - Parameters:
 

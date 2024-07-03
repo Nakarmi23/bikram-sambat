@@ -19,7 +19,7 @@ interface BikramSambatProps {
 
 export type UnitType = 'day' | 'month' | 'year' | 'week';
 
-export type boundaryInclusionType = '()' | '[)' | '(]' | '[]';
+export type BoundaryInclusionType = '()' | '[)' | '(]' | '[]';
 
 export type StarOfEndOfType = Exclude<UnitType, 'day' | 'week'>;
 
@@ -378,7 +378,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {BikramSambat | Date} startDate - The start date to compare against.
    * @param {BikramSambat | Date} endDate - The end date to compare against.
    * @param {ManipulateType} [unit='day'] - The unit of time for comparison. Defaults to 'day'.
-   * @param {boundaryInclusionType} [boundaryInclusion='()'] - The boundary inclusion type for comparison. Defaults to '()'.
+   * @param {BoundaryInclusionType} [boundaryInclusion='()'] - The boundary inclusion type for comparison. Defaults to '()'.
    * @returns {boolean} True if the date is between startDate and endDate according to the specified boundaryInclusion, false otherwise.
    */
 
@@ -386,7 +386,7 @@ export default class BikramSambat implements BikramSambatProps {
     startDate: BikramSambat | Date,
     endDate: BikramSambat | Date,
     unit: ManipulateType = 'day',
-    boundaryInclusion: boundaryInclusionType = '()'
+    boundaryInclusion: BoundaryInclusionType = '()'
   ): boolean {
     if (startDate instanceof BikramSambat) startDate = startDate.adDate;
     else if (!(startDate instanceof Date))
