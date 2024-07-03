@@ -249,5 +249,16 @@ describe('Bikram Sambat', () => {
     expect(() =>
       yendDatec1.isBetween(ybeginDate, '' as never, 'year')
     ).toThrowError();
+
+    expect(() =>
+      yendDatec1.isBetween('' as never, ydate, 'year', ')(' as never)
+    ).toThrowError();
+    expect(() =>
+      yendDatec1.isBetween(ybeginDate, '' as never, 'year')
+    ).toThrowError();
+
+    expect(() =>
+      yendDatec1.isBetween(ybeginDate, '' as never, 'no' as never)
+    ).toThrowError();
   });
 });
