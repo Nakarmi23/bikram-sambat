@@ -1,4 +1,4 @@
-import BikramSambat from '..';
+import { BikramSambat } from '..';
 
 export const getBSMonthTotalDays = (bsMonth: number, bsYear: number) => {
   const months = BikramSambat.getBikramSambatMonths(bsYear);

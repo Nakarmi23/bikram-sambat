@@ -32,7 +32,7 @@ const MAX_MONTH = 12;
  * Represents a Bikram Sambat date.
  * Provides various methods to manipulate and format Bikram Sambat dates.
  */
-export default class BikramSambat implements BikramSambatProps {
+export class BikramSambat implements BikramSambatProps {
   /**
    * @deprecated This field will be removed or made private in upcoming versions. Please use `.get('year')` instead.
    */
@@ -65,10 +65,10 @@ export default class BikramSambat implements BikramSambatProps {
    *
    * - BS Year must be between 1970 and 2111
    * - BS Month must be between 1 and 12
-   * @param {string} toParse - BS Date string to be parsed. Valid pattern: YYYY-MM-DD
+   * @param {string} date - BS Date string to be parsed. Valid pattern: YYYY-MM-DD
    * @returns {BikramSambat} An instance of {@link BikramSambat}
    */
-  static parse(date: string) {
+  static parse(date: string): BikramSambat {
     if (!(typeof date === 'string'))
       throw new Error('This function only accepts string.');
 
@@ -114,7 +114,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {Date | string} date - AD Date object or string to be parsed. Valid pattern for string: YYYY-MM-DD
    * @returns {BikramSambat} An instance of {@link BikramSambat}
    */
-  static fromAD(date: string | Date) {
+  static fromAD(date: string | Date): BikramSambat {
     if (typeof date === 'string') date = parseAdString(date);
     else if (!(date instanceof Date))
       throw new Error('This function only accepts string or Date object.');
@@ -173,10 +173,16 @@ export default class BikramSambat implements BikramSambatProps {
 
   /**
    * Returns a list of months and their total number of days of the year.
-   * @param {number} year - Year to get the total number of days for each month
-   * @returns {MonthTotalDaysItem[]} Array of months and their total number of days
+   * @param {number} year - Year to get the total number of days for each month.
+   * @returns Array of months and their total number of days.
+   * @throws {Error} Throws an error if the year is out of range (1970 - 2111) or invalid.
    */
   static getBikramSambatMonths(year: number) {
+    if (year < MIN_BS_YEAR || year > MAX_BS_YEAR)
+      throw new Error(
+        `Year should be between ${MIN_BS_YEAR} and ${MAX_BS_YEAR}`
+      );
+
     const nepaliYearData = nepDateNoOfDays.find(
       (date) => date.nepYear === year
     );
@@ -196,17 +202,17 @@ export default class BikramSambat implements BikramSambatProps {
 
   /**
    * Returns the BikramSambat object as a string.
-   * @returns {string} Formatted {@link BikramSambat} date as a string
+   * @returns {string} Formatted {@link BikramSambat} date as a formatted string `MMMM D YYYY`.
    */
-  toString() {
+  toString(): string {
     return `${this.bsMonthName} ${this.bsDay} ${this.bsYear}`;
   }
 
   /**
    * Returns an instance of BikramSambat for today's date.
-   * @returns {BikramSambat} An instance of {@link BikramSambat} for today's date
+   * @returns {BikramSambat} An instance of {@link BikramSambat} for today's date.
    */
-  static now() {
+  static now(): BikramSambat {
     return this.fromAD(new Date());
   }
 
@@ -216,7 +222,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {ManipulateType} [unit='day'] - The unit of time to add. Valid units include 'day', 'month', 'year'.
    * @returns {BikramSambat} A new {@link BikramSambat} date with the specified amount of time added
    */
-  add(value: number, unit: ManipulateType = 'day') {
+  add(value: number, unit: ManipulateType = 'day'): BikramSambat {
     const newDate = BikramSambat.fromAD(
       dayjs(this.adDate).add(value, unit).toDate()
     );
@@ -230,7 +236,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {ManipulateType} [unit='day'] - The unit of time to subtract. Valid units include 'day', 'month', 'year'.
    * @returns {BikramSambat} A new {@link BikramSambat} date with the specified amount of time subtracted
    */
-  sub(value: number, unit: ManipulateType = 'day') {
+  sub(value: number, unit: ManipulateType = 'day'): BikramSambat {
     return this.add(value * -1, unit);
   }
 
@@ -239,7 +245,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {StarOfEndOfType} unit - The unit to set to the start. Valid units include 'day', 'month', 'year'.
    * @returns {BikramSambat} A new {@link BikramSambat} date set to the start of the specified unit
    */
-  startOf(unit: StarOfEndOfType) {
+  startOf(unit: StarOfEndOfType): BikramSambat {
     const clone = this.clone();
     if (unit === 'month') clone.bsDay = 1;
     if (unit === 'year') {
@@ -261,7 +267,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {StarOfEndOfType} unit - The unit to set to the end. Valid units include 'day', 'month', 'year'.
    * @returns {BikramSambat} A new {@link BikramSambat} date set to the end of the specified unit
    */
-  endOf(unit: StarOfEndOfType) {
+  endOf(unit: StarOfEndOfType): BikramSambat {
     const clone = this.clone();
     if (unit === 'month') {
       clone.bsDay = getBSMonthTotalDays(clone.bsMonth, clone.bsYear);
@@ -295,7 +301,7 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {string} formatString - The format string to use for formatting the date.
    * @returns {string} The formatted date string.
    */
-  format(formatString: string) {
+  format(formatString: string): string {
     const REGEX_FORMAT = /Y{4}|M{1,4}|D{1,2}|d{1,4}/g;
 
     const matches = (match: string) => {
@@ -334,7 +340,7 @@ export default class BikramSambat implements BikramSambatProps {
    * Creates and returns a deep copy of the current BikramSambat instance.
    * @returns {BikramSambat} A new instance of {@link BikramSambat} with the same date properties.
    */
-  clone() {
+  clone(): BikramSambat {
     return new BikramSambat({
       adDate: new Date(this.adDate),
       bsDay: this.bsDay,
@@ -350,8 +356,9 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {BikramSambat | Date} date - The date to compare with.
    * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
    * @returns {boolean} True if the dates are the same, false otherwise.
+   * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
-  isSame(date: BikramSambat | Date, unit: UnitType = 'day') {
+  isSame(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
@@ -363,8 +370,9 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {BikramSambat | Date} date - The date to compare with.
    * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
    * @returns {boolean} True if the current date is before the given date, false otherwise.
+   * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
-  isBefore(date: BikramSambat | Date, unit: UnitType = 'day') {
+  isBefore(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
@@ -376,15 +384,23 @@ export default class BikramSambat implements BikramSambatProps {
    * @param {BikramSambat | Date} date - The date to compare with.
    * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
    * @returns {boolean} True if the current date is after the given date, false otherwise.
+   * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
-  isAfter(date: BikramSambat | Date, unit: UnitType = 'day') {
+  isAfter(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
     return dayjs(this.adDate).isAfter(date, unit);
   }
 
-  get(unit: Exclude<UnitType, 'week'>) {
+  /**
+   * Get the value of a specific unit (day, month, year, date).
+   *
+   * @param {Exclude<UnitType, 'week'>} unit - The unit type to get the value of ('day', 'month', 'year', 'date').
+   * @returns {number} The value of the specified unit.
+   * @throws {Error} Throws an error if an invalid unit is provided.
+   */
+  get(unit: Exclude<UnitType, 'week'>): number {
     switch (unit) {
       case 'day':
         return this.weekDay;
@@ -399,6 +415,15 @@ export default class BikramSambat implements BikramSambatProps {
     }
   }
 
+  /**
+   * Get or set the Bikram Sambat year.
+   *
+   * If setting the year, it adjusts the date to ensure it is valid within the new year.
+   *
+   * @param {number} [value] - The year to set. If not provided, returns the current year.
+   * @returns {number | BikramSambat} The current year if no value is provided, otherwise a new BikramSambat instance with the updated year.
+   * @throws {Error} Throws an error if the value is not a number or is out of range (1970 - 2111).
+   */
   year(value?: number): number | BikramSambat {
     if (!value) return this.get('year');
     if (typeof value != 'number')
@@ -418,51 +443,94 @@ export default class BikramSambat implements BikramSambatProps {
         ? totalPossibleDays
         : this.get('date');
 
-    return BikramSambat.parse(`${value}-${currentMonth}-${newDate}`);
+    return BikramSambat.parse(
+      `${value}-${currentMonth.toString().padStart(2, '0')}-${newDate.toString().padStart(2, '0')}`
+    );
   }
 
+  /**
+   * Get or set the Bikram Sambat month.
+   *
+   * If setting the month, it adjusts the date to ensure it is valid within the new month.
+   *
+   *
+   * @param {number} [value] - The month to set. If not provided, returns the current month.
+   * @returns {number|BikramSambat} - The current month if no value is provided, otherwise a new BikramSambat instance with the updated month.
+   * @throws {Error} - Throws an error if the value is not a number.
+   */
   month(value?: number): number | BikramSambat {
     if (!value) return this.get('month');
     if (typeof value != 'number')
       throw new Error(`Invalid value ${value}. Value must be a number.`);
 
-    if (value < MIN_MONTH || value > MIN_MONTH)
-      throw new Error(`Month should be between ${MIN_MONTH} and ${MAX_MONTH}`);
+    // if current date is 2081-03-03 and the value is 1, then 1 - 3 = -2 represents the number of months that needs to be added to the current date, which will result in the new date object being 2081-01-03.
+    value = value - this.get('month');
 
-    const currentYear = this.get('year');
+    const updatedDate = this.add(value, 'month');
 
-    const totalPossibleDays = getBSMonthTotalDays(value, currentYear);
+    const daysInUpdatedMonth = getBSMonthTotalDays(
+      updatedDate.get('month'),
+      updatedDate.get('year')
+    );
 
-    const newDate =
-      this.get('date') > totalPossibleDays
-        ? totalPossibleDays
+    const adjustedDays =
+      daysInUpdatedMonth < this.get('date')
+        ? daysInUpdatedMonth
         : this.get('date');
 
-    return BikramSambat.parse(`${currentYear}-${value}-${newDate}`);
+    return updatedDate.date(adjustedDays);
   }
 
+  /**
+   * Get or set the Bikram Sambat date.
+   *
+   * @param {number} [value] - The date to set. If not provided, returns the current date.
+   * @returns {number | BikramSambat} The current date if no value is provided, otherwise a new BikramSambat instance with the updated date.
+   * @throws {Error} Throws an error if the value is not a number.
+   */
   date(value?: number): number | BikramSambat {
     if (!value) return this.get('date');
     if (typeof value != 'number')
       throw new Error(`Invalid value ${value}. Value must be a number.`);
 
-    const currentYear = this.get('year');
-    const currentMonth = this.get('month');
+    // if current date is 2081-03-03 and the value is 1, then 1 - 3 = -2 represents the number of days that needs to be added to the current date, which will result in the new date object being 2081-03-01.
+    value = value - this.get('date');
 
-    const totalPossibleDays = getBSMonthTotalDays(currentMonth, currentYear);
-
-    if (value < 1 || value > totalPossibleDays)
-      throw new Error(`Date should be between ${1} and ${totalPossibleDays}`);
-
-    return BikramSambat.parse(`${currentYear}-${currentMonth}-${value}`);
+    return this.add(value, 'day');
   }
 
+  /**
+   * Get or set the Bikram Sambat day of the week.
+   *
+   * @param {number} [value] - The day of the week to set. If not provided, returns the current day of the week.
+   * @returns {number|BikramSambat} The current day of the week if no value is provided, otherwise a new BikramSambat instance with the updated day of the week.
+   * @throws {Error} Throws an error if the value is not a number.
+   */
   day(value?: number): number | BikramSambat {
     if (!value) return this.get('day');
+    if (typeof value != 'number')
+      throw new Error(`Invalid value ${value}. Value must be a number.`);
 
     // if current week day is 4 (Thu) and the value is 1 (Mon), then 1 - 4 = -3 represents the number of days that needs to be added to the current date, which will result in the week day of the new date object being Monday.
     value = value - this.get('day');
 
     return this.add(value, 'day');
   }
+
+  /**
+   * Set the value of a specific unit (day, month, year, date).
+   *
+   * @param {Exclude<UnitType, 'week'>} unit - The unit type to set the value of ('day', 'month', 'year', 'date').
+   * @param {number} value - The value to set for the specified unit.
+   * @returns {BikramSambat} A new BikramSambat instance with the updated unit value.
+   * @throws {Error} Throws an error if the value is not a number.
+   */
+  set(unit: Exclude<UnitType, 'week'>, value: number): BikramSambat {
+    if (typeof value != 'number')
+      throw new Error(`Invalid value ${value}. Value must be a number.`);
+
+    return this[unit](value) as BikramSambat;
+  }
 }
+
+export default BikramSambat;
