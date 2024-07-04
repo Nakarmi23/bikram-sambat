@@ -157,6 +157,114 @@ Returns the list of BS months and also returns the number of days for th month a
 
 ### Instance Methods
 
+#### .get(unit) => number
+
+Get the value of a specific unit.
+
+- Parameters:
+  - `unit` (string): Unit of time.
+- Returns: number
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.get('year')); //2081
+  console.log(bsDate.get('date')); //14
+  ```
+
+##### List of all available units
+
+| Unit  | Description  |
+| ----- | ------------ |
+| year  | Year         |
+| month | Month        |
+| date  | Day of month |
+| day   | Day of week  |
+
+#### .year(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat year.
+
+- Parameters:
+  - `value` (number): Optional. The year to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.year()); //2081
+  console.log(bsDate.year(2080)); // instance of BikramSambat
+  ```
+
+#### .month(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat month.
+
+- Parameters:
+  - `value` (number): Optional. The month to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.month()); //3
+  console.log(bsDate.month(2080)); // instance of BikramSambat
+  ```
+
+#### .date(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat day of month.
+
+- Parameters:
+  - `value` (number): Optional. The day of month to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.date()); //14
+  console.log(bsDate.year(2080)); // instance of BikramSambat
+  ```
+
+#### .day(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat day of week.
+
+- Parameters:
+  - `value` (number): Optional. The day of week to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.day()); // 5
+  console.log(bsDate.day(0)); // instance of BikramSambat
+  ```
+
+#### .set(unit, value) => instance of BikramSambat
+
+Set the value of a specific unit. Using set is equivalent to using .year, .month, .date and .day methods.
+
+- Parameters:
+  - `unit` (string): Unit of time.
+  - `value` (number): The value set according to the unit provided.
+- Returns: instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.set('year', 2080)); //instance of BikramSambat
+  ```
+
+##### List of all available units
+
+| Unit  | Description  |
+| ----- | ------------ |
+| year  | Year         |
+| month | Month        |
+| date  | Day of month |
+| day   | Day of week  |
+
 #### .clone() -> instance of BikramSambat
 
 Creates a new instance of BikramSambat with the same values.
