@@ -24,6 +24,10 @@ export type ManipulateType = 'month' | 'year' | 'day';
 
 const MIN_BS_YEAR = 1970;
 const MAX_BS_YEAR = 2111;
+
+const MIN_MONTH = 1;
+const MAX_MONTH = 12;
+
 /**
  * Represents a Bikram Sambat date.
  * Provides various methods to manipulate and format Bikram Sambat dates.
@@ -84,9 +88,9 @@ export default class BikramSambat implements BikramSambatProps {
         `Year should be between ${MIN_BS_YEAR} and ${MAX_BS_YEAR}`
       );
 
-    if (month < 1 || month > 12)
+    if (month < MIN_MONTH || month > MAX_MONTH)
       throw new Error(
-        `Invalid date month: ${month}. Month should be between 1 and 12.`
+        `Invalid date month: ${month}. Month should be between ${MIN_MONTH} and ${MAX_MONTH}.`
       );
 
     const currentMonthIndex = month - 1;
@@ -415,5 +419,50 @@ export default class BikramSambat implements BikramSambatProps {
         : this.get('date');
 
     return BikramSambat.parse(`${value}-${currentMonth}-${newDate}`);
+  }
+
+  month(value?: number): number | BikramSambat {
+    if (!value) return this.get('month');
+    if (typeof value != 'number')
+      throw new Error(`Invalid value ${value}. Value must be a number.`);
+
+    if (value < MIN_MONTH || value > MIN_MONTH)
+      throw new Error(`Month should be between ${MIN_MONTH} and ${MAX_MONTH}`);
+
+    const currentYear = this.get('year');
+
+    const totalPossibleDays = getBSMonthTotalDays(value, currentYear);
+
+    const newDate =
+      this.get('date') > totalPossibleDays
+        ? totalPossibleDays
+        : this.get('date');
+
+    return BikramSambat.parse(`${currentYear}-${value}-${newDate}`);
+  }
+
+  date(value?: number): number | BikramSambat {
+    if (!value) return this.get('date');
+    if (typeof value != 'number')
+      throw new Error(`Invalid value ${value}. Value must be a number.`);
+
+    const currentYear = this.get('year');
+    const currentMonth = this.get('month');
+
+    const totalPossibleDays = getBSMonthTotalDays(currentMonth, currentYear);
+
+    if (value < 1 || value > totalPossibleDays)
+      throw new Error(`Date should be between ${1} and ${totalPossibleDays}`);
+
+    return BikramSambat.parse(`${currentYear}-${currentMonth}-${value}`);
+  }
+
+  day(value?: number): number | BikramSambat {
+    if (!value) return this.get('day');
+
+    // if current week day is 4 (Thu) and the value is 1 (Mon), then 1 - 4 = -3 represents the number of days that needs to be added to the current date, which will result in the week day of the new date object being Monday.
+    value = value - this.get('day');
+
+    return this.add(value, 'day');
   }
 }
