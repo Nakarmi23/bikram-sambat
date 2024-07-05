@@ -11,7 +11,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "add:bs": "pnpm add --filter @nakarmi23/bikram-sambat",
-    "publish-packages": "turbo build lint test && changeset version && changeset publish"
+    "release": "turbo build && changeset publish"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
