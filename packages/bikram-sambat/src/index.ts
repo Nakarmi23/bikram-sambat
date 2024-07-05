@@ -533,7 +533,8 @@ export class BikramSambat implements BikramSambatProps {
       throw new Error(`Invalid value ${value}. Value must be a number.`);
 
     return this[unit](value) as BikramSambat;
-    
+  }
+
   /**
    * Determines if a given BikramSambat or Date object falls between two specified dates, considering boundary inclusion.
    *

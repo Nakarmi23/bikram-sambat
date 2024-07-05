@@ -242,6 +242,7 @@ describe('Bikram Sambat', () => {
     expect(newWeekDaySetDate).toBeInstanceOf(BikramSambat);
     expect(newWeekDaySetDate.format('YYYY-MM-DD')).toBe('2081-03-06');
     expect(newWeekDaySetDate.adDate.toLocaleDateString()).toBe('6/20/2024');
+  });
 
   test('Date Between: isBetween', () => {
     const date = BikramSambat.parse('2081-03-16');
