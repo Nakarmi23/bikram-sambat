@@ -242,5 +242,81 @@ describe('Bikram Sambat', () => {
     expect(newWeekDaySetDate).toBeInstanceOf(BikramSambat);
     expect(newWeekDaySetDate.format('YYYY-MM-DD')).toBe('2081-03-06');
     expect(newWeekDaySetDate.adDate.toLocaleDateString()).toBe('6/20/2024');
+
+  test('Date Between: isBetween', () => {
+    const date = BikramSambat.parse('2081-03-16');
+
+    const beginDate = BikramSambat.parse('2081-03-15');
+    const endDate = BikramSambat.parse('2081-03-17');
+
+    expect(date.isBetween(beginDate, endDate, 'day')).toBeTruthy();
+    expect(beginDate.isBetween(date, endDate, 'day')).toBeFalsy();
+    expect(endDate.isBetween(beginDate, date, 'day')).toBeFalsy();
+
+    // case when beginDate is equal to date
+    const beginDatec1 = BikramSambat.parse('2081-03-16');
+    expect(date.isBetween(beginDatec1, endDate, 'day')).toBeTruthy();
+    expect(date.isBetween(beginDatec1, endDate, 'day', '[)')).toBeFalsy();
+    expect(beginDatec1.isBetween(date, endDate, 'day')).toBeTruthy();
+    expect(endDate.isBetween(beginDatec1, date, 'day')).toBeFalsy();
+
+    // case when endDate is equal to date
+    const endDatec1 = BikramSambat.parse('2081-03-16');
+    expect(date.isBetween(beginDate, endDatec1, 'day')).toBeTruthy();
+    expect(date.isBetween(beginDate, endDatec1, 'day', '(]')).toBeFalsy();
+    expect(beginDate.isBetween(date, endDatec1, 'day')).toBeFalsy();
+    expect(endDatec1.isBetween(beginDate, date, 'day')).toBeTruthy();
+    expect(() => endDatec1.isBetween('' as never, date, 'day')).toThrowError();
+    expect(() =>
+      endDatec1.isBetween(beginDate, '' as never, 'day')
+    ).toThrowError();
+
+    // testing the is between in between year
+
+    const ydate = BikramSambat.parse('2081-03-16');
+
+    const ybeginDate = BikramSambat.parse('2080-03-15');
+    const yendDate = BikramSambat.parse('2082-03-17');
+
+    expect(ydate.isBetween(ybeginDate, yendDate, 'year')).toBeTruthy();
+    expect(ybeginDate.isBetween(ydate, yendDate, 'year')).toBeFalsy();
+    expect(yendDate.isBetween(ybeginDate, ydate, 'year')).toBeFalsy();
+
+    // case when beginDate is equal to date
+    const ybeginDatec1 = BikramSambat.parse('2081-03-16');
+    expect(ydate.isBetween(ybeginDatec1, yendDate, 'year')).toBeTruthy();
+    expect(ydate.isBetween(ybeginDatec1, yendDate, 'year', '[)')).toBeFalsy();
+    expect(ybeginDatec1.isBetween(ydate, yendDate, 'year')).toBeTruthy();
+    expect(yendDate.isBetween(ybeginDatec1, ydate, 'year')).toBeFalsy();
+
+    // case when endDate is equal to date
+    const yendDatec1 = BikramSambat.parse('2081-03-16');
+    expect(ydate.isBetween(ybeginDate, yendDatec1, 'year')).toBeTruthy();
+    expect(ydate.isBetween(ybeginDate, yendDatec1, 'year', '(]')).toBeFalsy();
+    expect(ydate.isBetween(ybeginDate, yendDatec1, 'year', '[]')).toBeFalsy();
+    expect(ybeginDate.isBetween(ydate, yendDatec1, 'year')).toBeFalsy();
+    expect(yendDatec1.isBetween(ybeginDate, ydate, 'year')).toBeTruthy();
+    expect(() =>
+      yendDatec1.isBetween('' as never, ydate, 'year')
+    ).toThrowError();
+    expect(() =>
+      yendDatec1.isBetween(ybeginDate, '' as never, 'year')
+    ).toThrowError();
+
+    expect(() =>
+      yendDatec1.isBetween('' as never, ydate, 'year', ')(' as never)
+    ).toThrowError();
+
+    expect(() =>
+      yendDatec1.isBetween('' as never, ydate, 'year', 'abc' as never)
+    ).toThrowError();
+
+    expect(() =>
+      yendDatec1.isBetween(ybeginDate, '' as never, 'year')
+    ).toThrowError();
+
+    expect(() =>
+      yendDatec1.isBetween(ybeginDate, '' as never, 'no' as never)
+    ).toThrowError();
   });
 });

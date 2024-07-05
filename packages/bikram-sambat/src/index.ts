@@ -6,6 +6,7 @@ import { adDateFromBS } from './utilities/get-ad-date-from-bs';
 import { getBSMonthTotalDays } from './utilities/get-bs-month-total-days';
 import { getMonthsWithCumulativeDays } from './utilities/get-months-with-cumulative-days';
 import { parseAdString } from './utilities/parse-ad-string';
+import { getBoundaryInclusion } from './utilities/get-bs-data-isbetween';
 
 interface BikramSambatProps {
   bsYear: number;
@@ -17,6 +18,8 @@ interface BikramSambatProps {
 }
 
 export type UnitType = 'day' | 'date' | 'month' | 'year' | 'week';
+
+export type BoundaryInclusionType = '()' | '[)' | '(]' | '[]';
 
 export type StarOfEndOfType = Exclude<UnitType, 'date' | 'day' | 'week'>;
 
@@ -530,6 +533,54 @@ export class BikramSambat implements BikramSambatProps {
       throw new Error(`Invalid value ${value}. Value must be a number.`);
 
     return this[unit](value) as BikramSambat;
+    
+  /**
+   * Determines if a given BikramSambat or Date object falls between two specified dates, considering boundary inclusion.
+   *
+   * Supported boundaryInclusion values:
+   * - '()': Exclude both startDate and endDate
+   * - '[]': Include both startDate and endDate
+   * - '(]': Exclude startDate, include endDate
+   * - '[)': Include startDate, exclude endDate
+   *
+   * @param {BikramSambat | Date} startDate - The start date to compare against.
+   * @param {BikramSambat | Date} endDate - The end date to compare against.
+   * @param {ManipulateType} [unit='day'] - The unit of time for comparison. Defaults to 'day'.
+   * @param {BoundaryInclusionType} [boundaryInclusion='()'] - The boundary inclusion type for comparison. Defaults to '()'.
+   * @returns {boolean} True if the date is between startDate and endDate according to the specified boundaryInclusion, false otherwise.
+   */
+  isBetween(
+    startDate: BikramSambat | Date,
+    endDate: BikramSambat | Date,
+    unit: ManipulateType = 'day',
+    boundaryInclusion: BoundaryInclusionType = '()'
+  ): boolean {
+    if (startDate instanceof BikramSambat) startDate = startDate.adDate;
+    else if (!(startDate instanceof Date))
+      throw new Error('Invalid compare value');
+    if (endDate instanceof BikramSambat) endDate = endDate.adDate;
+    else if (!(endDate instanceof Date))
+      throw new Error('Invalid compare value');
+
+    const boundaryInclusionpattern = /^[\(\[][\)\]]$/;
+
+    if (!boundaryInclusionpattern.test(boundaryInclusion)) {
+      throw new Error('Invalid boundary inclusion pattern');
+    }
+
+    const [includeStartDateVal, includeEndDateVal] =
+      getBoundaryInclusion(boundaryInclusion);
+
+    const tempStartDate = dayjs(startDate).subtract(includeStartDateVal, unit);
+    const tempEndDate = dayjs(endDate).add(includeEndDateVal, unit);
+
+    if (
+      !dayjs(this.adDate).isAfter(tempStartDate, unit) ||
+      !dayjs(this.adDate).isBefore(tempEndDate, unit)
+    )
+      return false;
+
+    return true;
   }
 }
 
