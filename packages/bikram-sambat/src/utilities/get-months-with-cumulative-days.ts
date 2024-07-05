@@ -1,4 +1,4 @@
-import BikramSambat from '..';
+import { BikramSambat } from '..';
 
 export const getMonthsWithCumulativeDays = (year: number) => {
   return BikramSambat.getBikramSambatMonths(year).reduce(

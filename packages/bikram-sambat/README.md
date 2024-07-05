@@ -157,6 +157,114 @@ Returns the list of BS months and also returns the number of days for th month a
 
 ### Instance Methods
 
+#### .get(unit) => number
+
+Get the value of a specific unit.
+
+- Parameters:
+  - `unit` (string): Unit of time.
+- Returns: number
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.get('year')); //2081
+  console.log(bsDate.get('date')); //14
+  ```
+
+##### List of all available units
+
+| Unit  | Description  |
+| ----- | ------------ |
+| year  | Year         |
+| month | Month        |
+| date  | Day of month |
+| day   | Day of week  |
+
+#### .year(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat year.
+
+- Parameters:
+  - `value` (number): Optional. The year to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.year()); //2081
+  console.log(bsDate.year(2080)); // instance of BikramSambat
+  ```
+
+#### .month(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat month.
+
+- Parameters:
+  - `value` (number): Optional. The month to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.month()); //3
+  console.log(bsDate.month(2080)); // instance of BikramSambat
+  ```
+
+#### .date(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat day of month.
+
+- Parameters:
+  - `value` (number): Optional. The day of month to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.date()); //14
+  console.log(bsDate.year(2080)); // instance of BikramSambat
+  ```
+
+#### .day(value) => number | instance of BikramSambat
+
+Get or set the Bikram Sambat day of week.
+
+- Parameters:
+  - `value` (number): Optional. The day of week to set.
+- Returns: number | instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.day()); // 5
+  console.log(bsDate.day(0)); // instance of BikramSambat
+  ```
+
+#### .set(unit, value) => instance of BikramSambat
+
+Set the value of a specific unit. Using set is equivalent to using .year, .month, .date and .day methods.
+
+- Parameters:
+  - `unit` (string): Unit of time.
+  - `value` (number): The value set according to the unit provided.
+- Returns: instance of BikramSambat
+- Example:
+
+  ```typescript
+  const bsDate = BikramSambat.parse('2081-03-14');
+  console.log(bsDate.set('year', 2080)); //instance of BikramSambat
+  ```
+
+##### List of all available units
+
+| Unit  | Description  |
+| ----- | ------------ |
+| year  | Year         |
+| month | Month        |
+| date  | Day of month |
+| day   | Day of week  |
+
 #### .clone() -> instance of BikramSambat
 
 Creates a new instance of BikramSambat with the same values.
@@ -370,6 +478,51 @@ Return true if provided BikramSambat object is after the other supplied BikramSa
 | month | Month       |
 | day   | Day         |
 | week  | Week        |
+
+#### .isBetween(startDate,endDate, unit, include) -> boolean
+
+Return true if provided BikramSambat object is between the other supplied BikramSambat dates.
+
+- Parameters:
+
+  - `startDate` (BikramSambat | Date): The BikramSambat object to compare against.
+  - `endDate` (BikramSambat | Date): The BikramSambat object to compare against.
+  - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
+  - `boundaryInclusion` (string): Optional. boundaryInclusion of comparison. Defaults to `()`.
+
+- Returns: boolean
+- Example:
+
+  ```typescript
+  const date = BikramSambat.parse('2081-03-16');
+
+  const startDate = BikramSambat.parse('2081-03-15');
+  const endDate = BikramSambat.parse('2081-03-17');
+  const startDatec1 = BikramSambat.parse('2081-03-16');
+
+  console.log(date.isBetween(startDate, endDate, 'day')); //true
+  console.log(startDate.isBetween(date, endDate, 'day')); //false
+  console.log(endDate.isBetween(startDate, date, 'day')); // true
+
+  console.log(date.isBetween(startDatec1, endDate, 'day', '[)')); //false
+  ```
+
+##### List of all available units
+
+| Unit  | Description |
+| ----- | ----------- |
+| year  | Year        |
+| month | Month       |
+| day   | Day         |
+
+##### List of all available boundaryInclusion
+
+| boundaryInclusion | Description                           |
+| ----------------- | ------------------------------------- |
+| ()                | include startDate and endDate         |
+| []                | exclude startDate and endDate         |
+| [)                | exclude startDate and include endDate |
+| (]                | include startDate and exclude endDate |
 
 #### .toString() -> string
 
