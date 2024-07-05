@@ -13,6 +13,6 @@ export const getBoundaryInclusion = (
     case '[]':
       return [0, 0];
     default:
-      throw new Error('boundary inclusion does not match');
+      throw new Error(`Invalid boundary inclusion: ${value}`);
   }
 };
