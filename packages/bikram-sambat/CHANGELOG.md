@@ -1,5 +1,12 @@
 # @nakarmi23/bikram-sambat
 
+## 1.3.0
+
+### Minor Changes
+
+- 9e20ff0: Added Getters and Setter like get, set, day, date, month, and year.
+- a0703a3: Added inBetween method to bikram-sambat
+
 ## 1.2.4
 
 ### Patch Changes
