@@ -1,7 +1,7 @@
 import type { BoundaryInclusionType } from '..';
 
 export const getBoundaryInclusion = (
-  val: BoundaryInclusionType
+  value: BoundaryInclusionType
 ): [number, number] => {
   switch (val) {
     case '()':
