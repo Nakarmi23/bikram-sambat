@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import BikramSambat from '.';
+import { BikramSambat } from '.';
 
 describe('Bikram Sambat', () => {
   test('BS parse', () => {
@@ -189,6 +189,59 @@ describe('Bikram Sambat', () => {
 
     expect(() => date.isBefore('2024-03-03' as never)).toThrowError();
   });
+
+  test('Date Getters: get, date, day, year, month', () => {
+    const date = BikramSambat.fromAD('2024-07-04');
+
+    expect(date.get('year')).toBe(2081);
+    expect(date.get('date')).toBe(20);
+    expect(date.get('month')).toBe(3);
+    expect(date.get('day')).toBe(4);
+
+    expect(date.year()).toBe(2081);
+    expect(date.date()).toBe(20);
+    expect(date.month()).toBe(3);
+    expect(date.day()).toBe(4);
+  });
+
+  test('Date Setters: get, date, day, year, month', () => {
+    const date = BikramSambat.fromAD('2024-07-04');
+
+    const newYearSetDate = date.set('year', 2080);
+    expect(newYearSetDate).toBeInstanceOf(BikramSambat);
+    expect(newYearSetDate.format('YYYY-MM-DD')).toBe('2080-03-20');
+    expect(newYearSetDate.adDate.toLocaleDateString()).toBe('7/5/2023');
+
+    const newMonthSetDate = date.set('month', 2);
+    expect(newMonthSetDate).toBeInstanceOf(BikramSambat);
+    expect(newMonthSetDate.format('YYYY-MM-DD')).toBe('2081-02-20');
+    expect(newMonthSetDate.adDate.toLocaleDateString()).toBe('6/2/2024');
+
+    const newDateSetDate = date.set('date', 1);
+    expect(newDateSetDate).toBeInstanceOf(BikramSambat);
+    expect(newDateSetDate.format('YYYY-MM-DD')).toBe('2081-03-01');
+    expect(newDateSetDate.adDate.toLocaleDateString()).toBe('6/15/2024');
+    expect(newDateSetDate.set('date', -1).format('YYYY-MM-DD')).toBe(
+      '2081-02-31'
+    );
+    expect(newDateSetDate.set('date', -1).adDate.toLocaleDateString()).toBe(
+      '6/13/2024'
+    );
+
+    const newMonthDateExceedDate = date
+      .set('month', 2)
+      .set('date', 32)
+      .set('month', 3);
+    expect(newMonthDateExceedDate).toBeInstanceOf(BikramSambat);
+    expect(newMonthDateExceedDate.format('YYYY-MM-DD')).toBe('2081-03-31');
+    expect(newMonthDateExceedDate.adDate.toLocaleDateString()).toBe(
+      '7/15/2024'
+    );
+
+    const newWeekDaySetDate = date.set('day', -10);
+    expect(newWeekDaySetDate).toBeInstanceOf(BikramSambat);
+    expect(newWeekDaySetDate.format('YYYY-MM-DD')).toBe('2081-03-06');
+    expect(newWeekDaySetDate.adDate.toLocaleDateString()).toBe('6/20/2024');
 
   test('Date Between: isBetween', () => {
     const date = BikramSambat.parse('2081-03-16');
