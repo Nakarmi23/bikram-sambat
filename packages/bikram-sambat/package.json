@@ -24,6 +24,7 @@
     "dist/**"
   ],
   "scripts": {
+    "docs:gen": "typedoc src/index.ts",
     "build": "tsup",
     "dev": "tsup --watch --onSuccess \"node dist/index.js\"",
     "test": "jest",

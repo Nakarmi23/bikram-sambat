@@ -8,7 +8,7 @@ import { getMonthsWithCumulativeDays } from './utilities/get-months-with-cumulat
 import { parseAdString } from './utilities/parse-ad-string';
 import { getBoundaryInclusion } from './utilities/get-bs-data-isbetween';
 
-interface BikramSambatProps {
+export interface BikramSambatProps {
   bsYear: number;
   bsMonth: number;
   bsDay: number;
@@ -19,7 +19,11 @@ interface BikramSambatProps {
 
 export type UnitType = 'day' | 'date' | 'month' | 'year' | 'week';
 
-export type BoundaryInclusionType = '()' | '[)' | '(]' | '[]';
+type BoundaryInclusionStartType = '(' | '[';
+type BoundaryInclusionEndType = ')' | ']';
+
+export type BoundaryInclusionType =
+  `${BoundaryInclusionStartType}${BoundaryInclusionEndType}`;
 
 export type StarOfEndOfType = Exclude<UnitType, 'date' | 'day' | 'week'>;
 
