@@ -366,6 +366,14 @@ export class BikramSambat implements BikramSambatProps {
    * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
   isSame(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
+    if (unit === 'month' || unit === 'year') {
+      if (date instanceof Date) date = BikramSambat.fromAD(date);
+
+      if (unit === 'month')
+        return this.bsMonth === date.bsMonth && this.bsYear === date.bsYear;
+
+      return this.bsYear === date.bsYear;
+    }
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
@@ -380,6 +388,18 @@ export class BikramSambat implements BikramSambatProps {
    * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
   isBefore(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
+    if (unit === 'month' || unit === 'year') {
+      if (date instanceof Date) date = BikramSambat.fromAD(date);
+
+      if (unit === 'month') {
+        if (this.bsYear === date.bsYear) return this.bsMonth < date.bsMonth;
+        else if (this.bsYear < date.bsYear) return true;
+
+        return false;
+      }
+
+      return this.bsYear < date.bsYear;
+    }
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
@@ -394,6 +414,18 @@ export class BikramSambat implements BikramSambatProps {
    * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
   isAfter(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
+    if (unit === 'month' || unit === 'year') {
+      if (date instanceof Date) date = BikramSambat.fromAD(date);
+
+      if (unit === 'month') {
+        if (this.bsYear === date.bsYear) return this.bsMonth > date.bsMonth;
+        else if (this.bsYear > date.bsYear) return true;
+
+        return false;
+      }
+
+      return this.bsYear > date.bsYear;
+    }
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
 
