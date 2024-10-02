@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.3.2
+
+### Patch Changes
+
+- c3766c9: Fix documentation typo
+
 ## 1.3.1
 
 ### Patch Changes
