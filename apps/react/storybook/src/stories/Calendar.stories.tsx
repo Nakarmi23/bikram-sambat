@@ -45,7 +45,7 @@ export const Unstyled = () => {
           {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
         </Calendar.GridHeader>
         <Calendar.GridBody>
-          {(day) => <Calendar.Cell>{day}</Calendar.Cell>}
+          {(date) => <Calendar.Cell date={date} />}
         </Calendar.GridBody>
       </Calendar.Grid>
     </Calendar.Root>

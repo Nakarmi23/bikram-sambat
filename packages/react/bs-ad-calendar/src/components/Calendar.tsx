@@ -147,7 +147,7 @@ const CalendarGridHeaderCell = (props: CalendarGridHeaderCellProps) => {
 
 interface CalendarGridBodyProps
   extends Omit<React.ComponentPropsWithoutRef<'tbody'>, 'children'> {
-  children?: (day: string | undefined) => React.ReactNode;
+  children?: (day: BikramSambat) => React.ReactNode;
 }
 
 const CalendarGridBody = ({ children, ...props }: CalendarGridBodyProps) => {
@@ -158,7 +158,8 @@ const CalendarGridBody = ({ children, ...props }: CalendarGridBodyProps) => {
   );
 
   const calendarDays = useMemo(() => {
-    const startingWeekDay = focusedValue!.startOf('month').get('day');
+    const startingDate = focusedValue!.startOf('month');
+    const startingWeekDay = startingDate.get('day');
 
     const focusedYear = focusedValue!.get('year');
 
@@ -166,14 +167,19 @@ const CalendarGridBody = ({ children, ...props }: CalendarGridBodyProps) => {
       focusedMonth! - 1
     ];
 
-    const endingWeekDay = focusedValue!.endOf('month').get('day');
+    const endingDate = focusedValue!.endOf('month');
+    const endingWeekDay = endingDate.get('day');
 
-    const days: (undefined | string)[] = [
-      ...(Array.from({ length: startingWeekDay! }) as never[]),
-      ...(Array.from({ length: totalDaysInMonth!.numberOfDays }, (_, index) =>
-        (index + 1).toString()
-      ) as never[]),
-      ...(Array.from({ length: 7 - (endingWeekDay! + 1) }) as never[]),
+    const days = [
+      ...Array.from({ length: startingWeekDay! }, (_, index) =>
+        startingDate.sub(index + 1)
+      ).reverse(),
+      ...Array.from({ length: totalDaysInMonth!.numberOfDays }, (_, index) =>
+        startingDate.add(index)
+      ),
+      ...Array.from({ length: 7 - (endingWeekDay! + 1) }, (_, index) =>
+        endingDate.add(index + 1)
+      ),
     ];
 
     const splitDays = sliceIntoChunks(days, 7);
@@ -194,10 +200,29 @@ const CalendarGridBody = ({ children, ...props }: CalendarGridBodyProps) => {
   );
 };
 
-interface CalendarCellProps extends React.ComponentPropsWithoutRef<'div'> {}
+interface CalendarCellProps
+  extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children'> {
+  date: BikramSambat;
+}
 
-const CalendarCell = (props: CalendarCellProps) => {
-  return <div {...props} />;
+const CalendarCell = ({ date, ...props }: CalendarCellProps) => {
+  const { focusedValue } = useContext(CalendarContext);
+  const cellDataProps = useMemo(() => {
+    const prop: Record<string, unknown> = {};
+    console.log(date, focusedValue?.isSame(date, 'month'));
+    if (!focusedValue?.isSame(date, 'month')) prop['data-outside-month'] = true;
+
+    return prop;
+  }, [focusedValue, date]);
+  return (
+    <div
+      role='button'
+      tabIndex={0}
+      {...props}
+      {...cellDataProps}>
+      {date.get('date')}
+    </div>
+  );
 };
 
 export const Calendar = {
