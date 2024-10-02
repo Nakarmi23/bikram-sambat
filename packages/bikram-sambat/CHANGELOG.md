@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.3.1
+
+### Patch Changes
+
+- 8e3ef01: Fix issue with isSame, isBefore, isAfter comparison methods when the BS month spans 2 AD months
+
 ## 1.3.0
 
 ### Minor Changes
