@@ -370,9 +370,9 @@ export class BikramSambat implements BikramSambatProps {
       if (date instanceof Date) date = BikramSambat.fromAD(date);
 
       if (unit === 'month')
-        return this.month() === date.month() && this.year() === date.year();
+        return this.bsMonth === date.bsMonth && this.bsYear === date.bsYear;
 
-      return this.year() === date.year();
+      return this.bsYear === date.bsYear;
     }
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
@@ -392,13 +392,13 @@ export class BikramSambat implements BikramSambatProps {
       if (date instanceof Date) date = BikramSambat.fromAD(date);
 
       if (unit === 'month') {
-        if (this.year() === date.year()) return this.month() < date.month();
-        else if (this.year() < date.year()) return true;
+        if (this.bsYear === date.bsYear) return this.bsMonth < date.bsMonth;
+        else if (this.bsYear < date.bsYear) return true;
 
         return false;
       }
 
-      return this.year() < date.year();
+      return this.bsYear < date.bsYear;
     }
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
@@ -418,13 +418,13 @@ export class BikramSambat implements BikramSambatProps {
       if (date instanceof Date) date = BikramSambat.fromAD(date);
 
       if (unit === 'month') {
-        if (this.year() === date.year()) return this.month() > date.month();
-        else if (this.year() > date.year()) return true;
+        if (this.bsYear === date.bsYear) return this.bsMonth > date.bsMonth;
+        else if (this.bsYear > date.bsYear) return true;
 
         return false;
       }
 
-      return this.year() > date.year();
+      return this.bsYear > date.bsYear;
     }
     if (date instanceof BikramSambat) date = date.adDate;
     else if (!(date instanceof Date)) throw new Error('Invalid compare value');
