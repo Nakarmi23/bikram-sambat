@@ -186,9 +186,7 @@ const CalendarGridBody = ({ children, ...props }: CalendarGridBodyProps) => {
       {calendarDays.map((week) => (
         <tr key={`${week}-${focusedMonth}`}>
           {week.map((day) => (
-            <React.Fragment key={`${focusedMonth}-${day}`}>
-              {children?.(day)}
-            </React.Fragment>
+            <td key={`${focusedMonth}-${day}`}>{children?.(day)}</td>
           ))}
         </tr>
       ))}
@@ -196,10 +194,10 @@ const CalendarGridBody = ({ children, ...props }: CalendarGridBodyProps) => {
   );
 };
 
-interface CalendarCellProps extends React.ComponentPropsWithoutRef<'td'> {}
+interface CalendarCellProps extends React.ComponentPropsWithoutRef<'div'> {}
 
 const CalendarCell = (props: CalendarCellProps) => {
-  return <td {...props} />;
+  return <div {...props} />;
 };
 
 export const Calendar = {
