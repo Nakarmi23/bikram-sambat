@@ -4,7 +4,7 @@
 [![Jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/jest)
 
-> FIX: Fixed a major issue related to importing the package in CommonJS.
+> FIX: Fixed issue related to isSame, isBefore, and isAfter when the BS month spaned 2 AD months.
 
 ## Introduction
 
