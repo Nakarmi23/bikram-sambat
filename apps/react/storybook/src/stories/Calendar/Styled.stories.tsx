@@ -1,19 +1,23 @@
 import { Calendar } from '@nakarmi23/bs-ad-calendar';
+import '@nakarmi23/bs-ad-calendar/calendar-style.css';
 
 const meta = {
-  title: 'Calendar',
+  title: 'Calendar/Styled',
 };
 
 export default meta;
 
-export const Unstyled = () => {
+export const Default = () => {
   return (
-    <Calendar.Root>
-      <header>
+    <Calendar.Root
+      isDateUnavailable={(date) => [0, 3, 6].includes(date.get('day'))}>
+      <Calendar.Header>
+        <Calendar.Heading />
+        <Calendar.TypeButton />
         <Calendar.Button slot='prev'>
           <svg
-            width='15'
-            height='15'
+            width='20'
+            height='20'
             viewBox='0 0 15 15'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'>
@@ -24,11 +28,10 @@ export const Unstyled = () => {
               clipRule='evenodd'></path>
           </svg>
         </Calendar.Button>
-        <Calendar.Heading />
         <Calendar.Button slot='next'>
           <svg
-            width='15'
-            height='15'
+            width='20'
+            height='20'
             viewBox='0 0 15 15'
             fill='none'
             xmlns='http://www.w3.org/2000/svg'>
@@ -39,7 +42,7 @@ export const Unstyled = () => {
               clipRule='evenodd'></path>
           </svg>
         </Calendar.Button>
-      </header>
+      </Calendar.Header>
       <Calendar.Grid>
         <Calendar.GridHeader>
           {(day) => <Calendar.GridHeaderCell>{day}</Calendar.GridHeaderCell>}
