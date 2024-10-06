@@ -274,61 +274,45 @@ const CalendarGridBody = ({
   );
 
   const calendarDays = useMemo(() => {
+    let startingDate: BikramSambat;
+    let startingWeekDay: number;
+
+    let totalDaysInMonth: number;
+
+    let endingDate: BikramSambat;
+    let endingWeekDay: number;
+
     if (type === 'BS') {
-      const startingDate = focusedValue!.startOf('month');
-      const startingWeekDay = startingDate.get('day');
+      startingDate = focusedValue!.startOf('month');
+      startingWeekDay = startingDate.get('day');
 
       const focusedYear = focusedValue!.get('year');
 
-      const totalDaysInMonth = BikramSambat.getBikramSambatMonths(focusedYear!)[
+      totalDaysInMonth = BikramSambat.getBikramSambatMonths(focusedYear!)[
         focusedMonth! - 1
-      ];
+      ]?.numberOfDays!;
 
-      const endingDate = focusedValue!.endOf('month');
-      const endingWeekDay = endingDate.get('day');
+      endingDate = focusedValue!.endOf('month');
+      endingWeekDay = endingDate.get('day');
+    } else {
+      const focusedAd = dayjs(focusedValue!.adDate);
+      startingDate = BikramSambat.fromAD(focusedAd!.startOf('month').toDate());
+      startingWeekDay = startingDate.get('day');
 
-      const days = [
-        ...Array.from({ length: startingWeekDay! }, (_, index) =>
-          startingDate.sub(index + 1)
-        ).reverse(),
-        ...Array.from({ length: totalDaysInMonth!.numberOfDays }, (_, index) =>
-          startingDate.add(index)
-        ),
-        ...Array.from({ length: 7 - (endingWeekDay! + 1) + 7 }, (_, index) =>
-          endingDate.add(index + 1)
-        ),
-      ];
+      totalDaysInMonth = focusedAd.daysInMonth();
 
-      const splitDays = sliceIntoChunks(days, 7);
-
-      if (splitDays.length > 6) splitDays.pop();
-
-      return splitDays;
+      endingDate = BikramSambat.fromAD(focusedAd!.endOf('month').toDate());
+      endingWeekDay = endingDate.get('day');
     }
 
-    const focusedAd = dayjs(focusedValue!.adDate);
-    const startingDate = BikramSambat.fromAD(
-      focusedAd!.startOf('month').toDate()
-    );
-    const startingWeekDay = startingDate.get('day');
-
-    const focusedYear = focusedAd!.get('year');
-
-    const totalDaysInMonth = BikramSambat.getBikramSambatMonths(focusedYear!)[
-      focusedMonth! - 1
-    ];
-
-    const endingDate = BikramSambat.fromAD(focusedAd!.endOf('month').toDate());
-    const endingWeekDay = endingDate.get('day');
-
     const days = [
-      ...Array.from({ length: startingWeekDay! }, (_, index) =>
+      ...Array.from({ length: startingWeekDay }, (_, index) =>
         startingDate.sub(index + 1)
       ).reverse(),
-      ...Array.from({ length: totalDaysInMonth!.numberOfDays }, (_, index) =>
+      ...Array.from({ length: totalDaysInMonth }, (_, index) =>
         startingDate.add(index)
       ),
-      ...Array.from({ length: 7 - (endingWeekDay! + 1) + 7 }, (_, index) =>
+      ...Array.from({ length: 7 - (endingWeekDay + 1) + 7 }, (_, index) =>
         endingDate.add(index + 1)
       ),
     ];
