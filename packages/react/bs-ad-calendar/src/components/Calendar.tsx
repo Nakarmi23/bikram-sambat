@@ -368,45 +368,19 @@ const CalendarCell = ({
   } = useContext(CalendarContext);
 
   const cellDataProps = useMemo(() => {
-    if (type === 'BS') {
-      const isSameMonthAsFocused = focusedValue?.isSame(date, 'month');
-      const isToday = date.isSame(new Date());
-      const isUnavailable = isDateUnavailable?.(date);
-      const isSelected = value?.isSame(date);
-      const cellProp: Record<string, unknown> = {
-        tabIndex: -1,
-        'aria-label':
-          (isToday ? 'Today, ' : '') +
-          date.format(`dddd, MMMM DD, YYYY`) +
-          (isSelected ? ' selected' : ''),
-      };
-
-      if (isParentDisabled || isUnavailable || !isSameMonthAsFocused) {
-        cellProp['data-disabled'] = true;
-        cellProp['aria-disabled'] = true;
-      }
-
-      if (isUnavailable) cellProp['data-unavailable'] = true;
-
-      if (!isSameMonthAsFocused) cellProp['data-outside-month'] = true;
-
-      if (isToday) {
-        cellProp['data-today'] = true;
-        cellProp['tabIndex'] = 0;
-      }
-
-      if (isSelected) {
-        cellProp['data-selected'] = true;
-      }
-
-      return cellProp;
-    }
-
-    const adFocusedValue = dayjs(focusedValue!.adDate);
-    const isSameMonthAsFocused = adFocusedValue?.isSame(date.adDate, 'month');
-    const isToday = date.isSame(new Date());
     const isUnavailable = isDateUnavailable?.(date);
     const isSelected = value?.isSame(date);
+    let isSameMonthAsFocused: boolean;
+    let isToday: boolean;
+
+    if (type === 'BS') {
+      isSameMonthAsFocused = focusedValue!.isSame(date, 'month');
+      isToday = date.isSame(new Date());
+    } else {
+      const adFocusedValue = dayjs(focusedValue!.adDate);
+      isSameMonthAsFocused = adFocusedValue?.isSame(date.adDate, 'month');
+      isToday = date.isSame(new Date());
+    }
     const cellProp: Record<string, unknown> = {
       tabIndex: -1,
       'aria-label':
