@@ -2,7 +2,7 @@ import { Calendar } from '@nakarmi23/bs-ad-calendar';
 import '@nakarmi23/bs-ad-calendar/calendar-style.css';
 
 const meta = {
-  title: 'Calendar/Styled',
+  title: 'Calendar',
 };
 
 export default meta;
