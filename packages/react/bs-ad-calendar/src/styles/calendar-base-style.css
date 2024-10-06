@@ -1,0 +1,91 @@
+.nakarmi23-Calendar{
+    --font-base-color: #211F27; 
+    color: var(--font-base-color);
+    width: fit-content;
+    max-width: 100%;
+}
+
+.nakarmi23-CalendarHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 4px .6rem;
+}
+
+.nakarmi23-CalendarTypeButton{
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    margin: 1px;
+    border-radius: 6px;
+    outline: none;
+    background-color: transparent;
+    border:none;
+    cursor: pointer;
+}
+
+.nakarmi23-CalendarTypeButton:hover{
+    background-color: #CEDFFF;
+    color: #172580;
+}
+
+.nakarmi23-CalendarHeading{
+    margin: 0px;
+    flex:1;
+    font-size: 1rem;
+}
+
+.nakarmi23-CalendarButton{
+    background-color: transparent;
+    border:none;
+    outline: none;
+    cursor: pointer;
+    color: #65636E;
+}
+
+.nakarmi23-CalendarButton:hover{
+    color: var(--font-base-color);
+}
+
+.nakarmi23-CalendarCell{
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    margin: 1px;
+    border-radius: 6px;
+    outline: none;
+    cursor: default;
+    background-color: transparent;
+}
+
+.nakarmi23-CalendarCell:active{
+    background-color: #E1E0E8;
+}
+
+.nakarmi23-CalendarCell[data-today]{
+    background-color: #0059FF31;
+    color: #172580;
+}
+
+.nakarmi23-CalendarCell[data-selected]{
+    background-color: #263A96;
+    color: #FCFCFE;
+}
+
+.nakarmi23-CalendarCell[data-outside-month]{
+    background-color: transparent;
+    color: #84818E;
+}
+
+.nakarmi23-CalendarCell[data-disabled]{
+    background-color: transparent;
+    color: #84818E;
+}
+
+td:not(:first-child):not(:last-child) .nakarmi23-CalendarCell[data-unavailable]:not([data-outside-month]){
+    background-color: transparent;
+    color: red;
+    text-decoration: line-through;
+}
