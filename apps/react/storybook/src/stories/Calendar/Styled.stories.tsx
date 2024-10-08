@@ -2,15 +2,17 @@ import { Calendar } from '@nakarmi23/bs-ad-calendar';
 import '@nakarmi23/bs-ad-calendar/calendar-style.css';
 
 const meta = {
-  title: 'Calendar',
+  title: 'Date',
+  parameters: {
+    layout: 'centered',
+  },
 };
 
 export default meta;
 
-export const Default = () => {
+export function CalendarDemo() {
   return (
-    <Calendar.Root
-      isDateUnavailable={(date) => [0, 3, 6].includes(date.get('day'))}>
+    <Calendar.Root isDateUnavailable={(date) => [3].includes(date.get('day'))}>
       <Calendar.Header>
         <Calendar.Heading />
         <Calendar.TypeButton />
@@ -53,4 +55,4 @@ export const Default = () => {
       </Calendar.Grid>
     </Calendar.Root>
   );
-};
+}

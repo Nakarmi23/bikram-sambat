@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { sliceIntoChunks } from '../utils/slice-into-chunks';
 import BikramSambat from '@nakarmi23/bikram-sambat';
 import '../styles/calendar-base-style.css';
@@ -115,7 +115,6 @@ const CalendarTypeButton = ({
       className={`nakarmi23-CalendarTypeButton ${className}`.trim()}
       onClick={() => {
         onTypeChange?.(type === 'BS' ? 'AD' : 'BS');
-        console.log(initialFocusDate);
         onFocusChange?.(initialFocusDate);
       }}>
       {type}
@@ -144,15 +143,29 @@ const CalendarButton = ({
   slot,
   ...props
 }: CalendarButtonProps) => {
-  const { onFocusChange, focusedValue } = useContext(CalendarContext);
+  const { onFocusChange, focusedValue, type } = useContext(CalendarContext);
 
-  const onClick = () => {
-    if (slot === 'prev') {
-      onFocusChange?.(focusedValue!.sub(1, 'month'));
+  const onClick = useCallback(() => {
+    if (type === 'BS') {
+      const focusDate = focusedValue!.startOf('month');
+      if (slot === 'prev') {
+        onFocusChange?.(focusDate.sub(1, 'month'));
+      } else {
+        onFocusChange?.(focusDate.add(1, 'month'));
+      }
     } else {
-      onFocusChange?.(focusedValue!.clone().add(1, 'month'));
+      const currentFocusDate = dayjs(focusedValue!.adDate).startOf('month');
+      if (slot === 'prev') {
+        onFocusChange?.(
+          BikramSambat.fromAD(currentFocusDate.subtract(1, 'month').toDate())
+        );
+      } else {
+        onFocusChange?.(
+          BikramSambat.fromAD(currentFocusDate.add(1, 'month').toDate())
+        );
+      }
     }
-  };
+  }, [type, focusedValue, slot, onFocusChange]);
 
   return (
     <button
@@ -167,10 +180,13 @@ const CalendarButton = ({
 };
 
 interface CalendarHeadingProps
-  extends Omit<React.ComponentPropsWithoutRef<'h2'>, 'children'> {}
+  extends Omit<React.ComponentPropsWithoutRef<'h2'>, 'children'> {
+  children?: (currentFocusDate: BikramSambat) => React.ReactNode;
+}
 
 const CalendarHeading = ({
   className = '',
+  children,
   ...props
 }: CalendarHeadingProps) => {
   const { focusedValue, type } = useContext(CalendarContext);
@@ -188,7 +204,7 @@ const CalendarHeading = ({
       {...props}
       className={`nakarmi23-CalendarHeading ${className}`.trim()}
       aria-hidden='true'>
-      {defaultHeading}
+      {children?.(focusedValue!) ?? defaultHeading}
     </h2>
   );
 };
@@ -351,11 +367,13 @@ const CalendarGridBody = ({
 interface CalendarCellProps
   extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children'> {
   date: BikramSambat;
+  children?: (date: BikramSambat) => React.ReactNode;
 }
 
 const CalendarCell = ({
   date,
   className = '',
+  children,
   ...props
 }: CalendarCellProps) => {
   const {
@@ -426,7 +444,7 @@ const CalendarCell = ({
           : () => onChange?.(date)
       }
       className={`nakarmi23-CalendarCell ${className}`.trim()}>
-      {defaultDay}
+      {children?.(date) ?? defaultDay}
     </div>
   );
 };
