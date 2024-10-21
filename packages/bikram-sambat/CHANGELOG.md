@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.1
+
+### Patch Changes
+
+- 4419648: Update Readme
+
 ## 1.4.0
 
 ### Minor Changes
