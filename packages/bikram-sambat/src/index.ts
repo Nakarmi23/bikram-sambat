@@ -230,11 +230,54 @@ export class BikramSambat implements BikramSambatProps {
    * @returns {BikramSambat} A new {@link BikramSambat} date with the specified amount of time added
    */
   add(value: number, unit: ManipulateType = 'day'): BikramSambat {
-    const newDate = BikramSambat.fromAD(
-      dayjs(this.adDate).add(value, unit).toDate()
-    );
+    const newDate = {
+      bsYear: this.bsYear,
+      bsMonth: this.bsMonth,
+      bsDay: this.bsDay,
+    };
 
-    return newDate;
+    if (unit == 'year') {
+      newDate.bsYear += value;
+
+      if (newDate.bsYear > MAX_BS_YEAR) {
+        throw new Error(
+          'The current add operation will exceed the maximum year limit.'
+        );
+      } else if (newDate.bsYear < MIN_BS_YEAR) {
+        throw new Error(
+          'The current add operation will fall short of the maximum year limit.'
+        );
+      }
+    } else if (unit === 'month') {
+      const totalMonths = newDate.bsMonth + value;
+      const yearDelta = Math.floor((totalMonths - 1) / 12);
+      // Normalize `newDate.bsMonth` to be in the range of 1-12
+      newDate.bsMonth = ((totalMonths % 12) + 12) % 12 || 12;
+
+      newDate.bsYear += yearDelta;
+
+      if (newDate.bsYear > MAX_BS_YEAR) {
+        throw new Error(
+          'The current add operation will exceed the maximum year limit.'
+        );
+      } else if (newDate.bsYear < MIN_BS_YEAR) {
+        throw new Error(
+          'The current add operation will fall short of the minimum year limit.'
+        );
+      }
+
+      if (
+        newDate.bsDay > getBSMonthTotalDays(newDate.bsMonth, newDate.bsYear)
+      ) {
+        newDate.bsDay = getBSMonthTotalDays(newDate.bsMonth, newDate.bsYear);
+      }
+    } else {
+      return BikramSambat.fromAD(dayjs(this.adDate).add(value, unit).toDate());
+    }
+
+    return BikramSambat.parse(
+      `${newDate.bsYear}-${newDate.bsMonth.toString().padStart(2, '0')}-${newDate.bsDay.toString().padStart(2, '0')}`
+    );
   }
 
   /**
