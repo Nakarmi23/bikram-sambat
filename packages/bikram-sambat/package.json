@@ -1,6 +1,6 @@
 {
   "name": "@nakarmi23/bikram-sambat",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "FIX: Fixed a major issue related to importing the package in CommonJS. Library for working with Nepali Dates and converting AD dates to BS dates and vice versa",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
