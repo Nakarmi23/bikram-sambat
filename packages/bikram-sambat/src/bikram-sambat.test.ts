@@ -101,20 +101,20 @@ describe('Bikram Sambat', () => {
     expect(dayAddDate.adDate.toLocaleDateString()).toBe('7/20/2024');
 
     const monthAddDate = dayAddDate.add(2, 'month');
-    expect(monthAddDate.bsDay).toBe(4);
+    expect(monthAddDate.bsDay).toBe(5);
     expect(monthAddDate.bsMonth).toBe(6);
     expect(monthAddDate.bsMonthName).toBe('Ashwin');
     expect(monthAddDate.bsYear).toBe(2081);
-    expect(monthAddDate.weekDay).toBe(5);
-    expect(monthAddDate.adDate.toLocaleDateString()).toBe('9/20/2024');
+    expect(monthAddDate.weekDay).toBe(6);
+    expect(monthAddDate.adDate.toLocaleDateString()).toBe('9/21/2024');
 
     const yearAddDate = monthAddDate.add(2, 'year');
-    expect(yearAddDate.bsDay).toBe(4);
+    expect(yearAddDate.bsDay).toBe(5);
     expect(yearAddDate.bsMonth).toBe(6);
     expect(yearAddDate.bsMonthName).toBe('Ashwin');
     expect(yearAddDate.bsYear).toBe(2083);
-    expect(yearAddDate.weekDay).toBe(0);
-    expect(yearAddDate.adDate.toLocaleDateString()).toBe('9/20/2026');
+    expect(yearAddDate.weekDay).toBe(1);
+    expect(yearAddDate.adDate.toLocaleDateString()).toBe('9/21/2026');
   });
 
   test('Date Manipulation: sub', () => {
@@ -128,21 +128,21 @@ describe('Bikram Sambat', () => {
     expect(daySubDate.weekDay).toBe(5);
     expect(daySubDate.adDate.toLocaleDateString()).toBe('6/7/2024');
 
-    const monthSubDate = daySubDate.sub(2, 'month');
+    const monthSubDate = daySubDate.sub(15, 'month');
     expect(monthSubDate.bsDay).toBe(25);
-    expect(monthSubDate.bsMonth).toBe(12);
-    expect(monthSubDate.bsMonthName).toBe('Chaitra');
-    expect(monthSubDate.bsYear).toBe(2080);
-    expect(monthSubDate.weekDay).toBe(0);
-    expect(monthSubDate.adDate.toLocaleDateString()).toBe('4/7/2024');
+    expect(monthSubDate.bsMonth).toBe(11);
+    expect(monthSubDate.bsMonthName).toBe('Falgun');
+    expect(monthSubDate.bsYear).toBe(2079);
+    expect(monthSubDate.weekDay).toBe(4);
+    expect(monthSubDate.adDate.toLocaleDateString()).toBe('3/9/2023');
 
     const yearSubDate = monthSubDate.sub(2, 'year');
-    expect(yearSubDate.bsDay).toBe(24);
-    expect(yearSubDate.bsMonth).toBe(12);
-    expect(yearSubDate.bsMonthName).toBe('Chaitra');
-    expect(yearSubDate.bsYear).toBe(2078);
-    expect(yearSubDate.weekDay).toBe(4);
-    expect(yearSubDate.adDate.toLocaleDateString()).toBe('4/7/2022');
+    expect(yearSubDate.bsDay).toBe(25);
+    expect(yearSubDate.bsMonth).toBe(11);
+    expect(yearSubDate.bsMonthName).toBe('Falgun');
+    expect(yearSubDate.bsYear).toBe(2077);
+    expect(yearSubDate.weekDay).toBe(2);
+    expect(yearSubDate.adDate.toLocaleDateString()).toBe('3/9/2021');
   });
 
   test('Date Comparison: isSame', () => {
