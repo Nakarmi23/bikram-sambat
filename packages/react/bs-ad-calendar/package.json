@@ -1,8 +1,10 @@
 {
-  "name": "@nakarmi23/bs-ad-calendar",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@nakarmi23/react-bs-ad-calendar",
+  "version": "0.0.0",
+  "description": "A React based UI component library for building Bikram Sambat and Gregorian Calendars and Date Pickers",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -11,11 +13,39 @@
     },
     "./calendar-style.css": "./dist/styles/calendar-base-style.css"
   },
+  "license": "MIT",
+  "homepage": "https://github.com/Nakarmi23/bikram-sambat/tree/main/packages/react/bs-ad-calendar",
+  "bugs": {
+    "email": "ankit.nakarmi23@gmail.com",
+    "url": "https://github.com/Nakarmi23/bikram-sambat/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nakarmi23/bikram-sambat.git"
+  },
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "tsup --onSuccess \"cp -r ./src/styles ./dist\"",
     "dev": "tsup --watch --onSuccess \"cp -r ./src/styles ./dist\""
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "date",
+    "calendar",
+    "date-picker",
+    "bikram-sambat-calendar",
+    "bikram-sambat",
+    "bs-ad-calendar",
+    "bs-ad-date-picker",
+    "nepali-date-picker",
+    "nepali-calendar",
+    "nepali",
+    "english-nepali-date-picker",
+    "english-nepali-date-calendar"
+  ],
+  "author": "Ankit Nakarmi <ankit.nakarmi23@gmail.com>",
   "dependencies": {
     "@nakarmi23/bikram-sambat": "^1.3.2",
     "dayjs": "^1.11.11"
@@ -38,7 +68,5 @@
     "@types/react-dom": {
       "optional": true
     }
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }
