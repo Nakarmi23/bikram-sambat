@@ -1,5 +1,11 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.2.0
+
+### Minor Changes
+
+- 132ab68: Properly export Components and types
+
 ## 0.1.3
 
 ### Patch Changes
