@@ -1,7 +1,7 @@
 {
   "name": "@nakarmi23/bikram-sambat",
   "version": "1.4.1",
-  "description": "FIX: Fixed a major issue related to importing the package in CommonJS. Library for working with Nepali Dates and converting AD dates to BS dates and vice versa",
+  "description": "The Bikram Sambat library is a utility for working with Nepali (Bikram Sambat) Dates, allowing conversion between AD dates and BS dates. It supports robust parsing, formatting, manipulation, and comparison of BS dates, covering years from 1970 BS to 2111 BS.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -11,14 +11,14 @@
     "types": "./dist/index.d.ts"
   },
   "license": "MIT",
-  "homepage": "https://github.com/Nakarmi23/twin-dates/tree/main/packages/bikram-sambat",
+  "homepage": "https://n23-bikram-sambat.vercel.app",
   "bugs": {
     "email": "ankit.nakarmi23@gmail.com",
-    "url": "https://github.com/Nakarmi23/twin-dates/issues"
+    "url": "https://github.com/Nakarmi23/bikram-sambat/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nakarmi23/twin-dates.git"
+    "url": "https://github.com/Nakarmi23/bikram-sambat.git"
   },
   "files": [
     "dist/**"

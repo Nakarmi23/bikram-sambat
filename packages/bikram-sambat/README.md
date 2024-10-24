@@ -8,7 +8,7 @@
 
 ## Introduction
 
-The Bikram Sambat library is a utility for working with Nepali (Bikram Sambat) Dates, allowing conversion between AD dates and BS dates. It supports robust parsing, formatting, manipulation, and comparison of BS dates, covering years from 1970 to 2111.
+The Bikram Sambat library is a utility for working with Nepali (Bikram Sambat) Dates, allowing conversion between AD dates and BS dates. It supports robust parsing, formatting, manipulation, and comparison of BS dates, covering years from 1970 BS to 2111 BS.
 
 ## Table of Contents
 
