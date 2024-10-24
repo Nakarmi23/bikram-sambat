@@ -2,18 +2,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { sliceIntoChunks } from '../utils/slice-into-chunks';
 import BikramSambat from '@nakarmi23/bikram-sambat';
 import dayjs from 'dayjs';
-
-const dayOfWeek = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-const dayOfWeekShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const dayOfWeekMin = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+import { dayOfWeekMin, dayOfWeekShort, dayOfWeek } from '../utils/days-of-week';
 
 type CalendarMode = 'AD' | 'BS';
 type CalendarValue = BikramSambat | null;
