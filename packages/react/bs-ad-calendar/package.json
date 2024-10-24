@@ -68,5 +68,6 @@
     "@types/react-dom": {
       "optional": true
     }
-  }
+  },
+  "private": false
 }
