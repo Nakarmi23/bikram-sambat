@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@fontsource/inter": "^5.1.0",
-    "@nakarmi23/bs-ad-calendar": "workspace:*",
+    "@nakarmi23/react-bs-ad-calendar": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

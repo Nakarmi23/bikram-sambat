@@ -33,7 +33,7 @@ importers:
       '@nakarmi23/bikram-sambat':
         specifier: workspace:*
         version: link:../../packages/bikram-sambat
-      '@nakarmi23/bs-ad-calendar':
+      '@nakarmi23/react-bs-ad-calendar':
         specifier: workspace:*
         version: link:../../packages/react/bs-ad-calendar
       '@radix-ui/react-accordion':
@@ -145,7 +145,7 @@ importers:
       '@fontsource/inter':
         specifier: ^5.1.0
         version: 5.1.0
-      '@nakarmi23/bs-ad-calendar':
+      '@nakarmi23/react-bs-ad-calendar':
         specifier: workspace:*
         version: link:../../../packages/react/bs-ad-calendar
       react:
@@ -277,7 +277,7 @@ importers:
   packages/react/bs-ad-calendar:
     dependencies:
       '@nakarmi23/bikram-sambat':
-        specifier: ^1.3.2
+        specifier: ^1.4.2
         version: link:../../bikram-sambat
       '@types/react':
         specifier: '*'

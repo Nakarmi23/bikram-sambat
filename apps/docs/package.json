@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nakarmi23/bs-ad-calendar": "workspace:*",
+    "@nakarmi23/react-bs-ad-calendar": "workspace:*",
     "@nakarmi23/bikram-sambat": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-avatar": "^1.1.0",
