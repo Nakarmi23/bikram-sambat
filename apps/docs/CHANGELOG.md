@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- Updated dependencies [132ab68]
+  - @nakarmi23/react-bs-ad-calendar@0.2.0
+
+## 1.0.4
+
+### Patch Changes
+
 - Updated dependencies [195e149]
   - @nakarmi23/react-bs-ad-calendar@0.1.3
 
