@@ -1,5 +1,11 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.1.1
+
+### Patch Changes
+
+- 4dd8b5d: Update bikram-sambat dep
+
 ## 0.1.0
 
 ### Minor Changes
