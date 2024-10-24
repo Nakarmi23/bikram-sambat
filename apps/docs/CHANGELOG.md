@@ -1,5 +1,12 @@
 # aria-docs
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [4dd8b5d]
+  - @nakarmi23/react-bs-ad-calendar@0.1.1
+
 ## 1.0.1
 
 ### Patch Changes
