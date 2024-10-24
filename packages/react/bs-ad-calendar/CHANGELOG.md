@@ -1,5 +1,11 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.1.3
+
+### Patch Changes
+
+- 195e149: Update and fix README file
+
 ## 0.1.2
 
 ### Patch Changes
