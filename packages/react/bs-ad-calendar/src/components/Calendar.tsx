@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { sliceIntoChunks } from '../utils/slice-into-chunks';
 import BikramSambat from '@nakarmi23/bikram-sambat';
-import '../styles/calendar-base-style.css';
 import dayjs from 'dayjs';
 
 const dayOfWeek = [
