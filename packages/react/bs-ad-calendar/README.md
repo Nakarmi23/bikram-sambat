@@ -37,7 +37,7 @@ pnpm add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
 Import all parts and piece them together.
 
 ```tsx
-import * as Bialog from "@nakarmi23/bs-ad-calendar";
+import {Calendar} from "@nakarmi23/react-bs-ad-calendar";
 
 export default ()=>(
     <Calendar.Root>
