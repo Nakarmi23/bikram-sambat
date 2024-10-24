@@ -1,5 +1,11 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.1.2
+
+### Patch Changes
+
+- 83e31fc: Make package public
+
 ## 0.1.1
 
 ### Patch Changes
