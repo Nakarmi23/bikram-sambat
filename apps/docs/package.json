@@ -1,5 +1,5 @@
 {
-  "name": "aria-docs",
+  "name": "@repo/docs",
   "version": "1.0.3",
   "private": true,
   "scripts": {

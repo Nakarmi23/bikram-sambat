@@ -1,4 +1,4 @@
-# aria-docs
+# @repo/docs
 
 ## 1.0.3
 
