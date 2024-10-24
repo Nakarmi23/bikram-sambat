@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.2
+
+### Patch Changes
+
+- acec6cf: Description and homepage link update
+
 ## 1.4.1
 
 ### Patch Changes
