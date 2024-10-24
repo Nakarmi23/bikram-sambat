@@ -15,22 +15,22 @@ const dayOfWeek = [
 const dayOfWeekShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const dayOfWeekMin = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-type CalendarType = 'AD' | 'BS';
-type DateValue = BikramSambat | null;
+type CalendarMode = 'AD' | 'BS';
+type CalendarValue = BikramSambat | null;
 
 interface CalendarBaseProps {
-  type?: CalendarType;
-  onTypeChange?: (type: CalendarType) => void;
+  mode?: CalendarMode;
+  onModeChange?: (mode: CalendarMode) => void;
   isDisabled?: boolean;
-  focusedValue?: DateValue;
-  onFocusChange?: (date: DateValue) => void;
-  value?: DateValue;
-  defaultValue?: DateValue;
-  onChange?: (date: DateValue) => void;
-  minValue?: DateValue;
-  maxValue?: DateValue;
+  focusedValue?: CalendarValue;
+  onFocusChange?: (date: CalendarValue) => void;
+  value?: CalendarValue;
+  defaultValue?: CalendarValue;
+  onChange?: (date: CalendarValue) => void;
+  minValue?: CalendarValue;
+  maxValue?: CalendarValue;
   isDateUnavailable?: (date: BikramSambat) => boolean;
-  initialFocusDate: DateValue;
+  initialFocusDate: CalendarValue;
 }
 
 const CalendarContext = React.createContext<CalendarBaseProps>({} as never);
@@ -55,20 +55,20 @@ const CalendarRoot = ({
   focusedValue,
   onFocusChange,
   className = '',
-  type,
-  onTypeChange,
+  mode,
+  onModeChange,
   ...props
 }: CalendarRootProps) => {
   const defaultFocusedValue = useMemo(
     () => focusedValue?.clone() ?? BikramSambat.now(),
     []
   );
-  const [internalType, onInternalTypeChange] = useState<CalendarType>('BS');
-  const [internalValue, onInternalChange] = useState<DateValue>(
+  const [internalMode, onInternalModeChange] = useState<CalendarMode>('BS');
+  const [internalValue, onInternalChange] = useState<CalendarValue>(
     BikramSambat.now()
   );
   const [internalFocusedValue, onInternalFocusChange] =
-    useState<DateValue>(defaultFocusedValue);
+    useState<CalendarValue>(defaultFocusedValue);
   return (
     <div
       role='group'
@@ -86,8 +86,8 @@ const CalendarRoot = ({
           focusedValue: focusedValue ?? internalFocusedValue,
           onFocusChange: onFocusChange ? onFocusChange : onInternalFocusChange,
           initialFocusDate: defaultFocusedValue,
-          type: type ?? internalType,
-          onTypeChange: onTypeChange ? onTypeChange : onInternalTypeChange,
+          mode: mode ?? internalMode,
+          onModeChange: onModeChange ? onModeChange : onInternalModeChange,
         }}>
         {children}
       </CalendarContext.Provider>
@@ -105,7 +105,7 @@ const CalendarTypeButton = ({
   className = '',
   ...props
 }: CalendarTypeButtonProps) => {
-  const { type, onTypeChange, initialFocusDate, onFocusChange } =
+  const { mode, onModeChange, initialFocusDate, onFocusChange } =
     useContext(CalendarContext);
 
   return (
@@ -113,17 +113,17 @@ const CalendarTypeButton = ({
       {...props}
       className={`nakarmi23-CalendarTypeButton ${className}`.trim()}
       onClick={() => {
-        onTypeChange?.(type === 'BS' ? 'AD' : 'BS');
+        onModeChange?.(mode === 'BS' ? 'AD' : 'BS');
         onFocusChange?.(initialFocusDate);
       }}>
-      {type}
+      {mode}
     </button>
   );
 };
 
-interface CalendarHeaderProp extends React.ComponentPropsWithoutRef<'div'> {}
+interface CalendarHeaderProps extends React.ComponentPropsWithoutRef<'div'> {}
 
-const CalendarHeader = ({ className = '', ...props }: CalendarHeaderProp) => {
+const CalendarHeader = ({ className = '', ...props }: CalendarHeaderProps) => {
   return (
     <div
       {...props}
@@ -142,10 +142,10 @@ const CalendarButton = ({
   slot,
   ...props
 }: CalendarButtonProps) => {
-  const { onFocusChange, focusedValue, type } = useContext(CalendarContext);
+  const { onFocusChange, focusedValue, mode } = useContext(CalendarContext);
 
   const onClick = useCallback(() => {
-    if (type === 'BS') {
+    if (mode === 'BS') {
       const focusDate = focusedValue!.startOf('month');
       if (slot === 'prev') {
         onFocusChange?.(focusDate.sub(1, 'month'));
@@ -164,7 +164,7 @@ const CalendarButton = ({
         );
       }
     }
-  }, [type, focusedValue, slot, onFocusChange]);
+  }, [mode, focusedValue, slot, onFocusChange]);
 
   return (
     <button
@@ -188,15 +188,15 @@ const CalendarHeading = ({
   children,
   ...props
 }: CalendarHeadingProps) => {
-  const { focusedValue, type } = useContext(CalendarContext);
+  const { focusedValue, mode } = useContext(CalendarContext);
 
   const defaultHeading = useMemo(() => {
-    if (type === 'BS') return focusedValue!.format('MMMM, YYYY');
+    if (mode === 'BS') return focusedValue!.format('MMMM, YYYY');
 
     const ad = dayjs(focusedValue!.adDate);
 
     return ad.format('MMMM, YYYY');
-  }, [focusedValue, type]);
+  }, [focusedValue, mode]);
 
   return (
     <h2
@@ -282,7 +282,7 @@ const CalendarGridBody = ({
   className = '',
   ...props
 }: CalendarGridBodyProps) => {
-  const { focusedValue, type } = useContext(CalendarContext);
+  const { focusedValue, mode } = useContext(CalendarContext);
   const focusedMonth = useMemo(
     () => focusedValue!.get('month'),
     [focusedValue]
@@ -297,7 +297,7 @@ const CalendarGridBody = ({
     let endingDate: BikramSambat;
     let endingWeekDay: number;
 
-    if (type === 'BS') {
+    if (mode === 'BS') {
       startingDate = focusedValue!.startOf('month');
       startingWeekDay = startingDate.get('day');
 
@@ -337,7 +337,7 @@ const CalendarGridBody = ({
     if (splitDays.length > 6) splitDays.pop();
 
     return splitDays;
-  }, [focusedValue, focusedMonth, type]);
+  }, [focusedValue, focusedMonth, mode]);
 
   return (
     <tbody
@@ -349,7 +349,7 @@ const CalendarGridBody = ({
             <td
               role='gridcell'
               key={
-                type === 'BS'
+                mode === 'BS'
                   ? `${focusedMonth}-${day}`
                   : `${focusedMonth}-${day.adDate}`
               }
@@ -381,7 +381,7 @@ const CalendarCell = ({
     focusedValue,
     isDateUnavailable,
     isDisabled: isParentDisabled,
-    type,
+    mode,
   } = useContext(CalendarContext);
 
   const cellDataProps = useMemo(() => {
@@ -390,7 +390,7 @@ const CalendarCell = ({
     let isSameMonthAsFocused: boolean;
     let isToday: boolean;
 
-    if (type === 'BS') {
+    if (mode === 'BS') {
       isSameMonthAsFocused = focusedValue!.isSame(date, 'month');
       isToday = date.isSame(new Date());
     } else {
@@ -425,12 +425,12 @@ const CalendarCell = ({
     }
 
     return cellProp;
-  }, [focusedValue, date, value, isDateUnavailable, type]);
+  }, [focusedValue, date, value, isDateUnavailable, mode]);
 
   const defaultDay = useMemo(() => {
-    if (type === 'BS') return date.format('D');
+    if (mode === 'BS') return date.format('D');
     return date.adDate.getDate();
-  }, [type, date]);
+  }, [mode, date]);
 
   return (
     <div
@@ -448,15 +448,26 @@ const CalendarCell = ({
   );
 };
 
-export const Calendar = {
-  Root: CalendarRoot,
-  Header: CalendarHeader,
-  TypeButton: CalendarTypeButton,
-  Heading: CalendarHeading,
-  Button: CalendarButton,
-  Grid: CalendarGrid,
-  GridHeader: CalendarGridHeader,
-  GridHeaderCell: CalendarGridHeaderCell,
-  GridBody: CalendarGridBody,
-  Cell: CalendarCell,
-};
+export const Root = CalendarRoot;
+export const Header = CalendarHeader;
+export const TypeButton = CalendarTypeButton;
+export const Heading = CalendarHeading;
+export const Button = CalendarButton;
+export const Grid = CalendarGrid;
+export const GridHeader = CalendarGridHeader;
+export const GridHeaderCell = CalendarGridHeaderCell;
+export const GridBody = CalendarGridBody;
+export const Cell = CalendarCell;
+
+export type RootProps = CalendarRootProps;
+export type HeaderProps = CalendarHeaderProps;
+export type TypeButtonProps = CalendarTypeButtonProps;
+export type HeadingProps = CalendarHeadingProps;
+export type ButtonProps = CalendarButtonProps;
+export type GridProps = CalendarGridProps;
+export type GridHeaderProps = CalendarGridHeaderProps;
+export type GridHeaderCellProps = CalendarGridHeaderCellProps;
+export type GridBodyProps = CalendarGridBodyProps;
+export type CellProps = CalendarCellProps;
+export type Mode = CalendarMode;
+export type Value = CalendarValue;
