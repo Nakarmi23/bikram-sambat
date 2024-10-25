@@ -1,0 +1,172 @@
+---
+title: Getting started
+description: A quick tutorial to get you up and running with the Calendar components.
+---
+
+## Installation Steps
+
+<Stepper>
+<StepperItem title="Install the package">
+Install both the `Bikram Sambat` and the component library from your command line:
+
+<Tabs defaultValue="npm" className="pt-5 pb-1">
+  <TabsList className="">
+    <TabsTrigger value="npm">npm</TabsTrigger>
+    <TabsTrigger value="yarn">yarn</TabsTrigger>
+      <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+  </TabsList>
+  <TabsContent value="npm">
+  ```bash
+  npm i @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
+   ```
+   </TabsContent>
+  <TabsContent value="yarn">
+  ```bash
+  yarn add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
+    ```
+  </TabsContent>
+  <TabsContent value="pnpm">
+  ```bash
+  pnpm add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
+    ```
+  </TabsContent>
+</Tabs>
+
+</StepperItem>
+<StepperItem title="Navigate to the Project Directory">
+Install `tailwindcss` and its peer dependencies, then add your `tailwind.config.js` and postcss.config.js files:
+
+<Tabs defaultValue="js" className="pt-5 pb-1">
+  <TabsList className="">
+    <TabsTrigger value="js">JavaScript</TabsTrigger>
+    <TabsTrigger value="ts">TypeScript</TabsTrigger>
+  </TabsList>
+  <TabsContent value="js">
+    ```tsx showLineNumbers
+      import { Calendar } from "@nakarmi23/react-bs-ad-calendar";
+      import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+
+      export const Datepicker = (props) => {
+        return (
+          <Calendar.Root
+            props={props.value}
+            onChange={props.onChange}
+          >
+            <Calendar.Header>
+              <Calendar.Button slot='prev'>
+                <ChevronLeftIcon />
+              </Calendar.Button>
+              <Calendar.Heading />
+              <Calendar.TypeButton />
+              <Calendar.Button slot='next'>
+                <ChevronRightIcon />
+              </Calendar.Button>
+            </Calendar.Header>
+            <Calendar.Grid>
+              <Calendar.GridHeader>
+                {(day) => (
+                  <Calendar.GridHeaderCell>
+                    {day}
+                  </Calendar.GridHeaderCell>
+                )}
+              </Calendar.GridHeader>
+              <Calendar.GridBody>
+                {(date) => <Calendar.Cell date={date}/>}
+              </Calendar.GridBody>
+            </Calendar.Grid>
+          </Calendar.Root>
+        );
+      };
+    ```
+  </TabsContent>
+  <TabsContent value="ts">
+    ```tsx showLineNumbers
+      import { Calendar } from "@nakarmi23/react-bs-ad-calendar";
+      import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+
+      interface DatepickerProps {
+        value: Calendar.Value;
+        onChange: (value: Calendar.Value) => void;
+      }
+
+      export const Datepicker = (props: DatepickerProps) => {
+        return (
+          <Calendar.Root
+            props={props.value}
+            onChange={props.onChange}
+          >
+            <Calendar.Header>
+              <Calendar.Button slot='prev'>
+                <ChevronLeftIcon />
+              </Calendar.Button>
+              <Calendar.Heading />
+              <Calendar.TypeButton />
+              <Calendar.Button slot='next'>
+                <ChevronRightIcon />
+              </Calendar.Button>
+            </Calendar.Header>
+            <Calendar.Grid>
+              <Calendar.GridHeader>
+                {(day) => (
+                  <Calendar.GridHeaderCell>
+                    {day}
+                  </Calendar.GridHeaderCell>
+                )}
+              </Calendar.GridHeader>
+              <Calendar.GridBody>
+                {(date) => <Calendar.Cell date={date}/>}
+              </Calendar.GridBody>
+            </Calendar.Grid>
+          </Calendar.Root>
+        );
+      };
+    ```
+  </TabsContent>
+</Tabs>
+
+</StepperItem>
+
+<StepperItem title="Add your styles">
+ Add styles where desired. The package provides a default style file, if you dont want to write your own styles.
+
+<Tabs defaultValue="js" className="pt-5 pb-1">
+  <TabsList className="">
+    <TabsTrigger value="js">JavaScript</TabsTrigger>
+    <TabsTrigger value="ts">TypeScript</TabsTrigger>
+  </TabsList>
+  <TabsContent value="js">
+    ```tsx {3} showLineNumbers
+      import { Calendar } from "@nakarmi23/react-bs-ad-calendar";
+      import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+      import "@nakarmi23/react-bs-ad-calendar/calendar-style.css";
+
+      export const Datepicker = (props) => {
+        return (
+    ```
+  </TabsContent>
+  <TabsContent value="ts">
+    ```tsx {3} showLineNumbers
+      import { Calendar } from "@nakarmi23/react-bs-ad-calendar";
+      import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+      import "@nakarmi23/react-bs-ad-calendar/calendar-style.css";
+
+      interface DatepickerProps {
+        value: Calendar.Value;
+        onChange: (value: Calendar.Value) => void;
+      }
+
+      export const Datepicker = (props: DatepickerProps) => {
+        return (
+    ```
+  </TabsContent>
+</Tabs>
+<Note title="Note">
+All the components are unstyled, and compatible with any styling solution, giving you complete control over the component's looks.
+</Note>
+</StepperItem>
+
+</Stepper>
+
+## Additional Information
+
+For more detailed instructions and troubleshooting tips, refer to our [documentation](#).
