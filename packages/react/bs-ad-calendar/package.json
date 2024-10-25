@@ -1,6 +1,6 @@
 {
   "name": "@nakarmi23/react-bs-ad-calendar",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A React based UI component library for building Bikram Sambat and Gregorian Calendars and Date Pickers",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
