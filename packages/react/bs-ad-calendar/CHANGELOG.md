@@ -1,5 +1,11 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.2.1
+
+### Patch Changes
+
+- f48eff1: Standardized component export method
+
 ## 0.2.0
 
 ### Minor Changes
