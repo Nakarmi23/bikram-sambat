@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url("../styles/syntax.css");
+@import url("@nakarmi23/react-bs-ad-calendar/calendar-style.css");
 
 @layer base {
   :root {
