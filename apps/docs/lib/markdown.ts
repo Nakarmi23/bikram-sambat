@@ -18,6 +18,16 @@ import Image from '@/components/markdown/image';
 import Link from '@/components/markdown/link';
 import { DemoContainer } from '@/components/ui/demo-container';
 import { SimpleCalendarDemo } from '@/components/demo/SimpleCalendar';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 // add custom components
 const components = {
@@ -33,6 +43,13 @@ const components = {
   a: Link,
   DemoContainer,
   SimpleCalendarDemo,
+  table: Table,
+  thead: TableHeader,
+  tbody: TableBody,
+  tfoot: TableFooter,
+  tr: TableRow,
+  th: TableHead,
+  td: TableCell,
 };
 
 // can be used for other pages like blogs, Guides etc

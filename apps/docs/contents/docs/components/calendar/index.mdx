@@ -1,0 +1,92 @@
+---
+title: Calendar
+description: sad
+---
+
+<DemoContainer>
+  <SimpleCalendarDemo />
+</DemoContainer>
+
+## Installation
+
+Install the component from your command line.
+
+<Tabs
+  defaultValue='npm'
+  className='pt-5 pb-1'>
+  <TabsList className=''>
+    <TabsTrigger value='npm'>npm</TabsTrigger>
+    <TabsTrigger value='yarn'>yarn</TabsTrigger>
+    <TabsTrigger value='pnpm'>pnpm</TabsTrigger>
+  </TabsList>
+  <TabsContent value='npm'>
+    ```bash
+    npm i @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
+    ```
+  </TabsContent>
+  <TabsContent value='yarn'>
+    ```bash
+    yarn add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
+    ```
+  </TabsContent>
+  <TabsContent value='pnpm'>
+    ```bash
+    pnpm add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
+    ```
+  </TabsContent>
+</Tabs>
+
+## Anatomy
+
+Import all parts and piece them together.
+
+```tsx showLineNumbers
+import { Calendar } from '@nakarmi23/react-bs-ad-calendar';
+
+export default () => {
+  return (
+    <Calendar.Root>
+      <Calendar.Header>
+        <Calendar.Button slot='prev' />
+        <Calendar.Heading />
+        <Calendar.TypeButton />
+        <Calendar.Button slot='next' />
+      </Calendar.Header>
+      <Calendar.Grid>
+        <Calendar.GridHeader>
+          {(day) => <Calendar.GridHeaderCell />}
+        </Calendar.GridHeader>
+        <Calendar.GridBody>{(date) => <Calendar.Cell />}</Calendar.GridBody>
+      </Calendar.Grid>
+    </Calendar.Root>
+  );
+};
+```
+
+## API Reference
+
+### Root
+
+Contains all parts of the calendar.
+
+| Prop | Type | Default |
+| ---- | ---- | ------- |
+| mode | enum | BS      |
+
+### Header
+
+### Button
+
+### Heading
+
+### TypeButton
+
+### Grid
+
+### GridHeader
+
+### GridHeaderCell
+
+### GridBody
+
+### Cell

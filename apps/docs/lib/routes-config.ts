@@ -21,6 +21,12 @@ export const ROUTES: EachRoute[] = [
       { title: 'Changelog', href: '/changelog' },
     ],
   },
+  {
+    title: 'Components',
+    href: '/components',
+    noLink: true,
+    items: [{ title: 'Calendar', href: '/calendar' }],
+  },
 ];
 
 type Page = { title: string; href: string };
