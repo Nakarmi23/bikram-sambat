@@ -1,5 +1,19 @@
 .nakarmi23-Calendar{
-    --font-base-color: #211F27; 
+    --font-base-color: #211F27;
+    --font-base-color-dark: #EEEEF0;
+    --font-secondary-color: #172580;
+    --font-secondary-color-dark: #B4B3BD;
+    --font-disable-color: #84818E;
+    --font-disable-color-dark: #7C7A85;
+    --hover-bg-color: #CEDFFF;
+    --hover-bg-color-dark: #192873;
+    --cell-active-color: #E1E0E8;
+    --cell-active-color-dark: #203288;
+    --cell-selected-bg-color: #263A96;
+    --cell-selected-bg-color-dark: #3D5AF2;
+    --cell-today-bg-color: #0059FF31;
+    --cell-today-bg-color-dark: #2F53FF80;
+    --font-contrast-color: #FCFCFE;
     color: var(--font-base-color);
     width: fit-content;
     max-width: 100%;
@@ -26,8 +40,8 @@
 }
 
 .nakarmi23-CalendarTypeButton:hover{
-    background-color: #CEDFFF;
-    color: #172580;
+    background-color: var(--hover-bg-color);
+    color: var(--font-secondary-color);
 }
 
 .nakarmi23-CalendarHeading{
@@ -61,31 +75,72 @@
 }
 
 .nakarmi23-CalendarCell:active{
-    background-color: #E1E0E8;
+    background-color: var(--cell-active-color);
 }
 
 .nakarmi23-CalendarCell[data-today]{
-    background-color: #0059FF31;
-    color: #172580;
+    background-color: var(--cell-today-bg-color);
+    color: var(--font-secondary-color);
 }
 
 .nakarmi23-CalendarCell[data-selected]{
-    background-color: #263A96;
-    color: #FCFCFE;
+    background-color:var(--cell-selected-bg-color);
+    color: var(--font-contrast-color);
 }
 
 .nakarmi23-CalendarCell[data-outside-month]{
     background-color: transparent;
-    color: #84818E;
+    color: var(--font-disable-color);
 }
 
 .nakarmi23-CalendarCell[data-disabled]{
     background-color: transparent;
-    color: #84818E;
+    color: var(--font-disable-color);
 }
 
 td:not(:first-child):not(:last-child) .nakarmi23-CalendarCell[data-unavailable]:not([data-outside-month]){
     background-color: transparent;
     color: red;
     text-decoration: line-through;
+}
+
+
+.dark .nakarmi23-Calendar{
+    color: var(--font-base-color-dark);
+}
+
+.dark .nakarmi23-CalendarButton{
+    color: var(--font-secondary-color-dark);
+}
+
+.dark .nakarmi23-CalendarTypeButton:hover{
+    background-color: var(--hover-bg-color-dark);
+    color: var(--font-secondary-color-dark);
+}
+
+.dark .nakarmi23-CalendarButton:hover{
+    color: var(--font-base-color-dark);
+}
+
+.dark .nakarmi23-CalendarCell:active{
+    background-color: var(--cell-active-color-dark);
+}
+
+.dark .nakarmi23-CalendarCell[data-today]{
+    background-color: var(--cell-today-bg-color-dark);
+    color: var(--font-base-color-dark);
+}
+
+.dark .nakarmi23-CalendarCell[data-selected]{
+    background-color:var(--cell-selected-bg-color-dark);
+    color: var(--font-contrast-color);
+}
+
+.dark .nakarmi23-CalendarCell[data-outside-month]{
+    color: var(--font-disable-color-dark);
+}
+
+.dark .nakarmi23-CalendarCell[data-disabled]{
+    background-color: transparent;
+    color: var(--font-disable-color-dark);
 }
