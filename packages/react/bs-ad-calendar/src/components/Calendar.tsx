@@ -12,14 +12,15 @@ interface CalendarBaseProps {
   onModeChange?: (mode: CalendarMode) => void;
   isDisabled?: boolean;
   focusedValue?: CalendarValue;
-  onFocusChange?: (date: CalendarValue) => void;
+  onFocusChange?: (date: BikramSambat) => void;
   value?: CalendarValue;
   defaultValue?: CalendarValue;
   onChange?: (date: CalendarValue) => void;
+  // TODO: implement min and max value feature
   minValue?: CalendarValue;
   maxValue?: CalendarValue;
   isDateUnavailable?: (date: BikramSambat) => boolean;
-  initialFocusDate: CalendarValue;
+  initialFocusDate: BikramSambat;
 }
 
 const CalendarContext = React.createContext<CalendarBaseProps>({} as never);
@@ -32,57 +33,65 @@ interface CalendarRootDivProps
 type CalendarRootProps = CalendarRootDivProps &
   Omit<CalendarBaseProps, 'initialFocusDate'>;
 
-const CalendarRoot = ({
-  children,
-  isDisabled,
-  value,
-  defaultValue,
-  onChange,
-  maxValue,
-  minValue,
-  isDateUnavailable,
-  focusedValue,
-  onFocusChange,
-  className = '',
-  mode,
-  onModeChange,
-  ...props
-}: CalendarRootProps) => {
-  const defaultFocusedValue = useMemo(
-    () => focusedValue?.clone() ?? BikramSambat.now(),
-    []
-  );
-  const [internalMode, onInternalModeChange] = useState<CalendarMode>('BS');
-  const [internalValue, onInternalChange] = useState<CalendarValue>(
-    BikramSambat.now()
-  );
-  const [internalFocusedValue, onInternalFocusChange] =
-    useState<CalendarValue>(defaultFocusedValue);
-  return (
-    <div
-      role='group'
-      className={`nakarmi23-Calendar ${className}`.trim()}
-      {...props}>
-      <CalendarContext.Provider
-        value={{
-          isDisabled,
-          defaultValue,
-          value: value ?? internalValue,
-          onChange: onChange ? onChange : onInternalChange,
-          maxValue,
-          minValue,
-          isDateUnavailable,
-          focusedValue: focusedValue ?? internalFocusedValue,
-          onFocusChange: onFocusChange ? onFocusChange : onInternalFocusChange,
-          initialFocusDate: defaultFocusedValue,
-          mode: mode ?? internalMode,
-          onModeChange: onModeChange ? onModeChange : onInternalModeChange,
-        }}>
-        {children}
-      </CalendarContext.Provider>
-    </div>
-  );
-};
+const CalendarRoot = React.forwardRef<HTMLDivElement, CalendarRootProps>(
+  (
+    {
+      children,
+      isDisabled,
+      value,
+      defaultValue,
+      onChange,
+      maxValue,
+      minValue,
+      isDateUnavailable,
+      focusedValue,
+      onFocusChange,
+      className = '',
+      mode,
+      onModeChange,
+      ...props
+    },
+    ref
+  ) => {
+    const defaultFocusedValue = useMemo(
+      () => focusedValue?.clone() ?? BikramSambat.now(),
+      []
+    );
+    const [internalMode, onInternalModeChange] = useState<CalendarMode>('BS');
+    const [internalValue, onInternalChange] = useState<CalendarValue>(
+      BikramSambat.now()
+    );
+    const [internalFocusedValue, onInternalFocusChange] =
+      useState<CalendarValue>(defaultFocusedValue);
+    return (
+      <div
+        ref={ref}
+        role='group'
+        className={`nakarmi23-Calendar ${className}`.trim()}
+        {...props}>
+        <CalendarContext.Provider
+          value={{
+            isDisabled,
+            defaultValue,
+            value: value === undefined ? internalValue : value,
+            onChange: onChange ? onChange : onInternalChange,
+            maxValue,
+            minValue,
+            isDateUnavailable,
+            focusedValue: focusedValue ?? internalFocusedValue,
+            onFocusChange: onFocusChange
+              ? onFocusChange
+              : onInternalFocusChange,
+            initialFocusDate: defaultFocusedValue,
+            mode: mode ?? internalMode,
+            onModeChange: onModeChange ? onModeChange : onInternalModeChange,
+          }}>
+          {children}
+        </CalendarContext.Provider>
+      </div>
+    );
+  }
+);
 
 interface CalendarTypeButtonProps
   extends Omit<
@@ -90,93 +99,95 @@ interface CalendarTypeButtonProps
     'children' | 'onClick'
   > {}
 
-const CalendarTypeButton = ({
-  className = '',
-  ...props
-}: CalendarTypeButtonProps) => {
+const CalendarTypeButton = React.forwardRef<
+  HTMLButtonElement,
+  CalendarTypeButtonProps
+>(({ className = '', ...props }, ref) => {
   const { mode, onModeChange, initialFocusDate, onFocusChange } =
     useContext(CalendarContext);
 
   return (
     <button
-      {...props}
+      ref={ref}
       className={`nakarmi23-CalendarTypeButton ${className}`.trim()}
       onClick={() => {
         onModeChange?.(mode === 'BS' ? 'AD' : 'BS');
         onFocusChange?.(initialFocusDate);
-      }}>
+      }}
+      {...props}>
       {mode}
     </button>
   );
-};
+});
 
 interface CalendarHeaderProps extends React.ComponentPropsWithoutRef<'div'> {}
 
-const CalendarHeader = ({ className = '', ...props }: CalendarHeaderProps) => {
-  return (
-    <div
-      {...props}
-      className={`nakarmi23-CalendarHeader ${className}`.trim()}
-    />
-  );
-};
+const CalendarHeader = React.forwardRef<HTMLDivElement, CalendarHeaderProps>(
+  ({ className = '', ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={`nakarmi23-CalendarHeader ${className}`.trim()}
+        {...props}
+      />
+    );
+  }
+);
 
 interface CalendarButtonProps
   extends Omit<React.ComponentPropsWithoutRef<'button'>, 'onClick'> {
   slot: 'prev' | 'next';
 }
 
-const CalendarButton = ({
-  className = '',
-  slot,
-  ...props
-}: CalendarButtonProps) => {
-  const { onFocusChange, focusedValue, mode } = useContext(CalendarContext);
+const CalendarButton = React.forwardRef<HTMLButtonElement, CalendarButtonProps>(
+  ({ className = '', slot, ...props }, ref) => {
+    const { onFocusChange, focusedValue, mode } = useContext(CalendarContext);
 
-  const onClick = useCallback(() => {
-    if (mode === 'BS') {
-      const focusDate = focusedValue!.startOf('month');
-      if (slot === 'prev') {
-        onFocusChange?.(focusDate.sub(1, 'month'));
+    const onClick = useCallback(() => {
+      if (mode === 'BS') {
+        const focusDate = focusedValue!.startOf('month');
+        if (slot === 'prev') {
+          onFocusChange?.(focusDate.sub(1, 'month'));
+        } else {
+          onFocusChange?.(focusDate.add(1, 'month'));
+        }
       } else {
-        onFocusChange?.(focusDate.add(1, 'month'));
+        const currentFocusDate = dayjs(focusedValue!.adDate).startOf('month');
+        if (slot === 'prev') {
+          onFocusChange?.(
+            BikramSambat.fromAD(currentFocusDate.subtract(1, 'month').toDate())
+          );
+        } else {
+          onFocusChange?.(
+            BikramSambat.fromAD(currentFocusDate.add(1, 'month').toDate())
+          );
+        }
       }
-    } else {
-      const currentFocusDate = dayjs(focusedValue!.adDate).startOf('month');
-      if (slot === 'prev') {
-        onFocusChange?.(
-          BikramSambat.fromAD(currentFocusDate.subtract(1, 'month').toDate())
-        );
-      } else {
-        onFocusChange?.(
-          BikramSambat.fromAD(currentFocusDate.add(1, 'month').toDate())
-        );
-      }
-    }
-  }, [mode, focusedValue, slot, onFocusChange]);
+    }, [mode, focusedValue, slot, onFocusChange]);
 
-  return (
-    <button
-      {...props}
-      className={`nakarmi23-CalendarButton ${className}`.trim()}
-      slot={slot}
-      type='button'
-      aria-label={slot === 'prev' ? 'Previous' : 'Next'}
-      onClick={onClick}
-    />
-  );
-};
+    return (
+      <button
+        {...props}
+        ref={ref}
+        className={`nakarmi23-CalendarButton ${className}`.trim()}
+        slot={slot}
+        type='button'
+        aria-label={slot === 'prev' ? 'Previous' : 'Next'}
+        onClick={onClick}
+      />
+    );
+  }
+);
 
 interface CalendarHeadingProps
   extends Omit<React.ComponentPropsWithoutRef<'h2'>, 'children'> {
   children?: (currentFocusDate: BikramSambat) => React.ReactNode;
 }
 
-const CalendarHeading = ({
-  className = '',
-  children,
-  ...props
-}: CalendarHeadingProps) => {
+const CalendarHeading = React.forwardRef<
+  HTMLHeadingElement,
+  CalendarHeadingProps
+>(({ className = '', children, ...props }, ref) => {
   const { focusedValue, mode } = useContext(CalendarContext);
 
   const defaultHeading = useMemo(() => {
@@ -189,27 +200,31 @@ const CalendarHeading = ({
 
   return (
     <h2
-      {...props}
+      ref={ref}
       className={`nakarmi23-CalendarHeading ${className}`.trim()}
-      aria-hidden='true'>
+      aria-hidden='true'
+      {...props}>
       {children?.(focusedValue!) ?? defaultHeading}
     </h2>
   );
-};
+});
 
 interface CalendarGridProps extends React.ComponentPropsWithoutRef<'table'> {}
 
-const CalendarGrid = ({ className = '', ...props }: CalendarGridProps) => {
-  const { focusedValue } = useContext(CalendarContext);
-  return (
-    <table
-      {...props}
-      className={`nakarmi23-CalendarGrid ${className}`.trim()}
-      role='grid'
-      aria-label={focusedValue?.format('MMMM YYYY')}
-    />
-  );
-};
+const CalendarGrid = React.forwardRef<HTMLTableElement, CalendarGridProps>(
+  ({ className = '', ...props }, ref) => {
+    const { focusedValue } = useContext(CalendarContext);
+    return (
+      <table
+        {...props}
+        ref={ref}
+        className={`nakarmi23-CalendarGrid ${className}`.trim()}
+        role='grid'
+        aria-label={focusedValue?.format('MMMM YYYY')}
+      />
+    );
+  }
+);
 
 interface CalendarGridHeaderProps
   extends Omit<React.ComponentPropsWithoutRef<'thead'>, 'children'> {
@@ -217,60 +232,64 @@ interface CalendarGridHeaderProps
   children?: (day: string) => React.ReactNode;
 }
 
-const CalendarGridHeader = ({
-  dayOfWeekNameFormat = 'min',
-  className = '',
-  children,
-  ...props
-}: CalendarGridHeaderProps) => {
-  const dayOfWeekNames =
-    dayOfWeekNameFormat === 'min'
-      ? dayOfWeekMin
-      : dayOfWeekNameFormat === 'short'
-        ? dayOfWeekShort
-        : dayOfWeek;
+const CalendarGridHeader = React.forwardRef<
+  HTMLTableSectionElement,
+  CalendarGridHeaderProps
+>(
+  (
+    { dayOfWeekNameFormat = 'min', className = '', children, ...props },
+    ref
+  ) => {
+    const dayOfWeekNames =
+      dayOfWeekNameFormat === 'min'
+        ? dayOfWeekMin
+        : dayOfWeekNameFormat === 'short'
+          ? dayOfWeekShort
+          : dayOfWeek;
 
-  return (
-    <thead
-      {...props}
-      className={`nakarmi23-CalendarGridHeader ${className}`.trim()}
-      aria-hidden='true'>
-      <tr>
-        {dayOfWeekNames.map((day, index) => (
-          <React.Fragment key={`${index}-${day}`}>
-            {children?.(day)}
-          </React.Fragment>
-        ))}
-      </tr>
-    </thead>
-  );
-};
+    return (
+      <thead
+        {...props}
+        ref={ref}
+        className={`nakarmi23-CalendarGridHeader ${className}`.trim()}
+        aria-hidden='true'>
+        <tr>
+          {dayOfWeekNames.map((day, index) => (
+            <React.Fragment key={`${index}-${day}`}>
+              {children?.(day)}
+            </React.Fragment>
+          ))}
+        </tr>
+      </thead>
+    );
+  }
+);
 
 interface CalendarGridHeaderCellProps
   extends React.ComponentPropsWithoutRef<'th'> {}
 
-const CalendarGridHeaderCell = ({
-  className = '',
-  ...props
-}: CalendarGridHeaderCellProps) => {
+const CalendarGridHeaderCell = React.forwardRef<
+  HTMLTableCellElement,
+  CalendarGridHeaderCellProps
+>(({ className = '', ...props }, ref) => {
   return (
     <th
       {...props}
+      ref={ref}
       className={`nakarmi23-CalendarGridHeaderCell ${className}`.trim()}
     />
   );
-};
+});
 
 interface CalendarGridBodyProps
   extends Omit<React.ComponentPropsWithoutRef<'tbody'>, 'children'> {
   children?: (day: BikramSambat) => React.ReactNode;
 }
 
-const CalendarGridBody = ({
-  children,
-  className = '',
-  ...props
-}: CalendarGridBodyProps) => {
+const CalendarGridBody = React.forwardRef<
+  HTMLTableSectionElement,
+  CalendarGridBodyProps
+>(({ children, className = '', ...props }, ref) => {
   const { focusedValue, mode } = useContext(CalendarContext);
   const focusedMonth = useMemo(
     () => focusedValue!.get('month'),
@@ -331,6 +350,7 @@ const CalendarGridBody = ({
   return (
     <tbody
       {...props}
+      ref={ref}
       className={`nakarmi23-CalendarGridBody ${className}`.trim()}>
       {calendarDays.map((week) => (
         <tr key={`${week}-${focusedMonth}`}>
@@ -350,7 +370,7 @@ const CalendarGridBody = ({
       ))}
     </tbody>
   );
-};
+});
 
 interface CalendarCellProps
   extends Omit<React.ComponentPropsWithoutRef<'div'>, 'children'> {
@@ -358,84 +378,82 @@ interface CalendarCellProps
   children?: (date: BikramSambat) => React.ReactNode;
 }
 
-const CalendarCell = ({
-  date,
-  className = '',
-  children,
-  ...props
-}: CalendarCellProps) => {
-  const {
-    value,
-    onChange,
-    focusedValue,
-    isDateUnavailable,
-    isDisabled: isParentDisabled,
-    mode,
-  } = useContext(CalendarContext);
+const CalendarCell = React.forwardRef<HTMLDivElement, CalendarCellProps>(
+  ({ date, className = '', children, ...props }, ref) => {
+    const {
+      value,
+      onChange,
+      focusedValue,
+      isDateUnavailable,
+      isDisabled: isParentDisabled,
+      mode,
+    } = useContext(CalendarContext);
 
-  const cellDataProps = useMemo(() => {
-    const isUnavailable = isDateUnavailable?.(date);
-    const isSelected = value?.isSame(date);
-    let isSameMonthAsFocused: boolean;
-    let isToday: boolean;
+    const cellDataProps = useMemo(() => {
+      const isUnavailable = isDateUnavailable?.(date);
+      const isSelected = value?.isSame(date);
+      let isSameMonthAsFocused: boolean;
+      let isToday: boolean;
 
-    if (mode === 'BS') {
-      isSameMonthAsFocused = focusedValue!.isSame(date, 'month');
-      isToday = date.isSame(new Date());
-    } else {
-      const adFocusedValue = dayjs(focusedValue!.adDate);
-      isSameMonthAsFocused = adFocusedValue?.isSame(date.adDate, 'month');
-      isToday = date.isSame(new Date());
-    }
-    const cellProp: Record<string, unknown> = {
-      tabIndex: -1,
-      'aria-label':
-        (isToday ? 'Today, ' : '') +
-        date.format(`dddd, MMMM DD, YYYY`) +
-        (isSelected ? ' selected' : ''),
-    };
-
-    if (isParentDisabled || isUnavailable || !isSameMonthAsFocused) {
-      cellProp['data-disabled'] = true;
-      cellProp['aria-disabled'] = true;
-    }
-
-    if (isUnavailable) cellProp['data-unavailable'] = true;
-
-    if (!isSameMonthAsFocused) cellProp['data-outside-month'] = true;
-
-    if (isToday) {
-      cellProp['data-today'] = true;
-      cellProp['tabIndex'] = 0;
-    }
-
-    if (isSelected) {
-      cellProp['data-selected'] = true;
-    }
-
-    return cellProp;
-  }, [focusedValue, date, value, isDateUnavailable, mode]);
-
-  const defaultDay = useMemo(() => {
-    if (mode === 'BS') return date.format('D');
-    return date.adDate.getDate();
-  }, [mode, date]);
-
-  return (
-    <div
-      role='button'
-      {...props}
-      {...cellDataProps}
-      onClick={
-        cellDataProps['data-disabled'] || cellDataProps['data-selected']
-          ? undefined
-          : () => onChange?.(date)
+      if (mode === 'BS') {
+        isSameMonthAsFocused = focusedValue!.isSame(date, 'month');
+        isToday = date.isSame(new Date());
+      } else {
+        const adFocusedValue = dayjs(focusedValue!.adDate);
+        isSameMonthAsFocused = adFocusedValue?.isSame(date.adDate, 'month');
+        isToday = date.isSame(new Date());
       }
-      className={`nakarmi23-CalendarCell ${className}`.trim()}>
-      {children?.(date) ?? defaultDay}
-    </div>
-  );
-};
+      const cellProp: Record<string, unknown> = {
+        tabIndex: -1,
+        'aria-label':
+          (isToday ? 'Today, ' : '') +
+          date.format(`dddd, MMMM DD, YYYY`) +
+          (isSelected ? ' selected' : ''),
+      };
+
+      if (isParentDisabled || isUnavailable || !isSameMonthAsFocused) {
+        cellProp['data-disabled'] = true;
+        cellProp['aria-disabled'] = true;
+      }
+
+      if (isUnavailable) cellProp['data-unavailable'] = true;
+
+      if (!isSameMonthAsFocused) cellProp['data-outside-month'] = true;
+
+      if (isToday) {
+        cellProp['data-today'] = true;
+        cellProp['tabIndex'] = 0;
+      }
+
+      if (isSelected) {
+        cellProp['data-selected'] = true;
+      }
+
+      return cellProp;
+    }, [focusedValue, date, value, isDateUnavailable, mode]);
+
+    const defaultDay = useMemo(() => {
+      if (mode === 'BS') return date.format('D');
+      return date.adDate.getDate();
+    }, [mode, date]);
+
+    return (
+      <div
+        ref={ref}
+        role='button'
+        {...props}
+        {...cellDataProps}
+        onClick={
+          cellDataProps['data-disabled'] || cellDataProps['data-selected']
+            ? undefined
+            : () => onChange?.(date)
+        }
+        className={`nakarmi23-CalendarCell ${className}`.trim()}>
+        {children?.(date) ?? defaultDay}
+      </div>
+    );
+  }
+);
 
 export const Root = CalendarRoot;
 export const Header = CalendarHeader;
