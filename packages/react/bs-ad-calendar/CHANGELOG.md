@@ -1,5 +1,16 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.3.0
+
+### Minor Changes
+
+- ebab441: Add support for light and dart mode theme, and also use css variables for ease of maintenance
+- 050c36d: Add support for React ref forwarding
+
+### Patch Changes
+
+- 050c36d: Fix null value support
+
 ## 0.2.1
 
 ### Patch Changes
