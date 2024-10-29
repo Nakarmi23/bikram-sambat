@@ -20,17 +20,17 @@ Install the component from your command line.
     <TabsTrigger value='pnpm'>pnpm</TabsTrigger>
   </TabsList>
   <TabsContent value='npm'>
-    ```bash
+    ```sh 
     npm i @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
     ```
   </TabsContent>
   <TabsContent value='yarn'>
-    ```bash
+    ```sh
     yarn add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
     ```
   </TabsContent>
   <TabsContent value='pnpm'>
-    ```bash
+    ```sh
     pnpm add @nakarmi23/bikram-sambat @nakarmi23/react-bs-ad-calendar
     ```
   </TabsContent>
@@ -69,9 +69,55 @@ export default () => {
 
 Contains all parts of the calendar.
 
-| Prop | Type | Default |
-| ---- | ---- | ------- |
-| mode | enum | BS      |
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Prop</TableHead>
+      <TableHead>Type</TableHead>
+      <TableHead>Default</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        <Popover>
+          <PopoverTrigger><Code type="primary">mode</Code></PopoverTrigger>
+          <PopoverContent>
+            Determines whether is curretly displayed calendar is BS or AD.
+          </PopoverContent>
+        </Popover>
+      </TableCell>
+      <TableCell>
+        <Popover>
+          <PopoverTrigger><Code>enum</Code></PopoverTrigger>
+          <PopoverContent>
+            "BS"  |  "AD"
+          </PopoverContent>
+        </Popover>
+      </TableCell>
+      <TableCell><Code>BS</Code></TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <Popover>
+          <PopoverTrigger><Code type="primary">onModeChange</Code></PopoverTrigger>
+          <PopoverContent>
+            Event handler called when the mode of the calendar changes.
+          </PopoverContent>
+        </Popover>
+      </TableCell>
+      <TableCell>
+        <Popover>
+          <PopoverTrigger><Code>function</Code></PopoverTrigger>
+          <PopoverContent>
+            (mode: BS | AD) => void
+          </PopoverContent>
+        </Popover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
 
 ### Header
 
@@ -90,3 +136,4 @@ Contains all parts of the calendar.
 ### GridBody
 
 ### Cell
+

@@ -28,6 +28,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Code } from '@/components/ui/code';
 
 // add custom components
 const components = {
@@ -43,13 +49,17 @@ const components = {
   a: Link,
   DemoContainer,
   SimpleCalendarDemo,
-  table: Table,
-  thead: TableHeader,
-  tbody: TableBody,
-  tfoot: TableFooter,
-  tr: TableRow,
-  th: TableHead,
-  td: TableCell,
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableRow,
+  TableHead,
+  TableCell,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Code,
 };
 
 // can be used for other pages like blogs, Guides etc
