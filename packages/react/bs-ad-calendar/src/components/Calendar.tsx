@@ -59,7 +59,7 @@ const CalendarRoot = React.forwardRef<HTMLDivElement, CalendarRootProps>(
     );
     const [internalMode, onInternalModeChange] = useState<CalendarMode>('BS');
     const [internalValue, onInternalChange] = useState<CalendarValue>(
-      BikramSambat.now()
+      defaultValue === undefined ? BikramSambat.now() : defaultValue
     );
     const [internalFocusedValue, onInternalFocusChange] =
       useState<CalendarValue>(defaultFocusedValue);
