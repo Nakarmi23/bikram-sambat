@@ -11,7 +11,7 @@ interface CalendarBaseProps {
   mode?: CalendarMode;
   onModeChange?: (mode: CalendarMode) => void;
   isDisabled?: boolean;
-  focusedValue?: CalendarValue;
+  focusedValue?: BikramSambat;
   onFocusChange?: (date: BikramSambat) => void;
   value?: CalendarValue;
   defaultValue?: CalendarValue;
@@ -59,10 +59,10 @@ const CalendarRoot = React.forwardRef<HTMLDivElement, CalendarRootProps>(
     );
     const [internalMode, onInternalModeChange] = useState<CalendarMode>('BS');
     const [internalValue, onInternalChange] = useState<CalendarValue>(
-      defaultValue === undefined ? BikramSambat.now() : defaultValue
+      defaultValue === undefined ? null : defaultValue
     );
     const [internalFocusedValue, onInternalFocusChange] =
-      useState<CalendarValue>(defaultFocusedValue);
+      useState<BikramSambat>(defaultFocusedValue);
     return (
       <div
         ref={ref}
@@ -106,14 +106,16 @@ const CalendarTypeButton = React.forwardRef<
   const { mode, onModeChange, initialFocusDate, onFocusChange } =
     useContext(CalendarContext);
 
+  const onClickHandler = useCallback(() => {
+    onModeChange?.(mode === 'BS' ? 'AD' : 'BS');
+    onFocusChange?.(initialFocusDate);
+  }, []);
+
   return (
     <button
       ref={ref}
       className={`nakarmi23-CalendarTypeButton ${className}`.trim()}
-      onClick={() => {
-        onModeChange?.(mode === 'BS' ? 'AD' : 'BS');
-        onFocusChange?.(initialFocusDate);
-      }}
+      onClick={onClickHandler}
       {...props}>
       {mode}
     </button>
@@ -437,17 +439,23 @@ const CalendarCell = React.forwardRef<HTMLDivElement, CalendarCellProps>(
       return date.adDate.getDate();
     }, [mode, date]);
 
+    const onClickProp = useMemo(() => {
+      if (cellDataProps['data-disabled']) return undefined;
+
+      return () => onChange?.(cellDataProps['data-selected'] ? null : date);
+    }, [
+      cellDataProps['data-disabled'],
+      cellDataProps['data-selected'],
+      onChange,
+    ]);
+
     return (
       <div
         ref={ref}
         role='button'
         {...props}
         {...cellDataProps}
-        onClick={
-          cellDataProps['data-disabled'] || cellDataProps['data-selected']
-            ? undefined
-            : () => onChange?.(date)
-        }
+        onClick={onClickProp}
         className={`nakarmi23-CalendarCell ${className}`.trim()}>
         {children?.(date) ?? defaultDay}
       </div>
