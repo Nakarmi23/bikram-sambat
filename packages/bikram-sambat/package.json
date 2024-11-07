@@ -1,6 +1,6 @@
 {
   "name": "@nakarmi23/bikram-sambat",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "The Bikram Sambat library is a utility for working with Nepali (Bikram Sambat) Dates, allowing conversion between AD dates and BS dates. It supports robust parsing, formatting, manipulation, and comparison of BS dates, covering years from 1970 BS to 2111 BS.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
