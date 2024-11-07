@@ -60,10 +60,9 @@ export class BikramSambat implements BikramSambatProps {
   bsMonthName!: string;
 
   /**
-   * @private
    * @param {BikramSambatProps} props - The properties of the Bikram Sambat date.
    */
-  private constructor(props: BikramSambatProps) {
+  constructor(props: BikramSambatProps) {
     Object.assign(this, props);
   }
 
