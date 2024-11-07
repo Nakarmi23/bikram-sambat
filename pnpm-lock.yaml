@@ -201,7 +201,7 @@ importers:
   packages/react/bs-ad-calendar:
     dependencies:
       '@nakarmi23/bikram-sambat':
-        specifier: ^1.4.2
+        specifier: ^1.4.3
         version: link:../../bikram-sambat
       '@types/react':
         specifier: '*'
