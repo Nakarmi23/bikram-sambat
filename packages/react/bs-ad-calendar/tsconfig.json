@@ -1,5 +1,5 @@
 {
-  "extends": "@total-typescript/tsconfig/bundler/dom/library-monorepo",
+  "extends": "@vercel/style-guide/typescript/node20",
   "compilerOptions": {
     "outDir": "dist",
     "noUnusedLocals": true,

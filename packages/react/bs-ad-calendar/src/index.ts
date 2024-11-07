@@ -1,1 +1,1 @@
-export * as Calendar from './components/Calendar';
+export * as Calendar from './components/calendar';

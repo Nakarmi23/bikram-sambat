@@ -33,7 +33,6 @@
     text-align: center;
     margin: 1px;
     border-radius: 6px;
-    outline: none;
     background-color: transparent;
     border:none;
     cursor: pointer;
@@ -53,7 +52,6 @@
 .nakarmi23-CalendarButton{
     background-color: transparent;
     border:none;
-    outline: none;
     cursor: pointer;
     color: #65636E;
 }
@@ -69,7 +67,6 @@
     text-align: center;
     margin: 1px;
     border-radius: 6px;
-    outline: none;
     cursor: default;
     background-color: transparent;
 }
