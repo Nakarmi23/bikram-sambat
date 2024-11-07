@@ -20,6 +20,7 @@ const PopoverTrigger = React.forwardRef<
     </PopoverPrimitive.Trigger>
   </div>
 ));
+PopoverTrigger.displayName = 'PopoverTrigger';
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
@@ -29,7 +30,7 @@ const PopoverContent = React.forwardRef<
     <PopoverPrimitive.Content
       ref={ref}
       className={cn(
-        'rounded-md bg-background border shadow-lg p-3 max-w-80 text-sm text-gray-200/90',
+        'rounded-md bg-background border shadow-lg p-3 max-w-80 text-sm dark:text-gray-200/90 text-gray-800',
         className
       )}
       {...props}>
@@ -37,5 +38,20 @@ const PopoverContent = React.forwardRef<
     </PopoverPrimitive.Content>
   </PopoverPrimitive.Portal>
 ));
+PopoverContent.displayName = 'PopoverContent';
 
-export { Popover, PopoverContent, PopoverTrigger };
+interface SimplePopoverProps {
+  children: React.ReactNode;
+  content: () => React.ReactNode;
+}
+
+const SimplePopover = ({ children, content }: SimplePopoverProps) => {
+  return (
+    <Popover>
+      <PopoverTrigger>{children}</PopoverTrigger>
+      <PopoverContent>{content()}</PopoverContent>
+    </Popover>
+  );
+};
+
+export { Popover, PopoverContent, PopoverTrigger, SimplePopover };

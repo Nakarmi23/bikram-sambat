@@ -8,12 +8,15 @@ const Code = React.forwardRef<
   <code
     ref={ref}
     className={cn(
-      type === 'primary' ? 'bg-blue-700/30' : 'bg-gray-700/30',
+      type === 'primary'
+        ? 'dark:bg-blue-700/30 dark:text-blue-100 bg-blue-700/10 text-blue-700'
+        : 'dark:bg-gray-700/30 dark:text-gray-100 bg-gray-700/10 text-gray-700',
       'rounded-sm px-1 not-prose',
       className
     )}
     {...props}
   />
 ));
+Code.displayName = 'Code';
 
 export { Code };

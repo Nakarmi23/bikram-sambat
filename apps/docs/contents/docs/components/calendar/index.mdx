@@ -1,6 +1,6 @@
 ---
 title: Calendar
-description: sad
+description: A powerful and headless calendar component for seamlessly integrating Bikram Sambat and Gregorian dates into your React applications.
 ---
 
 <DemoContainer>
@@ -80,39 +80,110 @@ Contains all parts of the calendar.
   <TableBody>
     <TableRow>
       <TableCell>
-        <Popover>
-          <PopoverTrigger><Code type="primary">mode</Code></PopoverTrigger>
-          <PopoverContent>
-            Determines whether is curretly displayed calendar is BS or AD.
-          </PopoverContent>
-        </Popover>
+        <SimplePopover content={()=>"Determines whether is curretly displayed calendar is BS or AD."}>
+          <Code type="primary">mode</Code>
+        </SimplePopover>
       </TableCell>
       <TableCell>
-        <Popover>
-          <PopoverTrigger><Code>enum</Code></PopoverTrigger>
-          <PopoverContent>
-            "BS"  |  "AD"
-          </PopoverContent>
-        </Popover>
+        <SimplePopover content={()=> '"BS"  |  "AD"'}>
+          <Code>enum</Code>
+        </SimplePopover>
       </TableCell>
       <TableCell><Code>BS</Code></TableCell>
     </TableRow>
     <TableRow>
       <TableCell>
-        <Popover>
-          <PopoverTrigger><Code type="primary">onModeChange</Code></PopoverTrigger>
-          <PopoverContent>
-            Event handler called when the mode of the calendar changes.
-          </PopoverContent>
-        </Popover>
+          <SimplePopover content={()=>"Event handler called when the mode of the calendar changes."}>
+            <Code type="primary">onModeChange</Code>
+          </SimplePopover>
       </TableCell>
       <TableCell>
-        <Popover>
-          <PopoverTrigger><Code>function</Code></PopoverTrigger>
-          <PopoverContent>
-            (mode: BS | AD) => void
-          </PopoverContent>
-        </Popover>
+          <SimplePopover content={()=>"(mode: BS | AD) => void"}>
+            <Code>function</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>The value of the Calendar when initially rendered. Use when you do not need to control the state of the Calendar.</>}>
+          <Code type="primary">defaultValue</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <Code>BikramSambat | null</Code>
+      </TableCell>
+      <TableCell><Code>null</Code></TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>The controlled value of the Calendar. Should be used in conjunction with <Code type="primary">onChange</Code></>}>
+          <Code type="primary">value</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <Code>BikramSambat | null</Code>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+          <SimplePopover content={()=>"Event handler called when the value changes."}>
+            <Code type="primary">onChange</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>
+          <SimplePopover content={()=>"(value: BikramSambat | null) => void"}>
+            <Code>function</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>The controlled value for currently focused date within the Calendar. Should be used in conjunction with <Code type="primary">onFocusChange</Code></>}>
+          <Code type="primary">focusedValue</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <Code>BikramSambat</Code>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+          <SimplePopover content={()=>"Event handler called when the focusedValue changes."}>
+            <Code type="primary">onFocusChange</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>
+          <SimplePopover content={()=>"(date: BikramSambat) => void"}>
+            <Code>function</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+          <SimplePopover content={()=><>When <Code type="primary">true</Code>, prevents the user from interacting with the Calendar.</>}>
+            <Code type="primary">isDisabled</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <Code>boolean</Code>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+          <SimplePopover content={()=>"Callback that is called for each date of the calendar. If it returns true, then the date is unavailable."}>
+            <Code type="primary">isDateUnavailable</Code>
+          </SimplePopover>
+      </TableCell>
+      <TableCell>
+          <SimplePopover content={()=>"(date: BikramSambat) => boolean"}>
+            <Code>function</Code>
+          </SimplePopover>
       </TableCell>
       <TableCell>-</TableCell>
     </TableRow>
@@ -121,19 +192,185 @@ Contains all parts of the calendar.
 
 ### Header
 
+The header of the calendar. Wraps the <Code type="primary">Calendar.Button</Code>, <Code type="primary">Calendar.Heading</Code>, and <Code type="primary">Calendar.TypeButton</Code> components.
+
 ### Button
+
+Changes the focused date of the Calendar.
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Prop</TableHead>
+      <TableHead>Type</TableHead>
+      <TableHead>Default</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>Specifies the function of the button in the calendar navigation. Setting slot to <Code type="primary">prev</Code> moves the calendar back one month, while setting it to <Code type="primary">next</Code> advances the calendar forward one month.</>}>
+          <Code type="primary">slot*</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <SimplePopover content={()=> '"prev"  |  "next"'}>
+          <Code>enum</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
 
 ### Heading
 
+Displays the current focused date in the <Code type="primary">MMMM, YYYY</Code> format (e.g., "Ashwin, 2081").
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Prop</TableHead>
+      <TableHead>Type</TableHead>
+      <TableHead>Default</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=>"Render prop function that is called to customize how the date appears in the heading, enabling any format, language, or additional elements as needed."}>
+          <Code type="primary">children</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <SimplePopover content={()=> '(date: BikramSambat) => React.ReactNode'}>
+          <Code>function</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
+
 ### TypeButton
+
+Toggels the mode of the Calendar between <Code type="primary">Bikram Sambat</Code> and <Code type="primary">Gregorian</Code>.
 
 ### Grid
 
+Wraps the <Code type="primary">GridHeader</Code> and <Code type="primary">GridBody</Code> components of the Calendar.
+
 ### GridHeader
+
+Displayes the weekday names at the top of the <Code>CalendarGrid</Code>.Wraps the list of <Code type="primary">GridHeaderCell</Code> component.
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Prop</TableHead>
+      <TableHead>Type</TableHead>
+      <TableHead>Default</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>Determines how the weeknames are rendered.</>}>
+          <Code type="primary">dayOfWeekNameFormat</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <SimplePopover content={()=> '"min" | "short" | "full"'}>
+          <Code>enum</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell><Code>min</Code></TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>Render prop function that receives each weekday name as a string and returns a custom node for rendering.</>}>
+          <Code type="primary">children*</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <SimplePopover content={()=> '(day: string) => React.ReactNode'}>
+          <Code>function</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
 
 ### GridHeaderCell
 
+Represents each individual weekday name cell in the <Code type="primary">CalendarHeader</Code>.
+
 ### GridBody
+
+Contents the main body of the Calendar grid, where each cell represents a specific day in the currently displayed month.
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Prop</TableHead>
+      <TableHead>Type</TableHead>
+      <TableHead>Default</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>Render prop function that receives each <Code type="primary">BikramSambat</Code> date and returns a custom node for rendering in the grid.</>}>
+          <Code type="primary">children*</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <SimplePopover content={()=> '(date: BikramSambat) => React.ReactNode'}>
+          <Code>function</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>
 
 ### Cell
 
+Represents each individual day cell within the <Code type="primary">GridBody</Code>.
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Prop</TableHead>
+      <TableHead>Type</TableHead>
+      <TableHead>Default</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>The <Code type="primary">BikramSambat</Code> object representing a specific day for this cell.</>}>
+          <Code type="primary">date</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <Code>BikramSambat</Code>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+    <TableRow>
+      <TableCell>
+        <SimplePopover content={()=><>Render function that receives each <Code type="primary">BikramSambat</Code> date and returns a custom node to display within the cell.</>}>
+          <Code type="primary">children</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>
+        <SimplePopover content={()=> '(date: BikramSambat) => React.ReactNode'}>
+          <Code>function</Code>
+        </SimplePopover>
+      </TableCell>
+      <TableCell>-</TableCell>
+    </TableRow>
+  </TableBody>
+</Table>

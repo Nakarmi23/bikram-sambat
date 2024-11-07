@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { ROUTES } from "@/lib/routes-config";
-import SubLink from "./sublink";
-import { usePathname } from "next/navigation";
+import { ROUTES } from '@/lib/routes-config';
+import SubLink from './sublink';
+import { usePathname } from 'next/navigation';
 
 export default function DocsMenu({ isSheet = false }) {
   const pathname = usePathname();
-  if (!pathname.startsWith("/docs")) return null;
+  if (!pathname.startsWith('/docs')) return null;
 
   return (
-    <div className="flex flex-col gap-3.5 mt-5 pr-2 pb-6">
+    <div className='flex flex-col gap-3.5 mt-5 pr-2 pb-6'>
       {ROUTES.map((item, index) => {
         const modifiedItems = {
           ...item,
@@ -17,7 +17,12 @@ export default function DocsMenu({ isSheet = false }) {
           level: 0,
           isSheet,
         };
-        return <SubLink key={item.title + index} {...modifiedItems} />;
+        return (
+          <SubLink
+            key={item.title + index}
+            {...modifiedItems}
+          />
+        );
       })}
     </div>
   );

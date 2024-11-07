@@ -32,6 +32,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  SimplePopover,
 } from '@/components/ui/popover';
 import { Code } from '@/components/ui/code';
 
@@ -60,6 +61,7 @@ const components = {
   PopoverContent,
   PopoverTrigger,
   Code,
+  SimplePopover,
 };
 
 // can be used for other pages like blogs, Guides etc
