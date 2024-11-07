@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.5
+
+### Patch Changes
+
+- 82abce2: update github workflows
+
 ## 1.4.4
 
 ### Patch Changes
