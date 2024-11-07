@@ -1,5 +1,15 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.4.1
+
+### Patch Changes
+
+- 1180323: Fix lock file mismatch issue
+- 8e43619: Update lock file
+- Updated dependencies [1180323]
+- Updated dependencies [8e43619]
+  - @nakarmi23/bikram-sambat@1.4.4
+
 ## 0.4.0
 
 ### Minor Changes
