@@ -16,3 +16,5 @@ export const DemoContainer = React.forwardRef<
     />
   );
 });
+
+DemoContainer.displayName = 'DemoContainer';
