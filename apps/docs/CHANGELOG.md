@@ -1,5 +1,14 @@
 # @repo/docs
 
+## 1.0.8
+
+### Patch Changes
+
+- Updated dependencies [1180323]
+- Updated dependencies [8e43619]
+  - @nakarmi23/bikram-sambat@1.4.4
+  - @nakarmi23/react-bs-ad-calendar@0.4.1
+
 ## 1.0.7
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.4
+
+### Patch Changes
+
+- 1180323: Fix lock file mismatch issue
+- 8e43619: Update lock file
+
 ## 1.4.3
 
 ### Patch Changes
