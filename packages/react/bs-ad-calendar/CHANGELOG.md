@@ -1,5 +1,13 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.4.2
+
+### Patch Changes
+
+- 82abce2: update github workflows
+- Updated dependencies [82abce2]
+  - @nakarmi23/bikram-sambat@1.4.5
+
 ## 0.4.1
 
 ### Patch Changes
