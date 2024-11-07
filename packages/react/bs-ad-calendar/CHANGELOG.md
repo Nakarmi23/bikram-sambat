@@ -1,5 +1,22 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 0.4.0
+
+### Minor Changes
+
+- 5912aa5: Add keyboard support for Cell component
+- 619b1ed: Refine types and memoize event handlers
+
+### Patch Changes
+
+- b33b672: Pass defaultValue props if value is undefined.
+- 5912aa5: Fix memoization and undefined variable issues
+- 5912aa5: Fix minor type issues
+- 5912aa5: Add eslint support for standardization
+- 5912aa5: Add displayNames to components for easier debugging
+- Updated dependencies [eadc84a]
+  - @nakarmi23/bikram-sambat@1.4.3
+
 ## 0.3.0
 
 ### Minor Changes

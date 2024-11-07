@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.3
+
+### Patch Changes
+
+- eadc84a: Make constructor public
+
 ## 1.4.2
 
 ### Patch Changes
