@@ -1,5 +1,12 @@
 # @repo/docs
 
+## 1.0.11
+
+### Patch Changes
+
+- Updated dependencies [f2303f5]
+  - @nakarmi23/react-bs-ad-calendar@0.4.3
+
 ## 1.0.10
 
 ### Patch Changes
