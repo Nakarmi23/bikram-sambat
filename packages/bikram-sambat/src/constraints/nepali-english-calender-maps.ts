@@ -421,6 +421,16 @@ export const nepEngCalenderMaps: INepEngCalendar[] = [
     endDate: '1996-04-12T00:00:00',
   },
   {
+    nepYear: 2053,
+    startDate: '1996-04-13T00:00:00',
+    endDate: '1997-04-12T00:00:00',
+  },
+  {
+    nepYear: 2054,
+    startDate: '1997-04-13T00:00:00',
+    endDate: '1998-04-13T00:00:00',
+  },
+  {
     nepYear: 2055,
     startDate: '1998-04-14T00:00:00',
     endDate: '1999-04-13T00:00:00',
