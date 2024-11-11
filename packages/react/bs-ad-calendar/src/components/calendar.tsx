@@ -292,7 +292,7 @@ CalendarGridHeader.displayName = 'CalendarGridHeader';
 type CalendarGridHeaderCellProps = React.ComponentPropsWithoutRef<'th'>;
 
 const CalendarGridHeaderCell = forwardRef<
-  HTMLTableColElement,
+  HTMLTableHeaderCellElement,
   CalendarGridHeaderCellProps
 >(({ className = '', ...props }, ref) => {
   return (
