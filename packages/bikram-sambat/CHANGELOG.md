@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.6
+
+### Patch Changes
+
+- 1c050f1: Add missing year data 2053, 2054
+
 ## 1.4.5
 
 ### Patch Changes
