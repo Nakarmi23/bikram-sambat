@@ -1,5 +1,30 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.6
+
+### Patch Changes
+
+- 1c050f1: Add missing year data 2053, 2054
+
+## 1.4.5
+
+### Patch Changes
+
+- 82abce2: update github workflows
+
+## 1.4.4
+
+### Patch Changes
+
+- 1180323: Fix lock file mismatch issue
+- 8e43619: Update lock file
+
+## 1.4.3
+
+### Patch Changes
+
+- eadc84a: Make constructor public
+
 ## 1.4.2
 
 ### Patch Changes

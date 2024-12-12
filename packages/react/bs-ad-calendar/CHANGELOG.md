@@ -1,5 +1,56 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 1.0.0
+
+### Major Changes
+
+- 2b323f7: First version release
+
+### Patch Changes
+
+- 3469008: Remove mandatory 6th row from CalendarBody
+
+## 0.4.3
+
+### Patch Changes
+
+- f2303f5: Updated @nakarmi23/bikram-sambat@1.4.6
+
+## 0.4.2
+
+### Patch Changes
+
+- 82abce2: update github workflows
+- Updated dependencies [82abce2]
+  - @nakarmi23/bikram-sambat@1.4.5
+
+## 0.4.1
+
+### Patch Changes
+
+- 1180323: Fix lock file mismatch issue
+- 8e43619: Update lock file
+- Updated dependencies [1180323]
+- Updated dependencies [8e43619]
+  - @nakarmi23/bikram-sambat@1.4.4
+
+## 0.4.0
+
+### Minor Changes
+
+- 5912aa5: Add keyboard support for Cell component
+- 619b1ed: Refine types and memoize event handlers
+
+### Patch Changes
+
+- b33b672: Pass defaultValue props if value is undefined.
+- 5912aa5: Fix memoization and undefined variable issues
+- 5912aa5: Fix minor type issues
+- 5912aa5: Add eslint support for standardization
+- 5912aa5: Add displayNames to components for easier debugging
+- Updated dependencies [eadc84a]
+  - @nakarmi23/bikram-sambat@1.4.3
+
 ## 0.3.0
 
 ### Minor Changes
