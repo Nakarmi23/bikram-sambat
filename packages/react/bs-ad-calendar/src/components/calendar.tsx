@@ -357,7 +357,7 @@ const CalendarGridBody = forwardRef<
       ...Array.from({ length: totalDaysInMonth }, (_, index) =>
         startingDate.add(index)
       ),
-      ...Array.from({ length: 7 - (endingWeekDay + 1) + 7 }, (_, index) =>
+      ...Array.from({ length: 7 - (endingWeekDay + 1) }, (_, index) =>
         endingDate.add(index + 1)
       ),
     ];
