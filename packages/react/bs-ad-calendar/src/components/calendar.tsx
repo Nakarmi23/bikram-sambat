@@ -25,9 +25,6 @@ interface CalendarBaseProps {
   value: CalendarValue;
   defaultValue?: CalendarValue;
   onChange: (date: CalendarValue) => void;
-  // TODO: implement min and max value feature
-  minValue?: CalendarValue;
-  maxValue?: CalendarValue;
   isDateUnavailable?: (date: BikramSambat) => boolean;
   initialFocusDate: BikramSambat;
 }
@@ -50,8 +47,6 @@ const CalendarRoot = forwardRef<HTMLDivElement, CalendarRootProps>(
       value,
       defaultValue,
       onChange,
-      maxValue,
-      minValue,
       isDateUnavailable,
       focusedValue,
       onFocusChange,
@@ -84,8 +79,6 @@ const CalendarRoot = forwardRef<HTMLDivElement, CalendarRootProps>(
             defaultValue,
             value: value === undefined ? internalValue : value,
             onChange: onChange ? onChange : setInternalValue,
-            maxValue,
-            minValue,
             isDateUnavailable,
             focusedValue: focusedValue ?? internalFocusedValue,
             onFocusChange: onFocusChange
