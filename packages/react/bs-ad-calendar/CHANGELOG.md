@@ -1,5 +1,15 @@
 # @nakarmi23/react-bs-ad-calendar
 
+## 1.0.0
+
+### Major Changes
+
+- 2b323f7: First version release
+
+### Patch Changes
+
+- 3469008: Remove mandatory 6th row from CalendarBody
+
 ## 0.4.3
 
 ### Patch Changes
