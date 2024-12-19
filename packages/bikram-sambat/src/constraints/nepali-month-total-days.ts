@@ -1691,8 +1691,8 @@ export const nepDateNoOfDays: IBikramSambatMonthNoOfDays[] = [
     m8: 30,
     m9: 29,
     m10: 30,
-    m11: 30,
-    m12: 30,
+    m11: 29,
+    m12: 31,
     nepYear: 2081,
   },
   {
