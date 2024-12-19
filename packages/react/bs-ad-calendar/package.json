@@ -48,7 +48,7 @@
   ],
   "author": "Ankit Nakarmi <ankit.nakarmi23@gmail.com>",
   "dependencies": {
-    "@nakarmi23/bikram-sambat": "^1.4.6",
+    "@nakarmi23/bikram-sambat": "^1.4.7",
     "dayjs": "^1.11.11"
   },
   "devDependencies": {
