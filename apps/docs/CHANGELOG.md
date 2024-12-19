@@ -1,5 +1,12 @@
 # @repo/docs
 
+## 1.0.13
+
+### Patch Changes
+
+- Updated dependencies [0aee4b9]
+  - @nakarmi23/bikram-sambat@1.4.7
+
 ## 1.0.12
 
 ### Patch Changes

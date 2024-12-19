@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.7
+
+### Patch Changes
+
+- 0aee4b9: Fix month 11 and 12 day allocation
+
 ## 1.4.6
 
 ### Patch Changes
