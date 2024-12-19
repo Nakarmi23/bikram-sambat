@@ -202,7 +202,7 @@ importers:
     dependencies:
       '@nakarmi23/bikram-sambat':
         specifier: ^1.4.6
-        version: 1.4.6
+        version: link:../../bikram-sambat
       '@types/react':
         specifier: '*'
         version: 18.3.10
@@ -1487,12 +1487,6 @@ packages:
   /@microsoft/tsdoc@0.14.2:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: true
-
-  /@nakarmi23/bikram-sambat@1.4.6:
-    resolution: {integrity: sha512-c1zdMczmOVNg1tlS9gKpmn/sfXIXLKEhwlzKqjH18Xy2oXqFG1sfdtghBjiuuRfk7Q12Hz0eIYe+vsmByfJpmA==}
-    dependencies:
-      dayjs: 1.11.11
-    dev: false
 
   /@next/env@14.2.15:
     resolution: {integrity: sha512-S1qaj25Wru2dUpcIZMjxeMVSwkt8BK4dmWHHiBuRstcIyOsMapqT4A4jSB6onvqeygkSSmOkyny9VVx8JIGamQ==}
