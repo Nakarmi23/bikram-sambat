@@ -25,7 +25,6 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.6",
     "@repo/eslint-config": "workspace:^"
   }
 }
