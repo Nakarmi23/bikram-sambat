@@ -36,14 +36,6 @@ This monorepo is organized into the following structure:
 - `pnpm version-packages` - Version packages based on changesets
 - `pnpm release` - Build and publish packages
 
-## 📚 Documentation
-
-The documentation site is available in the `apps/docs` directory. You can run it locally using:
-
-```bash
-pnpm dev --filter docs
-```
-
 ## 🤝 Contributing
 
 Please read our [Contributing Guide](CONTRIBUTING.md) to learn about our development process and how to submit pull requests.
