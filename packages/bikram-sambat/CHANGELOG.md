@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.8
+
+### Patch Changes
+
+- 82d86a1: Updated days count for each month in 2082
+
 ## 1.4.7
 
 ### Patch Changes
