@@ -1,5 +1,11 @@
 # @nakarmi23/bikram-sambat
 
+## 1.4.9
+
+### Patch Changes
+
+- 82e98d7: Fix incorrect month day counts for BS year 2083
+
 ## 1.4.8
 
 ### Patch Changes
