@@ -132,7 +132,7 @@ Parses and validates the given BS date and returns an instance of BikramSambat f
 Parses and validates the give AD date and returns an instance of BikramSambat for that date.
 
 - Parameters:
-  - `adDate` (string | Date): AD Date to be converted. Accepts string in 'YYYY-MM-DD' format or JavaScript Date object.
+  - `adDate` (string | Date | Dayjs): AD Date to be converted. Accepts string in 'YYYY-MM-DD' format or JavaScript Date object.
 - Returns: instance of BikramSambat
 - Example:
 
@@ -402,7 +402,7 @@ Returns a cloned BikramSambat object with a specified amount of time subtracted.
 Return true if provided BikramSambat object is the same as the other supplied BikramSambat date.
 
 - Parameters:
-  - `date` (BikramSambat): The BikramSambat object to compare against.
+  - `date` (BikramSambat | Date | Dayjs): The BikramSambat object to compare against.
   - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
 - Returns: boolean
 - Example:
@@ -430,7 +430,7 @@ Return true if provided BikramSambat object is the same as the other supplied Bi
 Return true if provided BikramSambat object is before the other supplied BikramSambat date.
 
 - Parameters:
-  - `date` (BikramSambat): The BikramSambat object to compare against.
+  - `date` (BikramSambat | Date | Dayjs): The BikramSambat object to compare against.
   - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
 - Returns: boolean
 - Example:
@@ -457,7 +457,7 @@ Return true if provided BikramSambat object is before the other supplied BikramS
 Return true if provided BikramSambat object is after the other supplied BikramSambat date.
 
 - Parameters:
-  - `date` (BikramSambat): The BikramSambat object to compare against.
+  - `date` (BikramSambat | Date | Dayjs): The BikramSambat object to compare against.
   - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
 - Returns: boolean
 - Example:
@@ -485,8 +485,8 @@ Return true if provided BikramSambat object is between the other supplied Bikram
 
 - Parameters:
 
-  - `startDate` (BikramSambat | Date): The BikramSambat object to compare against.
-  - `endDate` (BikramSambat | Date): The BikramSambat object to compare against.
+  - `startDate` (BikramSambat | Date | Dayjs): The BikramSambat object to compare against.
+  - `endDate` (BikramSambat | Date | Dayjs): The BikramSambat object to compare against.
   - `unit` (string): Optional. Unit of comparison. Defaults to `day`.
   - `boundaryInclusion` (string): Optional. boundaryInclusion of comparison. Defaults to `()`.
 
