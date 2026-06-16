@@ -117,12 +117,12 @@ export class BikramSambat implements BikramSambatProps {
 
   /**
    * Parses and validates the given AD date and returns an instance of BikramSambat for that date.
-   * @param {Date | string} date - AD Date object or string to be parsed. Valid pattern for string: YYYY-MM-DD
+   * @param {Date | dayjs.Dayjs | string} date - AD Date object or string to be parsed. Valid pattern for string: YYYY-MM-DD
    * @returns {BikramSambat} An instance of {@link BikramSambat}
    */
-  static fromAD(date: string | Date): BikramSambat {
+  static fromAD(date: string | Date | dayjs.Dayjs): BikramSambat {
     if (typeof date === 'string') date = parseAdString(date);
-    else if (!(date instanceof Date))
+    else if (!(date instanceof Date) && !dayjs.isDayjs(date))
       throw new Error('This function only accepts string or Date object.');
 
     const englishDateDayjs = dayjs(date);
@@ -171,7 +171,7 @@ export class BikramSambat implements BikramSambatProps {
         ? daysSinceStartOfPeriod - previousBsMonth.cumulativeDays
         : daysSinceStartOfPeriod,
       bsMonthName: currentBsMonth.monthName,
-      adDate: date,
+      adDate: dayjs.isDayjs(date) ? date.toDate() : new Date(date),
     };
 
     return new BikramSambat(bikramSambatDate);
@@ -391,7 +391,7 @@ export class BikramSambat implements BikramSambatProps {
    */
   clone(): BikramSambat {
     return new BikramSambat({
-      adDate: new Date(this.adDate),
+      adDate: dayjs.isDayjs(this.adDate) ? this.adDate.toDate() : new Date(this.adDate),
       bsDay: this.bsDay,
       bsMonth: this.bsMonth,
       bsMonthName: this.bsMonthName,
@@ -402,14 +402,14 @@ export class BikramSambat implements BikramSambatProps {
 
   /**
    * Checks if the current BikramSambat date is the same as the given date.
-   * @param {BikramSambat | Date} date - The date to compare with.
+   * @param {BikramSambat | Date | dayjs.Dayjs} date - The date to compare with.
    * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
    * @returns {boolean} True if the dates are the same, false otherwise.
    * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
-  isSame(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
+  isSame(date: BikramSambat | Date | dayjs.Dayjs, unit: UnitType = 'day'): boolean {
     if (unit === 'month' || unit === 'year') {
-      if (date instanceof Date) date = BikramSambat.fromAD(date);
+      if (date instanceof Date || dayjs.isDayjs(date)) date = BikramSambat.fromAD(date);
 
       if (unit === 'month')
         return this.bsMonth === date.bsMonth && this.bsYear === date.bsYear;
@@ -417,21 +417,21 @@ export class BikramSambat implements BikramSambatProps {
       return this.bsYear === date.bsYear;
     }
     if (date instanceof BikramSambat) date = date.adDate;
-    else if (!(date instanceof Date)) throw new Error('Invalid compare value');
+    else if (!(date instanceof Date) && !dayjs.isDayjs(date)) throw new Error('Invalid compare value');
 
     return dayjs(this.adDate).isSame(date, unit);
   }
 
   /**
    * Checks if the current BikramSambat date is before the given date.
-   * @param {BikramSambat | Date} date - The date to compare with.
+   * @param {BikramSambat | Date | dayjs.Dayjs} date - The date to compare with.
    * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
    * @returns {boolean} True if the current date is before the given date, false otherwise.
    * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
-  isBefore(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
+  isBefore(date: BikramSambat | Date | dayjs.Dayjs, unit: UnitType = 'day'): boolean {
     if (unit === 'month' || unit === 'year') {
-      if (date instanceof Date) date = BikramSambat.fromAD(date);
+      if (date instanceof Date || dayjs.isDayjs(date)) date = BikramSambat.fromAD(date);
 
       if (unit === 'month') {
         if (this.bsYear === date.bsYear) return this.bsMonth < date.bsMonth;
@@ -443,21 +443,21 @@ export class BikramSambat implements BikramSambatProps {
       return this.bsYear < date.bsYear;
     }
     if (date instanceof BikramSambat) date = date.adDate;
-    else if (!(date instanceof Date)) throw new Error('Invalid compare value');
+    else if (!(date instanceof Date) && !dayjs.isDayjs(date)) throw new Error('Invalid compare value');
 
     return dayjs(this.adDate).isBefore(date, unit);
   }
 
   /**
    * Checks if the current BikramSambat date is after the given date.
-   * @param {BikramSambat | Date} date - The date to compare with.
+   * @param {BikramSambat | Date | dayjs.Dayjs} date - The date to compare with.
    * @param {UnitType} [unit='day'] - The unit of time to compare. Defaults to 'day'.
    * @returns {boolean} True if the current date is after the given date, false otherwise.
    * @throws {Error} Throws an error if the value is not a instance of BikramSambat or Date.
    */
-  isAfter(date: BikramSambat | Date, unit: UnitType = 'day'): boolean {
+  isAfter(date: BikramSambat | Date | dayjs.Dayjs, unit: UnitType = 'day'): boolean {
     if (unit === 'month' || unit === 'year') {
-      if (date instanceof Date) date = BikramSambat.fromAD(date);
+      if (date instanceof Date || dayjs.isDayjs(date)) date = BikramSambat.fromAD(date);
 
       if (unit === 'month') {
         if (this.bsYear === date.bsYear) return this.bsMonth > date.bsMonth;
@@ -469,7 +469,7 @@ export class BikramSambat implements BikramSambatProps {
       return this.bsYear > date.bsYear;
     }
     if (date instanceof BikramSambat) date = date.adDate;
-    else if (!(date instanceof Date)) throw new Error('Invalid compare value');
+    else if (!(date instanceof Date) && !dayjs.isDayjs(date)) throw new Error('Invalid compare value');
 
     return dayjs(this.adDate).isAfter(date, unit);
   }
@@ -536,7 +536,7 @@ export class BikramSambat implements BikramSambatProps {
    *
    *
    * @param {number} [value] - The month to set. If not provided, returns the current month.
-   * @returns {number|BikramSambat} - The current month if no value is provided, otherwise a new BikramSambat instance with the updated month.
+   * @returns {number | BikramSambat} - The current month if no value is provided, otherwise a new BikramSambat instance with the updated month.
    * @throws {Error} - Throws an error if the value is not a number.
    */
   month(value?: number): number | BikramSambat {
@@ -622,23 +622,23 @@ export class BikramSambat implements BikramSambatProps {
    * - '(]': Exclude startDate, include endDate
    * - '[)': Include startDate, exclude endDate
    *
-   * @param {BikramSambat | Date} startDate - The start date to compare against.
-   * @param {BikramSambat | Date} endDate - The end date to compare against.
+   * @param {BikramSambat | Date | dayjs.Dayjs} startDate - The start date to compare against.
+   * @param {BikramSambat | Date | dayjs.Dayjs} endDate - The end date to compare against.
    * @param {ManipulateType} [unit='day'] - The unit of time for comparison. Defaults to 'day'.
    * @param {BoundaryInclusionType} [boundaryInclusion='()'] - The boundary inclusion type for comparison. Defaults to '()'.
    * @returns {boolean} True if the date is between startDate and endDate according to the specified boundaryInclusion, false otherwise.
    */
   isBetween(
-    startDate: BikramSambat | Date,
-    endDate: BikramSambat | Date,
+    startDate: BikramSambat | Date | dayjs.Dayjs,
+    endDate: BikramSambat | Date | dayjs.Dayjs,
     unit: ManipulateType = 'day',
     boundaryInclusion: BoundaryInclusionType = '()'
   ): boolean {
     if (startDate instanceof BikramSambat) startDate = startDate.adDate;
-    else if (!(startDate instanceof Date))
+    else if (!(startDate instanceof Date) && !dayjs.isDayjs(startDate))
       throw new Error('Invalid compare value');
     if (endDate instanceof BikramSambat) endDate = endDate.adDate;
-    else if (!(endDate instanceof Date))
+    else if (!(endDate instanceof Date) && !dayjs.isDayjs(endDate))
       throw new Error('Invalid compare value');
 
     const boundaryInclusionpattern = /^[\(\[][\)\]]$/;
